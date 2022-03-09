@@ -7,8 +7,8 @@ import java.util.List;
 
 public class CardDeck {
     
-    private ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
-    private ArrayList<Character> suits = new ArrayList<>(Arrays.asList('H', 'S', 'D', 'C'));
+    private final ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
+    private final ArrayList<Character> suits = new ArrayList<>(Arrays.asList('H', 'S', 'D', 'C'));
     private List<Card> deck = new ArrayList<>();
 
     public CardDeck(int n) {

@@ -8,10 +8,7 @@ public class Card {
     private int value;
     private Character suit;
     private String face;
-    
-    private ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
-    
-
+    private final ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
 
     public Card(Character suit, String face){
         if (isValidFace(face) && isValidSuit(suit)){
@@ -19,15 +16,11 @@ public class Card {
             this.suit = suit;
             this.value = setValue(face);
         }
-        else {throw new IllegalArgumentException();
-            }
-
+        else throw new IllegalArgumentException();
     }
 
-
-
     private boolean isValidSuit(Character suit) {
-        if (suit=='S' || suit=='H' || suit=='D' || suit=='C'){
+        if (suit == 'S' || suit == 'H' || suit == 'D' || suit == 'C') {
             return true;
         }
         else return false;
@@ -36,7 +29,6 @@ public class Card {
     private boolean isValidFace(String face) {
         return validFaceList.contains(face);
     }
-
 
     //Alle bildekort får verdi 10       
     //Setter verdi av ess til 1, men vi kan implementere endring i objektet for hånda
@@ -52,8 +44,6 @@ public class Card {
         return value;
     }
 
-
-
     public int getValue() {
         return value;
     }
@@ -66,20 +56,14 @@ public class Card {
         return face;
     }
 
-
-
     @Override
     public String toString() {
         //return "Card [face=" + face + ", suit=" + suit + ", value=" + value + "]";
         return "" + face + suit + "|" + value;
     }
 
-
     public static void main(String[] args) {
         Card KingOfClubs = new Card('C',"K");
         System.out.println(KingOfClubs);
     }
-    
-
-
 }
