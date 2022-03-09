@@ -32,6 +32,10 @@ public class BlackjackPlayer implements PlayerInterface {
         return cardHand;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String score() {
         return "You have: " + score + " points";
     }
@@ -49,7 +53,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public boolean checkState() {
-        if (score >= 21 || ! playing) {
+        if (score >= 21 || !playing) {
             return false;
         }
         else return true;
@@ -67,5 +71,5 @@ public class BlackjackPlayer implements PlayerInterface {
         p1.addCard(deck);
         System.out.println(p1.getHand());
         System.out.println(p1.score());
-    }  
+    } 
 }
