@@ -1,14 +1,20 @@
 package Blackjack;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class BlackjackPlayer implements PlayerInterface {
 
     private List<Card> cardHand = new ArrayList<>();
+    private List<Card> cardHand2 = new ArrayList<>();
+    private List<Card> cardHand3 = new ArrayList<>();
+    private List<Card> cardHand4 = new ArrayList<>();
+
     private String name;
     private int balance;
     private int score;
+    private int bet;
     private boolean playing;
     
     public BlackjackPlayer(int balance, String name, CardDeck deck) {
@@ -40,19 +46,35 @@ public class BlackjackPlayer implements PlayerInterface {
         return "You have: " + score + " points";
     }
 
+    public Card getCard(int n) {
+        return cardHand.get(n);
+    }
+
+    public int getCardCount() {
+        return cardHand.size();
+    }
+
+    public void newHand(CardDeck deck) {
+        cardHand.clear();
+        cardHand.add(deck.getCard());
+        cardHand.add(deck.getCard());
+        score = cardHand.get(0).getValue() + cardHand.get(1).getValue();
+        this.playing = true;
+    }
+
     public void addCard(CardDeck deck) {
-        if (checkState()) {
+        if (!checkPlaying()) {
             throw new IllegalArgumentException("Du har mer enn 21");
         }
 
         cardHand.add(deck.getCard());
-        if (cardHand.get(cardHand.size() - 1).getValue()==11 && score+cardHand.get(cardHand.size() - 1).getValue()>21) { //Checking if the new card is Ace
-            score+=1;
+        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && score + cardHand.get(cardHand.size() - 1).getValue() > 21) { //Checking if the new card is Ace
+            score += 1;
         }
         else score += cardHand.get(cardHand.size() - 1).getValue();
     }
 
-    public boolean checkState() {
+    public boolean checkPlaying() {
         if (score >= 21 || !playing) {
             return false;
         }
@@ -63,6 +85,32 @@ public class BlackjackPlayer implements PlayerInterface {
         this.playing = false;
     }
 
+    public void findWinner(HandComparator comp, PlayerInterface dealer) {
+        if (comp.compare(this, dealer) < 0){
+            balance += bet;
+        }
+        if (comp.compare(this, dealer) >0) {
+            balance -= bet;
+        }
+    }
+
+    public void setBet(String betString) throws IllegalArgumentException{
+        try {
+            int betNum;
+            betNum = Integer.parseInt(betString);
+            if (betNum<balance && betNum>0){
+                this.bet=betNum;
+            }
+            else {throw new IllegalArgumentException();}
+        } catch (Exception e) {
+            System.out.println("An integer must be entered");
+            throw new IllegalArgumentException();
+        }
+
+        
+    }
+
+
     public static void main(String[] args) {
         CardDeck deck = new CardDeck(1);
         BlackjackPlayer p1 = new BlackjackPlayer(10, "Jens", deck);
@@ -71,5 +119,6 @@ public class BlackjackPlayer implements PlayerInterface {
         p1.addCard(deck);
         System.out.println(p1.getHand());
         System.out.println(p1.score());
-    } 
+    }
+
 }

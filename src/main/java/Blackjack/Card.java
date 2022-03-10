@@ -9,9 +9,10 @@ public class Card {
     private Character suit;
     private String face;
     private final ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
+    private final ArrayList<Character> validSuitList = new ArrayList<>(Arrays.asList('S', 'H', 'C', 'D'));
 
     public Card(Character suit, String face){
-        if (isValidFace(face) && isValidSuit(suit)){
+        if (isValidFace(face) && isValidSuit(suit)) {
             this.face = face;
             this.suit = suit;
             this.value = setValue(face);
@@ -20,10 +21,7 @@ public class Card {
     }
 
     private boolean isValidSuit(Character suit) {
-        if (suit == 'S' || suit == 'H' || suit == 'D' || suit == 'C') {
-            return true;
-        }
-        else return false;
+        return validSuitList.contains(suit);
     }
 
     private boolean isValidFace(String face) {
@@ -34,14 +32,12 @@ public class Card {
     //Setter verdi av ess til 1, men vi kan implementere endring i objektet for hånda
     public int setValue(String face) {
         if (validFaceList.indexOf(face) > 9) {
-            value = 10;
+            return 10;
         }
         else if (validFaceList.indexOf(face) == 0) {
-            value = 11;
+            return 11;
         }
-        else value = validFaceList.indexOf(face) + 1;
-
-        return value;
+        else return validFaceList.indexOf(face) + 1;
     }
 
     public int getValue() {
@@ -58,12 +54,11 @@ public class Card {
 
     @Override
     public String toString() {
-        //return "Card [face=" + face + ", suit=" + suit + ", value=" + value + "]";
-        return "" + face + suit + "|" + value;
+        return "" + suit + " " + face;
     }
 
     public static void main(String[] args) {
-        Card KingOfClubs = new Card('C',"K");
+        Card KingOfClubs = new Card('\u0005',"K");
         System.out.println(KingOfClubs);
     }
 }
