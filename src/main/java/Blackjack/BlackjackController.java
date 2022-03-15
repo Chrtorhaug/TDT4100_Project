@@ -23,7 +23,7 @@ public class BlackjackController {
     private Button LoginButton, RegisterButton, NewGameButton, BetButton, HitButton, HoldButton, SplitButton;
 
     @FXML
-    private TextField NameField, BetField;
+    private TextField NameField, PasswordField, BetField;
 
     @FXML
     public void initialize() {
@@ -128,11 +128,21 @@ public class BlackjackController {
     @FXML
     public void handleRegister() {
         System.out.println(NameField.getText());
+        //Forslag til kodeendring - lage klasse som enten validerer: sjekker at brukernavn ikke er tatt,
+        // at passord følger visse regler, og skriver personens informasjon og balanse til fil. dette oppdateres enten
+        // etter hvert spill eller når programmet avsluttes
+        // Den andre metoden til klassen kalles ved loginButton, sammenkobler brukernavn til passord og henter ut balanse
+        // fra fil, samt tidligere spillhistorikk?
+        // CredentialsCheck check = new CredentialsCheck();
+        //  if (check.validate(NameField.getText(),PasswordField.getText())) 
+        //          utføre kode nedenfor
+        // else {NameField.setPromptText("Invalid");
+        //       PasswordField.setPromptText("Invalid");}
         this.player = new BlackjackPlayer(10, NameField.getText(), deck);
         NameField.clear();
         WelcomeSign.setText("Welcome " + player.getName());
         ShowBalance.setText(player.getBalance() + "$");
-
+        
         LoginButton.setDisable(true);
         RegisterButton.setDisable(true);
         NameField.setDisable(true);
