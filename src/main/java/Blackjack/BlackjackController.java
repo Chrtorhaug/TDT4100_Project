@@ -48,7 +48,7 @@ public class BlackjackController {
             }
             else {
                 pl.newHand(deck);
-                lv.getItems().addAll(pl.getHand().get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
+                lv.getItems().add(pl.getHand().get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
             }
         }
         else {
@@ -66,15 +66,6 @@ public class BlackjackController {
 
     @FXML
     public void handleNewGame() {
-        NewGameButton.setDisable(true);
-        HitButton.setDisable(false);
-        HoldButton.setDisable(false);
-        SplitButton.setDisable(false);
-
-        if (player.checkPlaying()) {
-            return;
-        }
-
         if (deck.getSize() < 50) {
             this.deck = new CardDeck(5);
         }
@@ -83,6 +74,10 @@ public class BlackjackController {
         updateLabel(PlayerScore, player);
         updateLabel(DealerScore, dealer);
 
+        NewGameButton.setDisable(true);
+        HitButton.setDisable(false);
+        HoldButton.setDisable(false);
+        SplitButton.setDisable(false);
     }
 
     @FXML
@@ -127,7 +122,6 @@ public class BlackjackController {
 
     @FXML
     public void handleRegister() {
-        System.out.println(NameField.getText());
         this.player = new BlackjackPlayer(10, NameField.getText(), deck);
         NameField.clear();
         WelcomeSign.setText("Welcome " + player.getName());
