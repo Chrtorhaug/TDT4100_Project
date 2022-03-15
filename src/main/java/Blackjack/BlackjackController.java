@@ -31,6 +31,11 @@ public class BlackjackController {
         this.dealer = new BlackJackDealer(deck);
         handComp = new HandComparator();
 
+        PlayerScore.setText(" ");
+        DealerScore.setText(" ");
+        WelcomeSign.setText(" ");
+        ShowBalance.setText(" ");
+
         NewGameButton.setDisable(true);
         BetButton.setDisable(true);
         HitButton.setDisable(true);
