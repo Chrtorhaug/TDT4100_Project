@@ -1,29 +1,42 @@
 package Blackjack;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
 public class BlackjackController { 
 
     private BlackjackPlayer player;
     private CardDeck deck;
     private BlackJackDealer dealer;
+    private HandComparator handComp;
     
     @FXML
     private ListView<Card> PlayerCards, DealerCards;
 
     @FXML
-    private Label PlayerScore = new Label("0");
+    private Label PlayerScore, DealerScore, WelcomeSign, ShowBalance;
+    
+    @FXML
+    private Button LoginButton, RegisterButton, NewGameButton, BetButton, HitButton, HoldButton, SplitButton;
 
     @FXML
-    private Label DealerScore = new Label("0"); 
+    private TextField NameField, BetField;
 
     @FXML
     public void initialize() {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
-        this.player = new BlackjackPlayer(5, "Jens", deck);
+        handComp = new HandComparator();
+
+        NewGameButton.setDisable(true);
+        BetButton.setDisable(true);
+        HitButton.setDisable(true);
+        HoldButton.setDisable(true);
+        SplitButton.setDisable(true);
+        BetField.setDisable(true);
     }
 
     private void updateListView(ListView<Card> lv, PlayerInterface pl) {
@@ -33,7 +46,10 @@ public class BlackjackController {
             if (!player.checkPlaying()) { //Hvis runden er ferdig skal Dealer vise alle kortene sine
                 lv.getItems().addAll(pl.getHand());
             }
-            else lv.getItems().addAll(pl.getHand().get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
+            else {
+                pl.newHand(deck);
+                lv.getItems().addAll(pl.getHand().get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
+            }
         }
         else {
             pl.newHand(deck);
@@ -50,6 +66,15 @@ public class BlackjackController {
 
     @FXML
     public void handleNewGame() {
+        NewGameButton.setDisable(true);
+        HitButton.setDisable(false);
+        HoldButton.setDisable(false);
+        SplitButton.setDisable(false);
+
+        if (player.checkPlaying()) {
+            return;
+        }
+
         if (deck.getSize() < 50) {
             this.deck = new CardDeck(5);
         }
@@ -57,6 +82,7 @@ public class BlackjackController {
         updateListView(DealerCards, dealer);
         updateLabel(PlayerScore, player);
         updateLabel(DealerScore, dealer);
+
     }
 
     @FXML
@@ -65,6 +91,11 @@ public class BlackjackController {
         PlayerCards.getItems().clear();
         PlayerCards.getItems().addAll(player.getHand());
         updateLabel(PlayerScore, player); 
+
+        if (player.getScore() >= 21) {
+            HitButton.setDisable(true);
+            SplitButton.setDisable(true);
+        }
     }
 
     @FXML
@@ -72,5 +103,40 @@ public class BlackjackController {
         player.hold();
         updateListView(DealerCards, dealer);
         updateLabel(DealerScore, dealer);
+        player.findWinner(handComp, dealer);
+        ShowBalance.setText(player.getBalance() + "$");
+
+        HoldButton.setDisable(true);
+        HitButton.setDisable(true);
+        SplitButton.setDisable(true);
+        BetButton.setDisable(false);
+        BetField.setDisable(false);
+    }
+
+    @FXML
+    public void handleBet() {
+        NewGameButton.setDisable(false);
+        BetButton.setDisable(true);
+        BetField.setDisable(true);
+
+        if (BetField.getText().isBlank()) {
+            player.setBet("1.0");
+        }
+        else player.setBet(BetField.getText());
+    }
+
+    @FXML
+    public void handleRegister() {
+        System.out.println(NameField.getText());
+        this.player = new BlackjackPlayer(10, NameField.getText(), deck);
+        NameField.clear();
+        WelcomeSign.setText("Welcome " + player.getName());
+        ShowBalance.setText(player.getBalance() + "$");
+
+        LoginButton.setDisable(true);
+        RegisterButton.setDisable(true);
+        NameField.setDisable(true);
+        BetButton.setDisable(false);
+        BetField.setDisable(false);
     }
 }
