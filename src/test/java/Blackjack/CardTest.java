@@ -11,14 +11,12 @@ public class CardTest {
     private Card c1;
     private Card c2;
     private Card c3;
-    private Card c4;
 
     @BeforeEach
     public void setup() {
         c1 = new Card('S', "5");
         c2 = new Card('D', "K");
         c3 = new Card('C', "A");
-        c4 = new Card('H', "Q");
     }
     
     @Test
@@ -29,7 +27,6 @@ public class CardTest {
         
         assertThrows(IllegalArgumentException.class , () -> new Card('A', "3"));
         assertThrows(IllegalArgumentException.class , () -> new Card('D', "1"));
-
     }
 
     @Test 

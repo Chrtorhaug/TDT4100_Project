@@ -40,6 +40,10 @@ public class Card {
         else return validFaceList.indexOf(face) + 1;
     }
 
+    public void setAceToOne() {
+        this.value = 1;
+    }
+
     public int getValue() {
         return value;
     }

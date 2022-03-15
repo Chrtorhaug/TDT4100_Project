@@ -12,17 +12,19 @@ public class BlackjackPlayer implements PlayerInterface {
     private List<Card> cardHand4 = new ArrayList<>();
 
     private String name;
-    private int balance;
+    private double balance;
     private int score;
-    private int bet;
+    private double bet;
     private boolean playing;
     
-    public BlackjackPlayer(int balance, String name, CardDeck deck) {
+    public BlackjackPlayer(double balance, String name, CardDeck deck) {
         this.balance = balance;
+        if (name.equals("Dealer")) {
+            throw new IllegalArgumentException("Name can not be Dealer.");
+        }
         this.name = name;
         cardHand.add(deck.getCard());
-        cardHand.add(deck.getCard());
-        score = cardHand.get(0).getValue() + cardHand.get(1).getValue();    
+        cardHand.add(deck.getCard());   
     }
 
     @Override
@@ -31,7 +33,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public int getScore() {
-        return score;
+        return cardHand.stream().map(c -> c.getValue()).reduce(0, Integer::sum);
     }
 
     public List<Card> getHand() {
@@ -40,6 +42,10 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public String getName() {
         return name;
+    }
+
+    public double getBalance() {
+        return balance;
     }
 
     public String score() {
@@ -68,10 +74,18 @@ public class BlackjackPlayer implements PlayerInterface {
         }
 
         cardHand.add(deck.getCard());
+
         if (cardHand.get(cardHand.size() - 1).getValue() == 11 && score + cardHand.get(cardHand.size() - 1).getValue() > 21) { //Checking if the new card is Ace
-            score += 1;
+            cardHand.get(cardHand.size()).setAceToOne();
         }
         else score += cardHand.get(cardHand.size() - 1).getValue();
+
+        for (Card card : cardHand) {
+            if ( card.getFace().equals("A") && card.getValue()==11 && score>21){
+                card.setAceToOne();
+                break;
+            }
+        }
     }
 
     public boolean checkPlaying() {
@@ -96,14 +110,14 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public void setBet(String betString) throws IllegalArgumentException{
         try {
-            int betNum;
-            betNum = Integer.parseInt(betString);
+            double betNum;
+            betNum = Double.parseDouble(betString);
             if (betNum<balance && betNum>0){
                 this.bet=betNum;
             }
             else {throw new IllegalArgumentException();}
         } catch (Exception e) {
-            System.out.println("An integer must be entered");
+            System.out.println("A double must be entered");
             throw new IllegalArgumentException();
         }
 
