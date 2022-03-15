@@ -1,27 +1,22 @@
 package Blackjack;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class BlackjackPlayer implements PlayerInterface {
 
     private List<Card> cardHand = new ArrayList<>();
-    private List<Card> cardHand2 = new ArrayList<>();
-    private List<Card> cardHand3 = new ArrayList<>();
-    private List<Card> cardHand4 = new ArrayList<>();
 
     private String name;
     private double balance;
-    private int score;
     private double bet;
     private boolean playing;
     
     public BlackjackPlayer(double balance, String name, CardDeck deck) {
-        this.balance = balance;
         if (name.equals("Dealer")) {
             throw new IllegalArgumentException("Name can not be Dealer.");
         }
+        this.balance = balance;
         this.name = name;
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());   
@@ -33,7 +28,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public int getScore() {
-        return cardHand.stream().map(c -> c.getValue()).reduce(0, Integer::sum);
+        return cardHand.stream().mapToInt(c -> c.getValue()).sum();
     }
 
     public List<Card> getHand() {
@@ -48,10 +43,6 @@ public class BlackjackPlayer implements PlayerInterface {
         return balance;
     }
 
-    public String score() {
-        return "You have: " + score + " points";
-    }
-
     public Card getCard(int n) {
         return cardHand.get(n);
     }
@@ -64,7 +55,6 @@ public class BlackjackPlayer implements PlayerInterface {
         cardHand.clear();
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());
-        score = cardHand.get(0).getValue() + cardHand.get(1).getValue();
         this.playing = true;
     }
 
@@ -72,16 +62,14 @@ public class BlackjackPlayer implements PlayerInterface {
         if (!checkPlaying()) {
             throw new IllegalArgumentException("Du har mer enn 21");
         }
-
         cardHand.add(deck.getCard());
 
-        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && score + cardHand.get(cardHand.size() - 1).getValue() > 21) { //Checking if the new card is Ace
-            cardHand.get(cardHand.size()).setAceToOne();
+        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore() > 21) { //Checking if the new card is Ace
+            cardHand.get(cardHand.size() - 1).setAceToOne();
         }
-        else score += cardHand.get(cardHand.size() - 1).getValue();
 
         for (Card card : cardHand) {
-            if ( card.getFace().equals("A") && card.getValue()==11 && score>21){
+            if (card.getFace().equals("A") && card.getValue() == 11 && getScore() > 21){
                 card.setAceToOne();
                 break;
             }
@@ -89,7 +77,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public boolean checkPlaying() {
-        if (score >= 21 || !playing) {
+        if (getScore() >= 21 || !playing) {
             return false;
         }
         else return true;
@@ -112,27 +100,25 @@ public class BlackjackPlayer implements PlayerInterface {
         try {
             double betNum;
             betNum = Double.parseDouble(betString);
-            if (betNum<balance && betNum>0){
-                this.bet=betNum;
+            if (betNum < balance && betNum > 0){
+                this.bet = betNum;
             }
-            else {throw new IllegalArgumentException();}
-        } catch (Exception e) {
+            else throw new IllegalArgumentException();
+        } 
+        catch (Exception e) {
             System.out.println("A double must be entered");
             throw new IllegalArgumentException();
-        }
-
-        
+        }   
     }
-
 
     public static void main(String[] args) {
         CardDeck deck = new CardDeck(1);
         BlackjackPlayer p1 = new BlackjackPlayer(10, "Jens", deck);
         System.out.println(p1.getHand());
-        System.out.println(p1.score());
+        System.out.println(p1.getScore());
         p1.addCard(deck);
         System.out.println(p1.getHand());
-        System.out.println(p1.score());
+        System.out.println(p1.getScore());
     }
 
 }
