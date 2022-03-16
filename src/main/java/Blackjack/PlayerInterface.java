@@ -5,6 +5,6 @@ public interface PlayerInterface {
 
     public String getName();
     public int getScore();
-    public List<Card> getHand();
+    public List<Card> getHand(int n);
     public void newHand(CardDeck deck);
 }

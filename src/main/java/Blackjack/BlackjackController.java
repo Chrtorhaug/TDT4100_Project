@@ -14,7 +14,7 @@ public class BlackjackController {
     private HandComparator handComp;
     
     @FXML
-    private ListView<Card> PlayerCards, DealerCards;
+    private ListView<Card> PlayerCards, DealerCards, SplitCards;
 
     @FXML
     private Label PlayerScore, DealerScore, WelcomeSign, ShowBalance;
@@ -33,8 +33,9 @@ public class BlackjackController {
 
         PlayerScore.setText(" ");
         DealerScore.setText(" ");
-        WelcomeSign.setText(" ");
         ShowBalance.setText(" ");
+        WelcomeSign.setVisible(false);
+        SplitCards.setVisible(false);
 
         NewGameButton.setDisable(true);
         BetButton.setDisable(true);
@@ -49,22 +50,22 @@ public class BlackjackController {
 
         if (pl.getName() == "Dealer") {
             if (!player.checkPlaying()) { //Hvis runden er ferdig skal Dealer vise alle kortene sine
-                lv.getItems().addAll(pl.getHand());
+                lv.getItems().addAll(pl.getHand(0));
             }
             else {
                 pl.newHand(deck);
-                lv.getItems().add(pl.getHand().get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
+                lv.getItems().add(pl.getHand(0).get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
             }
         }
         else {
             pl.newHand(deck);
-            lv.getItems().addAll(pl.getHand());
+            lv.getItems().addAll(pl.getHand(0));
         }
     }
 
     private void updateLabel(Label lb, PlayerInterface pl) {
         if (pl.getName() == "Dealer" && player.checkPlaying()) { // Hvis runden ikke er ferdig skal Dealer bare vise scoren til første kort 
-            lb.setText(String.valueOf(pl.getHand().get(0).getValue()));
+            lb.setText(String.valueOf(pl.getHand(0).get(0).getValue()));
         }
         else lb.setText(String.valueOf(pl.getScore()));
     }
@@ -82,14 +83,23 @@ public class BlackjackController {
         NewGameButton.setDisable(true);
         HitButton.setDisable(false);
         HoldButton.setDisable(false);
-        SplitButton.setDisable(false);
+        SplitCards.setVisible(false);
+
+        if (player.canSplit(player.getHand(0))) {
+            SplitButton.setDisable(false);
+        }
+
+        if (player.getScore() == 21) {
+            HitButton.setDisable(true);
+            SplitButton.setDisable(true);
+        }
     }
 
     @FXML
     public void handleHit() {
         player.addCard(deck);
         PlayerCards.getItems().clear();
-        PlayerCards.getItems().addAll(player.getHand());
+        PlayerCards.getItems().addAll(player.getHand(0));
         updateLabel(PlayerScore, player); 
 
         if (player.getScore() >= 21) {
@@ -111,6 +121,16 @@ public class BlackjackController {
         SplitButton.setDisable(true);
         BetButton.setDisable(false);
         BetField.setDisable(false);
+    }
+
+    @FXML
+    public void handleSplit() {
+        player.split(player.getHand(0));
+        SplitCards.setVisible(true);
+        PlayerCards.getItems().clear();
+        PlayerCards.getItems().addAll(player.getHand(0));
+        SplitCards.getItems().addAll(player.getHand(1));
+        SplitButton.setDisable(true);
     }
 
     @FXML
@@ -138,13 +158,14 @@ public class BlackjackController {
         //          utføre kode nedenfor
         // else {NameField.setPromptText("Invalid");
         //       PasswordField.setPromptText("Invalid");}
-        this.player = new BlackjackPlayer(10, NameField.getText(), deck);
+        this.player = new BlackjackPlayer(100, NameField.getText(), deck);
         NameField.clear();
         WelcomeSign.setText("Welcome " + player.getName());
         ShowBalance.setText(player.getBalance() + "$");
         
-        LoginButton.setDisable(true);
-        RegisterButton.setDisable(true);
+        WelcomeSign.setVisible(true);;
+        LoginButton.setVisible(false);
+        RegisterButton.setVisible(false);
         NameField.setDisable(true);
         BetButton.setDisable(false);
         BetField.setDisable(false);

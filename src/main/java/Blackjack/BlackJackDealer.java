@@ -37,7 +37,7 @@ public class BlackJackDealer implements PlayerInterface {
 		return cardHand.stream().mapToInt(c -> c.getValue()).sum();
 	}
 
-	public List<Card> getHand() {
+	public List<Card> getHand(int n) {
 		return cardHand;
 	}
 

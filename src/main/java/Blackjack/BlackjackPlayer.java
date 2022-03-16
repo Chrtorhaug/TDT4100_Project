@@ -2,10 +2,10 @@ package Blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class BlackjackPlayer implements PlayerInterface {
 
     private List<Card> cardHand = new ArrayList<>();
+    private List<List<Card>> hands = new ArrayList<>();
 
     private String name;
     private double balance;
@@ -19,7 +19,8 @@ public class BlackjackPlayer implements PlayerInterface {
         this.balance = balance;
         this.name = name;
         cardHand.add(deck.getCard());
-        cardHand.add(deck.getCard());   
+        cardHand.add(deck.getCard());
+        hands.add(cardHand);   
     }
 
     @Override
@@ -31,8 +32,8 @@ public class BlackjackPlayer implements PlayerInterface {
         return cardHand.stream().mapToInt(c -> c.getValue()).sum();
     }
 
-    public List<Card> getHand() {
-        return cardHand;
+    public List<Card> getHand(int n) {
+        return hands.get(n);
     }
 
     public String getName() {
@@ -51,10 +52,15 @@ public class BlackjackPlayer implements PlayerInterface {
         return cardHand.size();
     }
 
+    public List<List<Card>> getHands() {
+        return hands;
+    }
+
     public void newHand(CardDeck deck) {
         cardHand.clear();
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());
+
         this.playing = true;
     }
 
@@ -88,10 +94,13 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public void findWinner(HandComparator comp, PlayerInterface dealer) {
-        if (comp.compare(this, dealer) < 0){
+        if (cardHand.size() == 2 && getScore() == 21) {
+            balance += bet * 1.5;
+        }
+        else if (comp.compare(this, dealer) < 0){
             balance += bet;
         }
-        if (comp.compare(this, dealer) >0) {
+         else if (comp.compare(this, dealer) >0) {
             balance -= bet;
         }
     }
@@ -111,14 +120,41 @@ public class BlackjackPlayer implements PlayerInterface {
         }   
     }
 
+    public void split(List<Card> hand) {
+        if (canSplit(hand)) {
+            List<Card> tempList = new ArrayList<>();
+            tempList.add(cardHand.remove(1));
+            hands.add(tempList);
+        }
+    }
+
+    public boolean canSplit(List<Card> hand) {
+        if (hand.size() == 2) {
+            if (hand.get(0).getValue() == hand.get(1).getValue()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         CardDeck deck = new CardDeck(1);
         BlackjackPlayer p1 = new BlackjackPlayer(10, "Jens", deck);
-        System.out.println(p1.getHand());
-        System.out.println(p1.getScore());
-        p1.addCard(deck);
-        System.out.println(p1.getHand());
-        System.out.println(p1.getScore());
+        Card ace = new Card('C', "J");
+        Card king = new Card('C', "K");
+        //System.out.println(p1.getHand());
+        //System.out.println(p1.getScore());
+
+        p1.cardHand.clear();
+        p1.cardHand.add(ace);
+        p1.cardHand.add(king);
+
+        System.out.println(p1.getHands());
+        p1.split(p1.getHand(0));
+        //System.out.println(p1.getHand());
+        //System.out.println(p1.getScore());
+        System.out.println(p1.getHands());
+
     }
 
 }

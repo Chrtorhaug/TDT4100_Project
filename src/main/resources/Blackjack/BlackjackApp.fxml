@@ -53,7 +53,7 @@
                   <Insets right="115.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="SplitButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="Split" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="SplitButton" mnemonicParsing="false" onAction="#handleSplit" prefHeight="40.0" prefWidth="80.0" text="Split" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="32.0" top="2.0" />
                </GridPane.margin>
@@ -88,6 +88,11 @@
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin></ListView>
+                  <ListView fx:id="SplitCards" maxHeight="150.0" maxWidth="120.0" minHeight="100.0" minWidth="120.0" prefHeight="100.0" prefWidth="120.0" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets right="2.0" />
+                     </GridPane.margin>
+                  </ListView>
                </children>
                <GridPane.margin>
                   <Insets bottom="2.0" />
@@ -167,7 +172,7 @@
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="40.0" />
+                  <Insets bottom="2.0" />
                </GridPane.margin>
             </Label>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
