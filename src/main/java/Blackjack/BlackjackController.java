@@ -1,5 +1,6 @@
 package Blackjack;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,11 +46,11 @@ public class BlackjackController {
         BetField.setDisable(true);
     }
 
-    private void updateListView(ListView<Card> lv, PlayerInterface pl) {
+    private void updateListView(ListView<Card> lv, PlayerInterface pl, ActionEvent event) {
         lv.getItems().clear();
 
         if (pl.getName() == "Dealer") {
-            if (!player.checkPlaying()) { //Hvis runden er ferdig skal Dealer vise alle kortene sine
+            if (event.getSource().equals(HoldButton)) { //Hvis runden er ferdig skal Dealer vise alle kortene sine
                 lv.getItems().addAll(pl.getHand(0));
             }
             else {
@@ -57,9 +58,14 @@ public class BlackjackController {
                 lv.getItems().add(pl.getHand(0).get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
             }
         }
-        else {
+        else if (event.getSource().equals(NewGameButton)) {
             pl.newHand(deck);
             lv.getItems().addAll(pl.getHand(0));
+        }
+        else if (event.getSource().equals(HitButton)) {
+            player.addCard(deck);
+            PlayerCards.getItems().clear();
+            PlayerCards.getItems().addAll(player.getHand(0));
         }
     }
 
@@ -71,12 +77,12 @@ public class BlackjackController {
     }
 
     @FXML
-    public void handleNewGame() {
+    public void handleNewGame(ActionEvent newGameEvent) {
         if (deck.getSize() < 50) {
             this.deck = new CardDeck(5);
         }
-        updateListView(PlayerCards, player);
-        updateListView(DealerCards, dealer);
+        updateListView(PlayerCards, player, newGameEvent);
+        updateListView(DealerCards, dealer, newGameEvent);
         updateLabel(PlayerScore, player);
         updateLabel(DealerScore, dealer);
 
@@ -96,10 +102,8 @@ public class BlackjackController {
     }
 
     @FXML
-    public void handleHit() {
-        player.addCard(deck);
-        PlayerCards.getItems().clear();
-        PlayerCards.getItems().addAll(player.getHand(0));
+    public void handleHit(ActionEvent hitEvent) {
+        updateListView(PlayerCards, player, hitEvent);
         updateLabel(PlayerScore, player); 
 
         if (player.getScore() >= 21) {
@@ -109,9 +113,9 @@ public class BlackjackController {
     }
 
     @FXML
-    public void handleHold() {
+    public void handleHold(ActionEvent holdEvent) {
         player.hold();
-        updateListView(DealerCards, dealer);
+        updateListView(DealerCards, dealer, holdEvent);
         updateLabel(DealerScore, dealer);
         player.findWinner(handComp, dealer);
         ShowBalance.setText(player.getBalance() + "$");
@@ -147,7 +151,6 @@ public class BlackjackController {
 
     @FXML
     public void handleRegister() {
-        System.out.println(NameField.getText());
         //Forslag til kodeendring - lage klasse som enten validerer: sjekker at brukernavn ikke er tatt,
         // at passord følger visse regler, og skriver personens informasjon og balanse til fil. dette oppdateres enten
         // etter hvert spill eller når programmet avsluttes
