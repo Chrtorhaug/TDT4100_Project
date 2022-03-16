@@ -68,10 +68,13 @@
                   <Insets right="198.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <TextField fx:id="BetField" prefHeight="35.0" prefWidth="102.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <TextField fx:id="BetField" prefHeight="35.0" prefWidth="102.0" promptText="Enter Amount" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="85.0" right="198.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="12.0" />
+               </font>
             </TextField>
             <GridPane maxHeight="130.0" maxWidth="406.0" prefHeight="150.0" prefWidth="406.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
               <columnConstraints>
