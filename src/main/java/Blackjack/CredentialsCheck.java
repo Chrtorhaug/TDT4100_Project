@@ -16,7 +16,7 @@ public class CredentialsCheck {
         
         Scanner scanner = new Scanner(getClass().getResource("DataBlackjack.txt").getPath());
         Map<String, String> UserNameMap = new HashMap<>();
-        //InputStream inputStream = ISR.class.getresourceAsStream("DataBlackjack.txt");
+        //Files.lines(Paths.get(getClass().getResource("DataBlackjack.txt.toURI"))).map(l -> l.split("\t")).get(0);
         while (scanner.hasNextLine()){
             String line = scanner.nextLine();
             String[] lineInfo = line.split(",");
