@@ -49,7 +49,7 @@ public class BlackjackController {
     private void updateListView(ListView<Card> lv, PlayerInterface pl, ActionEvent event) {
         lv.getItems().clear();
 
-        if (pl.getName() == "Dealer") {
+        if (pl.getClass().equals(BlackJackDealer.class)) {
             if (event.getSource().equals(HoldButton)) { //Hvis runden er ferdig skal Dealer vise alle kortene sine
                 lv.getItems().addAll(pl.getHand(0));
             }
@@ -67,10 +67,14 @@ public class BlackjackController {
             PlayerCards.getItems().clear();
             PlayerCards.getItems().addAll(player.getHand(0));
         }
+        else if (event.getSource().equals(SplitButton)) {
+            PlayerCards.getItems().clear();
+            PlayerCards.getItems().addAll(player.getHand(0));
+        }
     }
 
     private void updateLabel(Label lb, PlayerInterface pl) {
-        if (pl.getName() == "Dealer" && player.checkPlaying()) { // Hvis runden ikke er ferdig skal Dealer bare vise scoren til første kort 
+        if (pl.getClass().equals(BlackJackDealer.class) && player.checkPlaying()) { // Hvis runden ikke er ferdig skal Dealer bare vise scoren til første kort 
             lb.setText(String.valueOf(pl.getHand(0).get(0).getValue()));
         }
         else lb.setText(String.valueOf(pl.getScore()));
@@ -128,11 +132,10 @@ public class BlackjackController {
     }
 
     @FXML
-    public void handleSplit() {
+    public void handleSplit(ActionEvent splitEvent) {
         player.split(player.getHand(0));
         SplitCards.setVisible(true);
-        PlayerCards.getItems().clear();
-        PlayerCards.getItems().addAll(player.getHand(0));
+        updateListView(PlayerCards, player, splitEvent);
         SplitCards.getItems().addAll(player.getHand(1));
         SplitButton.setDisable(true);
     }
@@ -144,7 +147,7 @@ public class BlackjackController {
         BetField.setDisable(true);
 
         if (BetField.getText().isBlank()) {
-            player.setBet("1.0");
+            player.setBet(String.valueOf(player.getStandardBet()));
         }
         else player.setBet(BetField.getText());
     }

@@ -10,6 +10,7 @@ public class BlackjackPlayer implements PlayerInterface {
     private String name;
     private double balance;
     private double bet;
+    private double standardBet;
     private boolean playing;
     
     public BlackjackPlayer(double balance, String name, CardDeck deck) {
@@ -18,6 +19,7 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         this.balance = balance;
         this.name = name;
+        this.standardBet = 1.0;
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());
         hands.add(cardHand);   
@@ -54,6 +56,10 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public List<List<Card>> getHands() {
         return hands;
+    }
+
+    public double getStandardBet() {
+        return standardBet;
     }
 
     public void newHand(CardDeck deck) {
