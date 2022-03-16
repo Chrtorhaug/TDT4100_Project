@@ -2,6 +2,9 @@ package Blackjack;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +12,11 @@ import java.util.Scanner;
 
 public class CredentialsCheck {
 
-
-    private Map<String,String> getUserNamesFromFile(String filename) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(filename));
+    private Map<String,String> getUserNamesFromFile() throws FileNotFoundException {
+        
+        Scanner scanner = new Scanner(getClass().getResource("DataBlackjack.txt").getPath());
         Map<String, String> UserNameMap = new HashMap<>();
+        //Files.lines(Paths.get(getClass().getResource("DataBlackJack.txt").toURI())).toList();
         while (scanner.hasNextLine()){
             String line = scanner.nextLine();
             String[] lineInfo = line.split(",");
@@ -21,10 +25,9 @@ public class CredentialsCheck {
 
             UserNameMap.put(UserName,PassWord);
         }
-        return UserNameMap;
-        
+        scanner.close();
+        return UserNameMap;   
     }
-
 
     private boolean validatePassword(String UserName,String Password) {
         if (Password.length()<10){
@@ -45,20 +48,17 @@ public class CredentialsCheck {
         
     }
 
-
-
-
     public boolean validateUserAtRegister(String UserName, String Password) {
-        Map<String,String> UserNameMap = getUserNamesFromFile(filename); //igjen, vi må lage en fil
+        Map<String,String> UserNameMap = getUserNamesFromFile(); //igjen, vi må lage en fil
                                                                         //legge inn james bond og daniel negreanu
-        return (!UserNameMap.stream().anyMatch(String -> String.equals(UserName)) && validatePassword(UserName, Password));       
+        return (!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password));       
     }
 
     //Metode for å sjekke passord opp mot inntastet brukernavn
 
     public boolean validateUserAtLogin(String UserName, String Password) {
-        Map<String,String> UserNameList = getUserNamesFromFile(filename); //igjen, vi må lage en fil
-        return (UserNameList.stream().anyMatch(String -> String.equals(UserName)) && );
+        Map<String,String> UserNameMap = getUserNamesFromFile(); //igjen, vi må lage en fil
+        return (UserNameMap.containsKey(UserName) && UserNameMap.get(UserName).equals(Password));
     }
     
 }
