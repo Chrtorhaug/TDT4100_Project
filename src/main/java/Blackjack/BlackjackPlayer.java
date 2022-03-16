@@ -64,11 +64,7 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         cardHand.add(deck.getCard());
 
-<<<<<<< HEAD
-        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && score + cardHand.get(cardHand.size() - 1).getValue() > 21) { //Checking if the new card is Ace
-=======
         if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore() > 21) { //Checking if the new card is Ace
->>>>>>> c111dead13b51511bfd4af205c7846bb4e0429c0
             cardHand.get(cardHand.size() - 1).setAceToOne();
         }
 

@@ -127,7 +127,6 @@ public class BlackjackController {
 
     @FXML
     public void handleRegister() {
-<<<<<<< HEAD
         System.out.println(NameField.getText());
         //Forslag til kodeendring - lage klasse som enten validerer: sjekker at brukernavn ikke er tatt,
         // at passord følger visse regler, og skriver personens informasjon og balanse til fil. dette oppdateres enten
@@ -139,8 +138,6 @@ public class BlackjackController {
         //          utføre kode nedenfor
         // else {NameField.setPromptText("Invalid");
         //       PasswordField.setPromptText("Invalid");}
-=======
->>>>>>> c111dead13b51511bfd4af205c7846bb4e0429c0
         this.player = new BlackjackPlayer(10, NameField.getText(), deck);
         NameField.clear();
         WelcomeSign.setText("Welcome " + player.getName());
