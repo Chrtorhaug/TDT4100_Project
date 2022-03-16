@@ -6,38 +6,37 @@ import java.util.List;
 public class BlackJackDealer implements PlayerInterface {
 
     private List<Card> cardHand = new ArrayList<>();  
-    private int score;
-
 
     public BlackJackDealer(CardDeck deck){
-        this.newHand(deck);
+        newHand(deck);
     }
 
     public void newHand(CardDeck deck) {
         cardHand.clear();
-        score=0;
-        while (score<17) {
-            Card tmp = deck.getCard();
-            cardHand.add(tmp);
-            if (tmp.getValue()==11 && tmp.getValue()+score>21)
-                score++;
-            else{
-            score+=tmp.getValue();
-            }   
+        while (getScore() < 17) {
+            cardHand.add(deck.getCard()); 
+
+            if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore() > 21) { //Checking if the new card is Ace
+                cardHand.get(cardHand.size() - 1).setAceToOne();
+            }
+
+            for (Card card : cardHand) {
+                if (card.getFace().equals("A") && card.getValue() == 11 && getScore() > 21){
+                    card.setAceToOne();
+                    break;
+                }
+            }
         }   
     }
     
-	@Override
 	public String getName() {
 		return "Dealer";
 	}
 
-	@Override
 	public int getScore() {
-		return score;
+		return cardHand.stream().mapToInt(c -> c.getValue()).sum();
 	}
 
-	@Override
 	public List<Card> getHand() {
 		return cardHand;
 	}
