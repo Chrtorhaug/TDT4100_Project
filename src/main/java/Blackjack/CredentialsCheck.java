@@ -3,22 +3,25 @@ package Blackjack;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CredentialsCheck {
 
 
-    public ArrayList<String> getUserNamesFromFile(String filename) throws FileNotFoundException {
+    private Map<String,String> getUserNamesFromFile(String filename) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(filename));
-        ArrayList<String> UserNameList = new ArrayList<>();
+        Map<String, String> UserNameMap = new HashMap<>();
         while (scanner.hasNextLine()){
             String line = scanner.nextLine();
             String[] lineInfo = line.split(",");
             String UserName = lineInfo[0];
+            String PassWord = lineInfo[1];
 
-            UserNameList.add(UserName);
+            UserNameMap.put(UserName,PassWord);
         }
-        return UserNameList;
+        return UserNameMap;
         
     }
 
@@ -46,15 +49,15 @@ public class CredentialsCheck {
 
 
     public boolean validateUserAtRegister(String UserName, String Password) {
-        ArrayList<String> UserNameList = getUserNamesFromFile(filename); //igjen, vi må lage en fil
+        Map<String,String> UserNameMap = getUserNamesFromFile(filename); //igjen, vi må lage en fil
                                                                         //legge inn james bond og daniel negreanu
-        return (!UserNameList.stream().anyMatch(String -> String.equals(UserName)) && validatePassword(UserName, Password));       
+        return (!UserNameMap.stream().anyMatch(String -> String.equals(UserName)) && validatePassword(UserName, Password));       
     }
 
     //Metode for å sjekke passord opp mot inntastet brukernavn
 
     public boolean validateUserAtLogin(String UserName, String Password) {
-        ArrayList<String> UserNameList = getUserNamesFromFile(filename); //igjen, vi må lage en fil
+        Map<String,String> UserNameList = getUserNamesFromFile(filename); //igjen, vi må lage en fil
         return (UserNameList.stream().anyMatch(String -> String.equals(UserName)) && );
     }
     
