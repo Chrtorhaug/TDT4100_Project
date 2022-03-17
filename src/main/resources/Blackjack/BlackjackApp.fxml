@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -207,6 +208,25 @@
                   <Font name="Times New Roman" size="14.0" />
                </font>
             </TextField>
+            <GridPane maxHeight="130.0" maxWidth="130.0" minHeight="130.0" minWidth="130.0" prefHeight="130.0" prefWidth="130.0" GridPane.valignment="BOTTOM">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="CardPicture1" fitHeight="64.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="CardPicture2" fitHeight="79.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                  <ImageView fx:id="CardPicture3" fitHeight="82.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                  <ImageView fx:id="cardPicture4" fitHeight="58.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+               </children>
+            </GridPane>
          </children>
          <rotationAxis>
             <Point3D />
