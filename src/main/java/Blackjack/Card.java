@@ -19,9 +19,7 @@ public class Card {
             this.face = face;
             this.suit = suit;
             this.value = setValue(face);
-
-            File file = new File("src/main/resources/Carddeck/" + getSuit() + getFace() +".png");
-            this.cardImage = new Image(file.toURI().toString());
+            this.cardImage = new Image(new File("src/main/resources/Carddeck/" + getSuit() + getFace() +".png").toURI().toString());
         }
         else throw new IllegalArgumentException();
     }

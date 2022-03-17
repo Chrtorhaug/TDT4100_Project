@@ -30,8 +30,8 @@ public class BlackjackPlayer implements PlayerInterface {
         return "BlackjackPlayer [balance=" + balance + ", cardHand=" + cardHand + ", name=" + name + "]";
     }
 
-    public int getScore() {
-        return cardHand.stream().mapToInt(c -> c.getValue()).sum();
+    public int getScore(int n) {
+        return hands.get(n).stream().mapToInt(c -> c.getValue()).sum();
     }
 
     public List<Card> getHand(int n) {
@@ -76,12 +76,12 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         cardHand.add(deck.getCard());
 
-        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore() > 21) { //Checking if the new card is Ace
+        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore(0) > 21) { //Checking if the new card is Ace
             cardHand.get(cardHand.size() - 1).setAceToOne();
         }
 
         for (Card card : cardHand) {
-            if (card.getFace().equals("A") && card.getValue() == 11 && getScore() > 21){
+            if (card.getFace().equals("A") && card.getValue() == 11 && getScore(0) > 21){
                 card.setAceToOne();
                 break;
             }
@@ -89,7 +89,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public boolean checkPlaying() {
-        if (getScore() >= 21 || !playing) {
+        if (getScore(0) >= 21 || !playing) {
             return false;
         }
         else return true;
@@ -100,7 +100,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public void findWinner(HandComparator comp, PlayerInterface dealer) {
-        if (cardHand.size() == 2 && getScore() == 21) {
+        if (cardHand.size() == 2 && getScore(0) == 21) {
             balance += bet * 1.5;
         }
         else if (comp.compare(this, dealer) < 0){

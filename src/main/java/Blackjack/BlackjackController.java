@@ -1,5 +1,8 @@
 package Blackjack;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,7 +31,9 @@ public class BlackjackController {
     private TextField NameField, PasswordField, BetField;
 
     @FXML
-    private ImageView CardPicture1, CardPicture2, CardPicture3, CardPicture4;
+    private ImageView CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18;
+
+    private List<ImageView> firstHand = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
 
     @FXML
     public void initialize() {
@@ -77,11 +82,18 @@ public class BlackjackController {
         }
     }
 
+    private void updateCardHandPictures() {
+        for (int i = 0; i < player.getHand(0).size(); i++) {
+            System.out.println(firstHand.get(i));
+            //firstHand.get(i).setImage(player.getCard(i).getCardPicture());
+        }
+    }
+
     private void updateLabel(Label lb, PlayerInterface pl) {
         if (pl.getClass().equals(BlackJackDealer.class) && player.checkPlaying()) { // Hvis runden ikke er ferdig skal Dealer bare vise scoren til første kort 
             lb.setText(String.valueOf(pl.getHand(0).get(0).getValue()));
         }
-        else lb.setText(String.valueOf(pl.getScore()));
+        else lb.setText(String.valueOf(pl.getScore(0)));
     }
 
     @FXML
@@ -99,16 +111,17 @@ public class BlackjackController {
         HoldButton.setDisable(false);
         SplitCards.setVisible(false);
 
-        CardPicture1.setImage(player.getCard(0).getCardPicture());
-        CardPicture2.setImage(player.getCard(1).getCardPicture());
-        //CardPicture3.setVisible(false);
-        //CardPicture4.setVisible(false);
+        //CardPicture11.setImage(player.getCard(0).getCardPicture());
+        //CardPicture12.setImage(player.getCard(1).getCardPicture());
+        //CardPicture13.imageProperty().set(null);
+        //CardPicture14.imageProperty().set(null);
+        updateCardHandPictures();
 
         if (player.canSplit(player.getHand(0))) {
             SplitButton.setDisable(false);
         }
 
-        if (player.getScore() == 21) {
+        if (player.getScore(0) == 21) {
             HitButton.setDisable(true);
             SplitButton.setDisable(true);
         }
@@ -120,15 +133,13 @@ public class BlackjackController {
         updateLabel(PlayerScore, player);
 
         if (player.getHand(0).size() == 3) {
-            CardPicture3.setImage(player.getCard(2).getCardPicture());
-            //CardPicture3.setVisible(true);
+            CardPicture13.setImage(player.getCard(2).getCardPicture());
         }
         else if (player.getHand(0).size() == 4) {
-            CardPicture4.setImage(player.getCard(3).getCardPicture());
-            //CardPicture4.setVisible(true);
+            CardPicture14.setImage(player.getCard(3).getCardPicture());
         }
 
-        if (player.getScore() >= 21) {
+        if (player.getScore(0) >= 21) {
             HitButton.setDisable(true);
             SplitButton.setDisable(true);
         }
