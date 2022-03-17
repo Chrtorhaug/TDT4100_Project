@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 public class BlackjackController { 
 
@@ -25,6 +26,9 @@ public class BlackjackController {
 
     @FXML
     private TextField NameField, PasswordField, BetField;
+
+    @FXML
+    private ImageView CardPicture1, CardPicture2, CardPicture3, CardPicture4;
 
     @FXML
     public void initialize() {
@@ -95,6 +99,11 @@ public class BlackjackController {
         HoldButton.setDisable(false);
         SplitCards.setVisible(false);
 
+        CardPicture1.setImage(player.getCard(0).getCardPicture());
+        CardPicture2.setImage(player.getCard(1).getCardPicture());
+        //CardPicture3.setVisible(false);
+        //CardPicture4.setVisible(false);
+
         if (player.canSplit(player.getHand(0))) {
             SplitButton.setDisable(false);
         }
@@ -108,7 +117,16 @@ public class BlackjackController {
     @FXML
     public void handleHit(ActionEvent hitEvent) {
         updateListView(PlayerCards, player, hitEvent);
-        updateLabel(PlayerScore, player); 
+        updateLabel(PlayerScore, player);
+
+        if (player.getHand(0).size() == 3) {
+            CardPicture3.setImage(player.getCard(2).getCardPicture());
+            //CardPicture3.setVisible(true);
+        }
+        else if (player.getHand(0).size() == 4) {
+            CardPicture4.setImage(player.getCard(3).getCardPicture());
+            //CardPicture4.setVisible(true);
+        }
 
         if (player.getScore() >= 21) {
             HitButton.setDisable(true);
