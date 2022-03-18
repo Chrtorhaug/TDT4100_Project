@@ -103,7 +103,7 @@ public class CredentialsCheck {
 
 
     public static void main(String[] args) {
-        CredentialsCheck check = new CredentialsCheck();
+        CredentialsCheck check = new CredentialsCheck("Hei", "På", "Deg");
 
         try {
             Map<String,String> maplist = check.getUserNamesFromFile();
