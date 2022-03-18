@@ -1,5 +1,6 @@
 package Blackjack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class BlackjackController {
     private CardDeck deck;
     private BlackJackDealer dealer;
     private HandComparator handComp;
+    private List<ImageView> firstHandImageViews= new ArrayList<>();
+    private List<ImageView> dealerHandImageViews = new ArrayList<>();
     
     @FXML
     private ListView<Card> PlayerCards, DealerCards, SplitCards;
@@ -31,9 +34,8 @@ public class BlackjackController {
     private TextField NameField, PasswordField, BetField;
 
     @FXML
-    private ImageView CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18;
-
-    private List<ImageView> firstHand = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
+    private ImageView DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18,
+                    CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18;
 
     @FXML
     public void initialize() {
@@ -54,7 +56,7 @@ public class BlackjackController {
         SplitButton.setDisable(true);
         BetField.setDisable(true);
     }
-
+    /*
     private void updateListView(ListView<Card> lv, PlayerInterface pl, ActionEvent event) {
         lv.getItems().clear();
 
@@ -80,12 +82,37 @@ public class BlackjackController {
             PlayerCards.getItems().clear();
             PlayerCards.getItems().addAll(player.getHand(0));
         }
-    }
+    } */
 
-    private void updateCardHandPictures() {
-        for (int i = 0; i < player.getHand(0).size(); i++) {
-            System.out.println(firstHand.get(i));
-            //firstHand.get(i).setImage(player.getCard(i).getCardPicture());
+    private void updateCardHandPictures(List<ImageView> view, ActionEvent event) {
+        List<List<ImageView>> hands = Arrays.asList(firstHandImageViews, dealerHandImageViews);
+        if (hands.indexOf(view) == 1) {
+            if (event.getSource().equals(NewGameButton)) {
+                for (int i = 0; i < dealer.getHand(0).size(); i++) {
+                    view.get(i).imageProperty().set(null);  
+                }
+                dealer.newHand(deck);
+                DealerPicture11.setImage(dealer.getHand(0).get(0).getCardPicture());
+            }
+            else {
+                for (int i = 0; i < dealer.getHand(0).size(); i++) {
+                    view.get(i).setImage(dealer.getHand(0).get(i).getCardPicture());
+                }
+            }
+        }
+        else {
+            if (event.getSource().equals(NewGameButton)) {
+                for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
+                    view.get(i).imageProperty().set(null);  
+                }
+                player.newHand(deck);
+            } 
+            if (event.getSource().equals(HitButton)) {
+                player.addCard(deck);
+            } 
+            for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
+                view.get(i).setImage(player.getCard(i).getCardPicture());
+            }
         }
     }
 
@@ -101,8 +128,10 @@ public class BlackjackController {
         if (deck.getSize() < 50) {
             this.deck = new CardDeck(5);
         }
-        updateListView(PlayerCards, player, newGameEvent);
-        updateListView(DealerCards, dealer, newGameEvent);
+        //updateListView(PlayerCards, player, newGameEvent);
+        //updateListView(DealerCards, dealer, newGameEvent);
+        updateCardHandPictures(firstHandImageViews, newGameEvent);
+        updateCardHandPictures(dealerHandImageViews, newGameEvent);
         updateLabel(PlayerScore, player);
         updateLabel(DealerScore, dealer);
 
@@ -110,12 +139,6 @@ public class BlackjackController {
         HitButton.setDisable(false);
         HoldButton.setDisable(false);
         SplitCards.setVisible(false);
-
-        //CardPicture11.setImage(player.getCard(0).getCardPicture());
-        //CardPicture12.setImage(player.getCard(1).getCardPicture());
-        //CardPicture13.imageProperty().set(null);
-        //CardPicture14.imageProperty().set(null);
-        updateCardHandPictures();
 
         if (player.canSplit(player.getHand(0))) {
             SplitButton.setDisable(false);
@@ -129,15 +152,9 @@ public class BlackjackController {
 
     @FXML
     public void handleHit(ActionEvent hitEvent) {
-        updateListView(PlayerCards, player, hitEvent);
+        //updateListView(PlayerCards, player, hitEvent);
+        updateCardHandPictures(firstHandImageViews, hitEvent);
         updateLabel(PlayerScore, player);
-
-        if (player.getHand(0).size() == 3) {
-            CardPicture13.setImage(player.getCard(2).getCardPicture());
-        }
-        else if (player.getHand(0).size() == 4) {
-            CardPicture14.setImage(player.getCard(3).getCardPicture());
-        }
 
         if (player.getScore(0) >= 21) {
             HitButton.setDisable(true);
@@ -148,7 +165,8 @@ public class BlackjackController {
     @FXML
     public void handleHold(ActionEvent holdEvent) {
         player.hold();
-        updateListView(DealerCards, dealer, holdEvent);
+        //updateListView(DealerCards, dealer, holdEvent);
+        updateCardHandPictures(dealerHandImageViews, holdEvent);
         updateLabel(DealerScore, dealer);
         player.findWinner(handComp, dealer);
         ShowBalance.setText(player.getBalance() + "$");
@@ -164,7 +182,7 @@ public class BlackjackController {
     public void handleSplit(ActionEvent splitEvent) {
         player.split(player.getHand(0));
         SplitCards.setVisible(true);
-        updateListView(PlayerCards, player, splitEvent);
+        //updateListView(PlayerCards, player, splitEvent);
         SplitCards.getItems().addAll(player.getHand(1));
         SplitButton.setDisable(true);
     }
@@ -183,6 +201,8 @@ public class BlackjackController {
 
     @FXML
     public void handleRegister() {
+        dealerHandImageViews = Arrays.asList(DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18);
+        firstHandImageViews = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
         //Forslag til kodeendring - lage klasse som enten validerer: sjekker at brukernavn ikke er tatt,
         // at passord følger visse regler, og skriver personens informasjon og balanse til fil. dette oppdateres enten
         // etter hvert spill eller når programmet avsluttes

@@ -10,8 +10,6 @@ import java.util.Scanner;
 
 public class CredentialsCheck {
 
-
-
     public CredentialsCheck(String string,String UserName, String Password){
         if (string.equals("Register")){
             
@@ -47,7 +45,6 @@ public class CredentialsCheck {
             writer.flush();
             writer.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -66,27 +63,23 @@ public class CredentialsCheck {
         for (Character c : Password.toCharArray()) {
             array.add(c);
         }
-        if (!array.stream().anyMatch(Character -> java.lang.Character.isDigit(Character))){
+        if (!array.stream().anyMatch(Character -> java.lang.Character.isDigit(Character))) {
             return false;
         }
-        else { return true;}
-        
-        
+        else return true;  
     }
 
     public boolean validateUserAtRegister(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile(); //igjen, vi må lage en fil
             if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password)){
-                registerUserToFile(UserName,Password);
-                
+                registerUserToFile(UserName,Password);       
             } 
-            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password);
-            
+            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password);  
+
         } catch (Exception e) {
             return false;
-        }
-        
+        }  
     }
 
     //Metode for å sjekke passord opp mot inntastet brukernavn
@@ -98,10 +91,7 @@ public class CredentialsCheck {
         } catch (Exception e) {
             return false;
         }
-        
     }
-
-
     public static void main(String[] args) {
         CredentialsCheck check = new CredentialsCheck("Hei", "På", "Deg");
 
@@ -110,12 +100,8 @@ public class CredentialsCheck {
             System.out.println(maplist.toString());
             
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         System.out.println("PassORd123".toLowerCase());
-        
-    }
-    
+    } 
 }

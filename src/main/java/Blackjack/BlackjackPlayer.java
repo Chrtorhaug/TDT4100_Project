@@ -71,7 +71,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public void addCard(CardDeck deck) {
-        if (!checkPlaying()) {
+        if (getScore(0) >= 21) {
             throw new IllegalArgumentException("Du har mer enn 21");
         }
         cardHand.add(deck.getCard());
