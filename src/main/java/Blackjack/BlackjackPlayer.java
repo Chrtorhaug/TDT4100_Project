@@ -22,7 +22,9 @@ public class BlackjackPlayer implements PlayerInterface {
         this.standardBet = 1.0;
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());
-        hands.add(cardHand);   
+        hands.add(cardHand);
+        hands.add(new ArrayList<>());
+        hands.add(new ArrayList<>());   
     }
 
     @Override
@@ -46,8 +48,8 @@ public class BlackjackPlayer implements PlayerInterface {
         return balance;
     }
 
-    public Card getCard(int n) {
-        return cardHand.get(n);
+    public Card getCard(int hand, int n) {
+        return hands.get(hand).get(n);
     }
 
     public int getCardCount() {
@@ -128,9 +130,7 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public void split(List<Card> hand) {
         if (canSplit(hand)) {
-            List<Card> tempList = new ArrayList<>();
-            tempList.add(cardHand.remove(1));
-            hands.add(tempList);
+            hands.get(1).add(hands.get(0).remove(1));
         }
     }
 
