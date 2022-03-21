@@ -1,1 +1,4 @@
-jens,blackjack1
+Jens,PokerPlayer123,80
+UserName,BlackJack123,100
+Christian,TexasTiger123,100
+

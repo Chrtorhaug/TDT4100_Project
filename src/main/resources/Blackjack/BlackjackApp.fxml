@@ -4,7 +4,6 @@
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,16 +21,16 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="620.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="600.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="LoginButton" mnemonicParsing="false" prefHeight="38.0" prefWidth="90.0" text="Login" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="120.0" text="Login" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets right="2.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <TextField fx:id="NameField" prefHeight="36.0" prefWidth="192.0" promptText="Enter Username" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="NameField" prefHeight="45.0" prefWidth="192.0" promptText="Enter Username" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </GridPane.margin>
@@ -39,37 +38,37 @@
                   <Font name="Times New Roman" size="14.0" />
                </font>
             </TextField>
-            <Button fx:id="RegisterButton" mnemonicParsing="false" onAction="#handleRegister" prefHeight="38.0" prefWidth="96.0" text="Register" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+            <Button fx:id="RegisterButton" mnemonicParsing="false" onAction="#handleRegister" prefHeight="45.0" prefWidth="120.0" text="Register" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
                <GridPane.margin>
                   <Insets left="2.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="NewGameButton" mnemonicParsing="false" onAction="#handleNewGame" prefHeight="35.0" prefWidth="100.0" text="New Game" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="NewGameButton" mnemonicParsing="false" onAction="#handleNewGame" prefHeight="45.0" prefWidth="100.0" text="New Game" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="2.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="HoldButton" mnemonicParsing="false" onAction="#handleHold" prefHeight="35.0" prefWidth="100.0" text="Hold" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="HoldButton" mnemonicParsing="false" onAction="#handleHold" prefHeight="45.0" prefWidth="100.0" text="Hold" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="95.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="SplitButton" mnemonicParsing="false" onAction="#handleSplit" prefHeight="35.0" prefWidth="100.0" text="Split" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="SplitButton" mnemonicParsing="false" onAction="#handleSplit" prefHeight="45.0" prefWidth="100.0" text="Split" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="300.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="BetButton" mnemonicParsing="false" onAction="#handleBet" prefHeight="35.0" prefWidth="100.0" text="Bet" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <Button fx:id="BetButton" mnemonicParsing="false" onAction="#handleBet" prefHeight="45.0" prefWidth="100.0" text="Bet" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="HitButton" mnemonicParsing="false" onAction="#handleHit" prefHeight="35.0" prefWidth="100.0" text="Hit" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="HitButton" mnemonicParsing="false" onAction="#handleHit" prefHeight="45.0" prefWidth="100.0" text="Hit" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="110.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <TextField fx:id="BetField" prefHeight="35.0" prefWidth="102.0" promptText="Enter Amount" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <TextField fx:id="BetField" prefHeight="45.0" prefWidth="102.0" promptText="Enter Amount" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="105.0" right="198.0" />
                </GridPane.margin>
@@ -84,66 +83,26 @@
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
-               <children>
-                  <ListView fx:id="PlayerCards" maxHeight="130.0" maxWidth="150.0" minHeight="130.0" minWidth="150.0" prefHeight="130.0" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin></ListView>
-                  <ListView fx:id="SplitCards" maxHeight="150.0" maxWidth="120.0" minHeight="100.0" minWidth="120.0" prefHeight="100.0" prefWidth="120.0" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets right="2.0" />
-                     </GridPane.margin>
-                  </ListView>
-               </children>
                <GridPane.margin>
                   <Insets bottom="2.0" />
                </GridPane.margin>
             </GridPane>
-            <Text fx:id="PlayerScoreText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Text fx:id="PlayerScoreText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="140.0" right="80.0" />
+                  <Insets bottom="140.0" right="30.0" />
                </GridPane.margin>
             </Text>
             <Label fx:id="PlayerScore1" prefHeight="16.0" prefWidth="22.0" text="PS" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets bottom="140.0" />
+                  <Insets bottom="140.0" left="85.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </Label>
-            <GridPane alignment="TOP_CENTER" maxHeight="120.0" maxWidth="150.0" prefHeight="100.0" prefWidth="138.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.4000244140625" minWidth="10.0" prefWidth="147.4000244140625" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <ListView fx:id="DealerCards" prefHeight="200.0" prefWidth="200.0">
-                     <opaqueInsets>
-                        <Insets right="2.0" />
-                     </opaqueInsets>
-                  </ListView>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <GridPane.margin>
-                  <Insets top="32.0" />
-               </GridPane.margin>
-            </GridPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your Cards" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <font>
-                  <Font name="Times New Roman" size="18.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets top="200.0" />
-               </GridPane.margin>
-            </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dealer's Cards:" textAlignment="CENTER" wrappingWidth="79.1041259765625" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <font>
                   <Font name="Times New Roman" size="18.0" />
@@ -200,7 +159,7 @@
                   <Insets right="20.0" top="50.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="PasswordField" prefHeight="36.0" prefWidth="192.0" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <TextField fx:id="PasswordField" prefHeight="45.0" prefWidth="192.0" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" />
                </GridPane.margin>
@@ -280,12 +239,12 @@
                   <ImageView fx:id="DealerPicture18" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <Text fx:id="PlayerScoreText2" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <Text fx:id="PlayerScoreText2" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="140.0" right="80.0" />
+                  <Insets bottom="140.0" right="70.0" />
                </GridPane.margin>
             </Text>
             <Label fx:id="PlayerScore2" layoutX="274.0" layoutY="240.0" prefHeight="16.0" prefWidth="22.0" text="PS" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
@@ -293,15 +252,15 @@
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="140.0" right="80.0" />
+                  <Insets bottom="140.0" right="50.0" />
                </GridPane.margin>
             </Label>
-            <Text fx:id="PlayerScoreText3" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+            <Text fx:id="PlayerScoreText3" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="140.0" left="15.0" />
+                  <Insets bottom="140.0" left="40.0" />
                </GridPane.margin>
             </Text>
             <Label fx:id="PlayerScore3" layoutX="274.0" layoutY="240.0" prefHeight="16.0" prefWidth="22.0" text="PS" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
@@ -309,7 +268,7 @@
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets bottom="140.0" left="95.0" />
+                  <Insets bottom="140.0" left="140.0" />
                </GridPane.margin>
             </Label>
          </children>

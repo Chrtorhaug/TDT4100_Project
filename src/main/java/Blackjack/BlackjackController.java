@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -19,13 +18,11 @@ public class BlackjackController {
     private CardDeck deck;
     private BlackJackDealer dealer;
     private HandComparator handComp;
+    private FileHandler fileHandler = new FileHandler();
     private List<ImageView> firstHandImageViews= new ArrayList<>();
     private List<ImageView> dealerHandImageViews = new ArrayList<>();
     private List<ImageView> secondHandImageViews= new ArrayList<>();
     private List<ImageView> thirdHandImageViews = new ArrayList<>();
-    
-    @FXML
-    private ListView<Card> PlayerCards, DealerCards, SplitCards;
 
     @FXML
     private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance;
@@ -58,8 +55,7 @@ public class BlackjackController {
         ShowBalance.setText(" ");
         PlayerScoreText2.setVisible(false);
         PlayerScoreText3.setVisible(false);
-        WelcomeSign.setVisible(false);
-        SplitCards.setVisible(false);
+        WelcomeSign.setVisible(false);;
 
         NewGameButton.setDisable(true);
         BetButton.setDisable(true);
@@ -68,33 +64,6 @@ public class BlackjackController {
         SplitButton.setDisable(true);
         BetField.setDisable(true);
     }
-    /*
-    private void updateListView(ListView<Card> lv, PlayerInterface pl, ActionEvent event) {
-        lv.getItems().clear();
-
-        if (pl.getClass().equals(BlackJackDealer.class)) {
-            if (event.getSource().equals(HoldButton)) { //Hvis runden er ferdig skal Dealer vise alle kortene sine
-                lv.getItems().addAll(pl.getHand(0));
-            }
-            else {
-                pl.newHand(deck);
-                lv.getItems().add(pl.getHand(0).get(0)); // Hvis runden ikke er ferdig skal Dealer bare vise første kort
-            }
-        }
-        else if (event.getSource().equals(NewGameButton)) {
-            pl.newHand(deck);
-            lv.getItems().addAll(pl.getHand(0));
-        }
-        else if (event.getSource().equals(HitButton)) {
-            player.addCard(deck);
-            PlayerCards.getItems().clear();
-            PlayerCards.getItems().addAll(player.getHand(0));
-        }
-        else if (event.getSource().equals(SplitButton)) {
-            PlayerCards.getItems().clear();
-            PlayerCards.getItems().addAll(player.getHand(0));
-        }
-    } */
 
     private void updateCardHandPictures(List<ImageView> view, ActionEvent event) {
         List<List<ImageView>> hands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews, dealerHandImageViews);
@@ -155,9 +124,8 @@ public class BlackjackController {
         if (deck.getSize() < 50) {
             this.deck = new CardDeck(5);
         }
-        //updateListView(PlayerCards, player, newGameEvent);
-        //updateListView(DealerCards, dealer, newGameEvent);
         updateCardHandPictures(secondHandImageViews, newGameEvent);
+        updateCardHandPictures(thirdHandImageViews, newGameEvent);
         updateCardHandPictures(firstHandImageViews, newGameEvent);
         updateCardHandPictures(dealerHandImageViews, newGameEvent);
         updateLabel(PlayerScore1, player);
@@ -166,7 +134,6 @@ public class BlackjackController {
         NewGameButton.setDisable(true);
         HitButton.setDisable(false);
         HoldButton.setDisable(false);
-        SplitCards.setVisible(false);
         PlayerScoreText2.setVisible(false);
         PlayerScore2.setVisible(false);
 
@@ -182,7 +149,6 @@ public class BlackjackController {
 
     @FXML
     public void handleHit(ActionEvent hitEvent) {
-        //updateListView(PlayerCards, player, hitEvent);
         updateCardHandPictures(firstHandImageViews, hitEvent);
         updateLabel(PlayerScore1, player);
 
@@ -195,7 +161,6 @@ public class BlackjackController {
     @FXML
     public void handleHold(ActionEvent holdEvent) {
         player.hold();
-        //updateListView(DealerCards, dealer, holdEvent);
         updateCardHandPictures(dealerHandImageViews, holdEvent);
         updateLabel(DealerScore, dealer);
         player.findWinner(handComp, dealer);
@@ -211,12 +176,9 @@ public class BlackjackController {
     @FXML
     public void handleSplit(ActionEvent splitEvent) {
         player.split(player.getHand(0));
-        SplitCards.setVisible(true);
-        //updateListView(PlayerCards, player, splitEvent);
         updateCardHandPictures(firstHandImageViews, splitEvent);
         updateLabel(PlayerScore1, player);
         updateLabel(PlayerScore2, player);
-        SplitCards.getItems().addAll(player.getHand(1));
         SplitButton.setDisable(true);
     }
 
@@ -248,16 +210,55 @@ public class BlackjackController {
         //          utføre kode nedenfor
         // else {NameField.setPromptText("Invalid");
         //       PasswordField.setPromptText("Invalid");}
-        this.player = new BlackjackPlayer(100, NameField.getText(), deck);
-        NameField.clear();
-        WelcomeSign.setText("Welcome " + player.getName());
-        ShowBalance.setText(player.getBalance() + "$");
         
-        WelcomeSign.setVisible(true);;
-        LoginButton.setVisible(false);
-        RegisterButton.setVisible(false);
-        NameField.setDisable(true);
-        BetButton.setDisable(false);
-        BetField.setDisable(false);
+        if (fileHandler.CheckRegisterOrLogin("Register", NameField.getText(), PasswordField.getText())){
+            this.player = new BlackjackPlayer(100, NameField.getText(), deck);
+            NameField.clear();
+            PasswordField.clear();
+            WelcomeSign.setText("Welcome " + player.getName());
+            ShowBalance.setText(player.getBalance() + "$");
+            
+            WelcomeSign.setVisible(true);;
+            LoginButton.setVisible(false);
+            RegisterButton.setVisible(false);
+            NameField.setDisable(true);
+            BetButton.setDisable(false);
+            BetField.setDisable(false);
+        }
+        else {
+            NameField.clear();
+            PasswordField.clear();
+            NameField.setPromptText("Invalid Username");
+            PasswordField.setPromptText("Invalid password");
+        }    
+    }
+
+    @FXML
+    public void handleLogin() {
+        dealerHandImageViews = Arrays.asList(DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18);
+        firstHandImageViews = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
+        secondHandImageViews = Arrays.asList(CardPicture21, CardPicture22, CardPicture23, CardPicture24, CardPicture25, CardPicture26, CardPicture27, CardPicture28); 
+        thirdHandImageViews = Arrays.asList(CardPicture31, CardPicture32, CardPicture33, CardPicture34, CardPicture35, CardPicture36, CardPicture37, CardPicture38);
+        
+        if (fileHandler.CheckRegisterOrLogin("Login",NameField.getText(), PasswordField.getText())){
+            this.player = new BlackjackPlayer(Double.parseDouble(fileHandler.getBalance(NameField.getText())), NameField.getText(), deck);
+            NameField.clear();
+            PasswordField.clear();
+            WelcomeSign.setText("Welcome " + player.getName());
+            ShowBalance.setText(player.getBalance() + "$");
+            
+            WelcomeSign.setVisible(true);;
+            LoginButton.setVisible(false);
+            RegisterButton.setVisible(false);
+            NameField.setDisable(true);
+            BetButton.setDisable(false);
+            BetField.setDisable(false);
+        }
+        else {
+            NameField.clear();
+            PasswordField.clear();
+            NameField.setPromptText("Invalid Username");
+            PasswordField.setPromptText("Invalid password");
+        }
     }
 }
