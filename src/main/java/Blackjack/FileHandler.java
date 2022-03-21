@@ -1,8 +1,10 @@
 package Blackjack;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -58,7 +60,7 @@ public class FileHandler {
             FileWriter f = new FileWriter(filename, true);
             BufferedWriter b = new BufferedWriter(f);
             PrintWriter writer = new PrintWriter(b);
-            writer.println(UserName+","+Password+",100\n");
+            writer.println(UserName+","+Password+",100");
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -89,10 +91,7 @@ public class FileHandler {
 
     private boolean validateUserAtRegister(String UserName, String Password) {
         try {
-            System.out.println("hei");
             Map<String,String> UserNameMap = getUserNamesFromFile("Password");
-            System.out.println("UsernameMap.contains"+UserNameMap.containsKey(UserName));
-            System.out.println("ValidatePassword"+validatePassword(UserName, Password)); //igjen, vi må lage en fil
             if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password)){
                 registerUserToFile(UserName,Password);       
             } 
@@ -115,15 +114,38 @@ public class FileHandler {
 
     public String getBalance(String Username) {
         try {
-            Map<String,String> UserNameMap = getUserNamesFromFile("Balance"); //igjen, vi må lage en fil
+            Map<String,String> UserNameMap = getUserNamesFromFile("Balance"); 
             return UserNameMap.get(Username);
         } catch (Exception e) {
             return null;
         }
     }
 
+    public void UpdateBalance(String Username, double Balance) {
+        try {
+            File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
+            FileReader r = new FileReader(filename);
+            BufferedReader b = new BufferedReader(r);
+            b.close();
+
+            Scanner scanner = new Scanner(filename);
+            while (scanner.hasNextLine()) {
+                if(scanner.nextLine().contains(Username)){
+                    String line =scanner.nextLine();
+                    String[] lineinfo = line.split(",");
+
+                    scanner.nextLine().replace(line, lineinfo[0]+","+lineinfo[1]+","+Balance);
+                }
+            }
+            scanner.close(); 
+        } catch (Exception e) {
+            
+        }
+    }
+
     public static void main(String[] args) {
         FileHandler sjekk = new FileHandler();
-        sjekk.registerUserToFile("UserName", "BlackJack123");
+        //sjekk.registerUserToFile("UserName", "BlackJack123");
+        sjekk.UpdateBalance("Jens",60.0);
     } 
 }
