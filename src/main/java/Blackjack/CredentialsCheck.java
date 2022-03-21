@@ -22,9 +22,7 @@ public class CredentialsCheck {
     private Map<String,String> getUserNamesFromFile() throws FileNotFoundException {
         File filename = new File("TDT4100_prosjekt_jensesk\\src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
         Scanner scanner = new Scanner(filename);
-        //Scanner scanner = new Scanner(new File("C:\\Users\\Jens Eggen Skaug\\.vscode\\Prosjekt\\TDT4100_prosjekt_jensesk\\src\\main\\java\\Blackjack\\DataBlackjack.txt"));
         Map<String, String> UserNameMap = new HashMap<>();
-        //Files.lines(Paths.get(getClass().getResource("DataBlackjack.txt.toURI"))).map(l -> l.split("\t")).get(0);
         while (scanner.hasNextLine()){
             String line = scanner.nextLine();
             String[] lineInfo = line.split(",");
@@ -41,7 +39,7 @@ public class CredentialsCheck {
         File filename = new File("TDT4100_prosjekt_jensesk\\src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
         try {
             PrintWriter writer = new PrintWriter(filename);
-            writer.println(UserName+","+Password+"10");
+            writer.println(UserName+","+Password+"100");
             writer.flush();
             writer.close();
         } catch (FileNotFoundException e) {
