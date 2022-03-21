@@ -17,7 +17,7 @@ public class BlackjackController {
     private BlackjackPlayer player;
     private CardDeck deck;
     private BlackJackDealer dealer;
-    private HandComparator handComp;
+    private int currentHand;
     private FileHandler fileHandler = new FileHandler();
     private List<ImageView> firstHandImageViews= new ArrayList<>();
     private List<ImageView> dealerHandImageViews = new ArrayList<>();
@@ -28,7 +28,7 @@ public class BlackjackController {
     private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance;
 
     @FXML
-    private Text PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScoreText;
+    private Text PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScoreText, DealerCardsText;
     
     @FXML
     private Button LoginButton, RegisterButton, NewGameButton, BetButton, HitButton, HoldButton, SplitButton;
@@ -47,14 +47,18 @@ public class BlackjackController {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
 
-        PlayerScore1.setText(" ");
+        PlayerScore1.setVisible(false);
         PlayerScore2.setVisible(false);
         PlayerScore3.setVisible(false);
-        DealerScore.setText(" ");
-        ShowBalance.setText(" ");
+        DealerScore.setVisible(false);
+        DealerCardsText.setVisible(false);
+        ShowBalance.setVisible(true);
+        PlayerScoreText1.setVisible(false);
         PlayerScoreText2.setVisible(false);
         PlayerScoreText3.setVisible(false);
-        WelcomeSign.setVisible(false);;
+        DealerScoreText.setVisible(false);
+        WelcomeSign.setVisible(false);
+
 
         NewGameButton.setDisable(true);
         BetButton.setDisable(true);
@@ -133,9 +137,16 @@ public class BlackjackController {
 
         NewGameButton.setDisable(true);
         HitButton.setDisable(false);
+        DealerScore.setVisible(true);
+        DealerCardsText.setVisible(true);
+        PlayerScore1.setVisible(true);
         HoldButton.setDisable(false);
+        PlayerScoreText1.setVisible(true);
         PlayerScoreText2.setVisible(false);
+        PlayerScoreText3.setVisible(false);
+        DealerScoreText.setVisible(true);
         PlayerScore2.setVisible(false);
+        PlayerScore3.setVisible(false);
 
         if (player.canSplit(player.getHand(0))) {
             SplitButton.setDisable(false);
@@ -149,10 +160,13 @@ public class BlackjackController {
 
     @FXML
     public void handleHit(ActionEvent hitEvent) {
-        updateCardHandPictures(firstHandImageViews, hitEvent);
-        updateLabel(PlayerScore1, player);
+        List<List<ImageView>> playerHands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews);
+        List<Label> playerScores = Arrays.asList(PlayerScore1, PlayerScore2, PlayerScore3);
 
-        if (player.getScore(0) >= 21) {
+        updateCardHandPictures(playerHands.get(currentHand), hitEvent);
+        updateLabel(playerScores.get(currentHand), player);
+
+        if (player.getScore(currentHand) >= 21 && currentHand != player.getHands().size() - 1 && player.getHand(currentHand + 1).size() == 0) {
             HitButton.setDisable(true);
             SplitButton.setDisable(true);
         }
@@ -160,11 +174,12 @@ public class BlackjackController {
 
     @FXML
     public void handleHold(ActionEvent holdEvent) {
-        if (player.getHand(1).size() != 50) {
+        if (player.getHand(currentHand + 1).size() == 0) {
             player.hold();
+            currentHand = 0;
             updateCardHandPictures(dealerHandImageViews, holdEvent);
             updateLabel(DealerScore, dealer);
-            player.findWinner(handComp, dealer);
+            player.findWinner(new HandComparator(), dealer);
             ShowBalance.setText(player.getBalance() + "$");
 
             HoldButton.setDisable(true);
@@ -173,8 +188,8 @@ public class BlackjackController {
             BetButton.setDisable(false);
             BetField.setDisable(false);
         }
-        else {
-            
+        else if (currentHand == 0) {
+            currentHand++;
         }
     }
 
@@ -229,6 +244,8 @@ public class BlackjackController {
             NameField.setDisable(true);
             BetButton.setDisable(false);
             BetField.setDisable(false);
+            NameField.setDisable(true);
+            PasswordField.setDisable(true);
         }
         else {
             NameField.clear();
@@ -252,12 +269,14 @@ public class BlackjackController {
             WelcomeSign.setText("Welcome " + player.getName());
             ShowBalance.setText(player.getBalance() + "$");
             
-            WelcomeSign.setVisible(true);;
+            WelcomeSign.setVisible(true);
             LoginButton.setVisible(false);
             RegisterButton.setVisible(false);
             NameField.setDisable(true);
             BetButton.setDisable(false);
             BetField.setDisable(false);
+            NameField.setDisable(true);
+            PasswordField.setDisable(true);
         }
         else {
             NameField.clear();

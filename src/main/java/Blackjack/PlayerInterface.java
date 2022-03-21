@@ -7,4 +7,5 @@ public interface PlayerInterface {
     public int getScore(int n);
     public List<Card> getHand(int n);
     public void newHand(CardDeck deck);
+    public int getCurrentHandIndex();
 }
