@@ -47,6 +47,7 @@ public class BlackjackController {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
         handComp = new HandComparator();
+        System.out.println("hei");
 
         PlayerScore1.setText(" ");
         PlayerScore2.setVisible(false);
