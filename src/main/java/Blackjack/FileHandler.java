@@ -27,6 +27,7 @@ public class FileHandler {
         File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
         Scanner scanner = new Scanner(filename);
         Map<String, String> UserNameMap = new HashMap<>();
+
         if (value.equals("Password")){
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
@@ -35,7 +36,8 @@ public class FileHandler {
                 String PassWord = lineInfo[1];
 
                 UserNameMap.put(UserName,PassWord);
-            }}
+            }
+        }
         if (value.equals("Balance")){
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
@@ -44,7 +46,8 @@ public class FileHandler {
                 String Balance = lineInfo[2];
 
                 UserNameMap.put(UserName,Balance);
-            }}
+            }
+        }
         scanner.close();
         return UserNameMap;   
     }
@@ -73,6 +76,7 @@ public class FileHandler {
         if (Password.toLowerCase().contains("passord")){
             return false;
         }
+
         ArrayList<Character> array = new ArrayList<>();
         for (Character c : Password.toCharArray()) {
             array.add(c);
@@ -100,7 +104,6 @@ public class FileHandler {
     }
 
     //Metode for å sjekke passord opp mot inntastet brukernavn
-
     private boolean validateUserAtLogin(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password"); //igjen, vi må lage en fil

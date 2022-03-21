@@ -69,21 +69,25 @@ public class BlackjackPlayer implements PlayerInterface {
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());
 
+        if (hands.get(1).size() > 0) {
+            hands.get(1).clear();
+        }
+
         this.playing = true;
     }
 
-    public void addCard(CardDeck deck) {
-        if (getScore(0) >= 21) {
+    public void addCard(CardDeck deck, int hand) {
+        if (getScore(hand) >= 21) {
             throw new IllegalArgumentException("Du har mer enn 21");
         }
         cardHand.add(deck.getCard());
 
-        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore(0) > 21) { //Checking if the new card is Ace
+        if (cardHand.get(cardHand.size() - 1).getValue() == 11 && getScore(hand) > 21) { //Checking if the new card is Ace
             cardHand.get(cardHand.size() - 1).setAceToOne();
         }
 
         for (Card card : cardHand) {
-            if (card.getFace().equals("A") && card.getValue() == 11 && getScore(0) > 21){
+            if (card.getFace().equals("A") && card.getValue() == 11 && getScore(hand) > 21){
                 card.setAceToOne();
                 break;
             }

@@ -46,8 +46,6 @@ public class BlackjackController {
     public void initialize() {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
-        handComp = new HandComparator();
-        System.out.println("hei");
 
         PlayerScore1.setText(" ");
         PlayerScore2.setVisible(false);
@@ -68,6 +66,7 @@ public class BlackjackController {
 
     private void updateCardHandPictures(List<ImageView> view, ActionEvent event) {
         List<List<ImageView>> hands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews, dealerHandImageViews);
+        int handIndex = hands.indexOf(view);
         if (view.equals(dealerHandImageViews)) {
             if (event.getSource().equals(NewGameButton)) {
                 for (int i = 0; i < dealer.getHand(0).size(); i++) {
@@ -84,7 +83,7 @@ public class BlackjackController {
         }
         else {
             if (event.getSource().equals(NewGameButton)) {
-                for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
+                for (int i = 0; i < player.getHand(handIndex).size(); i++) {
                     view.get(i).imageProperty().set(null);  
                 }
                 if (view.equals(firstHandImageViews)) {
@@ -93,15 +92,15 @@ public class BlackjackController {
                 else return;
             } 
             if (event.getSource().equals(HitButton)) {
-                player.addCard(deck);
+                player.addCard(deck, handIndex);
             } 
             if (event.getSource().equals(SplitButton)) {
                 view.get(1).imageProperty().set(null);
-                hands.get(hands.indexOf(view)).get(0).imageProperty().set(player.getCard(hands.indexOf(view), 0).getCardPicture());
-                hands.get(hands.indexOf(view) + 1).get(0).imageProperty().set(player.getHand(1).get(0).getCardPicture());
+                hands.get(handIndex).get(0).imageProperty().set(player.getCard(handIndex, 0).getCardPicture());
+                hands.get(handIndex + 1).get(0).imageProperty().set(player.getCard(handIndex + 1, 0).getCardPicture());
             }
             for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
-                view.get(i).setImage(player.getCard(hands.indexOf(view), i).getCardPicture());
+                view.get(i).setImage(player.getCard(handIndex, i).getCardPicture());
             }
         }
     }
@@ -161,17 +160,22 @@ public class BlackjackController {
 
     @FXML
     public void handleHold(ActionEvent holdEvent) {
-        player.hold();
-        updateCardHandPictures(dealerHandImageViews, holdEvent);
-        updateLabel(DealerScore, dealer);
-        player.findWinner(handComp, dealer);
-        ShowBalance.setText(player.getBalance() + "$");
+        if (player.getHand(1).size() != 50) {
+            player.hold();
+            updateCardHandPictures(dealerHandImageViews, holdEvent);
+            updateLabel(DealerScore, dealer);
+            player.findWinner(handComp, dealer);
+            ShowBalance.setText(player.getBalance() + "$");
 
-        HoldButton.setDisable(true);
-        HitButton.setDisable(true);
-        SplitButton.setDisable(true);
-        BetButton.setDisable(false);
-        BetField.setDisable(false);
+            HoldButton.setDisable(true);
+            HitButton.setDisable(true);
+            SplitButton.setDisable(true);
+            BetButton.setDisable(false);
+            BetField.setDisable(false);
+        }
+        else {
+            
+        }
     }
 
     @FXML
