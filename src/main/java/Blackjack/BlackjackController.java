@@ -19,9 +19,9 @@ public class BlackjackController {
     private BlackJackDealer dealer;
     private int currentHand;
     private FileHandler fileHandler = new FileHandler();
-    private List<ImageView> firstHandImageViews= new ArrayList<>();
+    private List<ImageView> firstHandImageViews = new ArrayList<>();
     private List<ImageView> dealerHandImageViews = new ArrayList<>();
-    private List<ImageView> secondHandImageViews= new ArrayList<>();
+    private List<ImageView> secondHandImageViews = new ArrayList<>();
     private List<ImageView> thirdHandImageViews = new ArrayList<>();
 
     @FXML
@@ -57,7 +57,6 @@ public class BlackjackController {
         PlayerScoreText3.setVisible(false);
         DealerScoreText.setVisible(false);
         WelcomeSign.setVisible(false);
-
 
         NewGameButton.setDisable(true);
         BetButton.setDisable(true);
@@ -180,6 +179,7 @@ public class BlackjackController {
             updateLabel(DealerScore, dealer);
             player.findWinner(new HandComparator(), dealer);
             ShowBalance.setText(player.getBalance() + "$");
+            fileHandler.UpdateBalance(player.getName(),player.getBalance());
 
             HoldButton.setDisable(true);
             HitButton.setDisable(true);
@@ -203,14 +203,25 @@ public class BlackjackController {
 
     @FXML
     public void handleBet() {
-        NewGameButton.setDisable(false);
-        BetButton.setDisable(true);
-        BetField.setDisable(true);
-
-        if (BetField.getText().isBlank()) {
-            player.setBet(String.valueOf(player.getStandardBet()));
+        if (player.setBet(BetField.getText()).equals("money")) {
+            BetField.clear();
+            BetField.setPromptText("Invalid amount of money");
         }
-        else player.setBet(BetField.getText());
+        else if (player.setBet(BetField.getText()).equals("double")) {
+            BetField.clear();
+            BetField.setPromptText("Not a Double");
+        }
+        else {
+            if (BetField.getText().isBlank()) {
+                player.setBet(String.valueOf(player.getStandardBet()));
+            }
+            else player.setBet(BetField.getText());
+
+            BetField.setPromptText("Enter Bet Amount:");
+            NewGameButton.setDisable(false);
+            BetButton.setDisable(true);
+            BetField.setDisable(true);
+        }
     }
 
     @FXML
@@ -233,7 +244,8 @@ public class BlackjackController {
             if (start == "Login") {
                 this.player = new BlackjackPlayer(Double.parseDouble(fileHandler.getBalance(NameField.getText())), NameField.getText(), deck);
             }
-            else this.player = new BlackjackPlayer(100, NameField.getText(), deck); 
+            else this.player = new BlackjackPlayer(100, NameField.getText(), deck);
+
             NameField.clear();
             PasswordField.clear();
             WelcomeSign.setText("Welcome " + player.getName());

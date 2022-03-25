@@ -1,15 +1,14 @@
 package Blackjack;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -124,20 +123,31 @@ public class FileHandler {
     public void UpdateBalance(String Username, double Balance) {
         try {
             File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
-            FileReader r = new FileReader(filename);
-            BufferedReader b = new BufferedReader(r);
-            b.close();
-
+            List<String> fileList = new ArrayList<>();
             Scanner scanner = new Scanner(filename);
             while (scanner.hasNextLine()) {
-                if(scanner.nextLine().contains(Username)){
-                    String line =scanner.nextLine();
-                    String[] lineinfo = line.split(",");
-
-                    scanner.nextLine().replace(line, lineinfo[0]+","+lineinfo[1]+","+Balance);
-                }
+                String line = scanner.nextLine();
+                
+                fileList.add(line);
             }
             scanner.close(); 
+            String newFileString="";
+            for (String line : fileList) {
+                if(line.contains(Username)){
+                    String[] info = line.split(",");
+                    newFileString+= info[0]+","+info[1]+","+Balance+"\n";
+                }
+                else{
+                    newFileString+=line+"\n";
+                }
+            }
+            FileWriter f = new FileWriter(filename, false);
+            
+            f.write(newFileString);
+            f.flush();
+            f.close();  
+
+
         } catch (Exception e) {
             
         }
