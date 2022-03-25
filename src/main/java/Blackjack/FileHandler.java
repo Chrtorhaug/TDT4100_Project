@@ -127,7 +127,7 @@ public class FileHandler {
             FileReader r = new FileReader(filename);
             BufferedReader b = new BufferedReader(r);
             b.close();
-
+            
             Scanner scanner = new Scanner(filename);
             while (scanner.hasNextLine()) {
                 if(scanner.nextLine().contains(Username)){
