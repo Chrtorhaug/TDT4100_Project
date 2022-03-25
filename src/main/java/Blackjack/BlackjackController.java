@@ -215,54 +215,25 @@ public class BlackjackController {
 
     @FXML
     public void handleRegister() {
-        dealerHandImageViews = Arrays.asList(DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18);
-        firstHandImageViews = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
-        secondHandImageViews = Arrays.asList(CardPicture21, CardPicture22, CardPicture23, CardPicture24, CardPicture25, CardPicture26, CardPicture27, CardPicture28); 
-        thirdHandImageViews = Arrays.asList(CardPicture31, CardPicture32, CardPicture33, CardPicture34, CardPicture35, CardPicture36, CardPicture37, CardPicture38);
-        //Forslag til kodeendring - lage klasse som enten validerer: sjekker at brukernavn ikke er tatt,
-        // at passord følger visse regler, og skriver personens informasjon og balanse til fil. dette oppdateres enten
-        // etter hvert spill eller når programmet avsluttes
-        // Den andre metoden til klassen kalles ved loginButton, sammenkobler brukernavn til passord og henter ut balanse
-        // fra fil, samt tidligere spillhistorikk?
-        // CredentialsCheck check = new CredentialsCheck();
-        //  if (check.validate(NameField.getText(),PasswordField.getText())) 
-        //          utføre kode nedenfor
-        // else {NameField.setPromptText("Invalid");
-        //       PasswordField.setPromptText("Invalid");}
-        
-        if (fileHandler.CheckRegisterOrLogin("Register", NameField.getText(), PasswordField.getText())){
-            this.player = new BlackjackPlayer(100, NameField.getText(), deck);
-            NameField.clear();
-            PasswordField.clear();
-            WelcomeSign.setText("Welcome " + player.getName());
-            ShowBalance.setText(player.getBalance() + "$");
-            
-            WelcomeSign.setVisible(true);;
-            LoginButton.setVisible(false);
-            RegisterButton.setVisible(false);
-            NameField.setDisable(true);
-            BetButton.setDisable(false);
-            BetField.setDisable(false);
-            NameField.setDisable(true);
-            PasswordField.setDisable(true);
-        }
-        else {
-            NameField.clear();
-            PasswordField.clear();
-            NameField.setPromptText("Invalid Username");
-            PasswordField.setPromptText("Invalid password");
-        }    
+        RegisterOrLogin("Register");   
     }
 
     @FXML
     public void handleLogin() {
+        RegisterOrLogin("Login");
+    }
+
+    private void RegisterOrLogin(String start) {
         dealerHandImageViews = Arrays.asList(DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18);
         firstHandImageViews = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
         secondHandImageViews = Arrays.asList(CardPicture21, CardPicture22, CardPicture23, CardPicture24, CardPicture25, CardPicture26, CardPicture27, CardPicture28); 
         thirdHandImageViews = Arrays.asList(CardPicture31, CardPicture32, CardPicture33, CardPicture34, CardPicture35, CardPicture36, CardPicture37, CardPicture38);
         
-        if (fileHandler.CheckRegisterOrLogin("Login",NameField.getText(), PasswordField.getText())){
-            this.player = new BlackjackPlayer(Double.parseDouble(fileHandler.getBalance(NameField.getText())), NameField.getText(), deck);
+        if (fileHandler.CheckRegisterOrLogin(start, NameField.getText(), PasswordField.getText())){
+            if (start == "Login") {
+                this.player = new BlackjackPlayer(Double.parseDouble(fileHandler.getBalance(NameField.getText())), NameField.getText(), deck);
+            }
+            else this.player = new BlackjackPlayer(100, NameField.getText(), deck); 
             NameField.clear();
             PasswordField.clear();
             WelcomeSign.setText("Welcome " + player.getName());
