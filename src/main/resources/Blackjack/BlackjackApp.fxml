@@ -103,7 +103,7 @@
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dealer's Cards:" textAlignment="CENTER" wrappingWidth="79.1041259765625" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text fx:id="DealerCardsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Dealer's Cards:" textAlignment="CENTER" wrappingWidth="79.1041259765625" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
