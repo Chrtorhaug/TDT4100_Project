@@ -7,10 +7,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FileHandler {
 
@@ -59,7 +64,7 @@ public class FileHandler {
             FileWriter f = new FileWriter(filename, true);
             BufferedWriter b = new BufferedWriter(f);
             PrintWriter writer = new PrintWriter(b);
-            writer.println(UserName+","+Password+",100");
+            writer.println(UserName+","+Password+",100.0");
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -153,9 +158,28 @@ public class FileHandler {
         }
     }
 
+
+
+    public List<String> updateTopPlayers(){
+        List<String> topPlayers = new ArrayList<>();
+        try {
+            Map<String,String> NameBalance = getUserNamesFromFile("Balance");
+            for (Map.Entry<String,String> entry : NameBalance.entrySet()) {
+                topPlayers.add(entry.getKey()+","+entry.getValue());  
+            }
+            topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1]))-(Integer.parseInt(o1.split("[,.]")[1]))));
+            return topPlayers;
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            return topPlayers;
+        }
+    }
+
     public static void main(String[] args) {
         FileHandler sjekk = new FileHandler();
         //sjekk.registerUserToFile("UserName", "BlackJack123");
-        sjekk.UpdateBalance("Jens",60.0);
+        //sjekk.UpdateBalance("Jens",60.0);
+        //System.out.println(Integer.parseInt(("100.0".split("[.,]")[0])));
+        System.out.println(Arrays.asList(sjekk.updateTopPlayers()));
     } 
 }

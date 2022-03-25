@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -36,6 +39,12 @@ public class BlackjackController {
     @FXML
     private TextField NameField, PasswordField, BetField;
 
+    //@FXML
+    //private TableView<TopPlayersList> TopPlayersTable;
+
+    //@FXML
+    //private TableColumn<TopPlayersList,String> PlayerColumn, BalanceColumn;
+
     @FXML
     private ImageView DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18,
                     CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18,
@@ -46,6 +55,7 @@ public class BlackjackController {
     public void initialize() {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
+
         PlayerScore1.setVisible(false);
         PlayerScore2.setVisible(false);
         PlayerScore3.setVisible(false);
