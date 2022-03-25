@@ -46,7 +46,6 @@ public class BlackjackController {
     public void initialize() {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
-
         PlayerScore1.setVisible(false);
         PlayerScore2.setVisible(false);
         PlayerScore3.setVisible(false);
