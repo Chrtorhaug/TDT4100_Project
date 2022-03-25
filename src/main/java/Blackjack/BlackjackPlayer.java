@@ -135,18 +135,23 @@ public class BlackjackPlayer implements PlayerInterface {
         }
     }
 
-    public void setBet(String betString) throws IllegalArgumentException{
+    public String setBet(String betString) {
         try {
+            if (betString.isBlank()) {
+                return " ";
+            }
+            
             double betNum;
             betNum = Double.parseDouble(betString);
             if (betNum < balance && betNum > 0){
                 this.bet = betNum;
+                return " ";
             }
-            else throw new IllegalArgumentException();
+            else return "money";
         } 
         catch (Exception e) {
-            System.out.println("A double must be entered");
-            throw new IllegalArgumentException();
+            //System.out.println("A double must be entered");
+            return "double";
         }   
     }
 
@@ -166,23 +171,24 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public static void main(String[] args) {
-        CardDeck deck = new CardDeck(1);
+        CardDeck deck = new CardDeck(5);
         BlackjackPlayer p1 = new BlackjackPlayer(10, "Jens", deck);
-        Card ace = new Card('C', "J");
-        Card king = new Card('C', "K");
+        //Card ace = new Card('C', "J");
+        //Card king = new Card('C', "K");
         //System.out.println(p1.getHand());
         //System.out.println(p1.getScore());
 
-        p1.cardHand.clear();
-        p1.cardHand.add(ace);
-        p1.cardHand.add(king);
+        //p1.cardHand.clear();
+        //p1.cardHand.add(ace);
+        //p1.cardHand.add(king);
 
-        System.out.println(p1.getHands());
-        p1.split(p1.getHand(0));
+        //System.out.println(p1.getHands());
+        //p1.split(p1.getHand(0));
         //System.out.println(p1.getHand());
         //System.out.println(p1.getScore());
-        System.out.println(p1.getHands());
+        //System.out.println(p1.getHands());
 
+        p1.setBet("-2");
     }
 
 }
