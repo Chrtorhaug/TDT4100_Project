@@ -170,7 +170,7 @@ public class FileHandler {
             }
             topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1]))-(Integer.parseInt(o1.split("[,.]")[1]))));
             for (String string : topPlayers) {
-                topPlayersFormated.add(padString(string,40));
+                topPlayersFormated.add(padString(string,55));
             }
             return topPlayersFormated;
         } catch (FileNotFoundException e) {
