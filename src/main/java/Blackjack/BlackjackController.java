@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,7 +26,7 @@ public class BlackjackController {
     private List<ImageView> thirdHandImageViews = new ArrayList<>();
 
     @FXML
-    private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance;
+    private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance, ShowCurrentBet, ShowStandardBet;
 
     @FXML
     private Text PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScoreText, DealerCardsText;
@@ -39,7 +38,7 @@ public class BlackjackController {
     private TextField NameField, PasswordField, BetField;
 
     @FXML
-    private ListView<String> TopPlayersListView;
+    private ListView<String> TopPlayersListView, TopPlayersBalanceListView, RankListView;
 
     @FXML
     private ImageView DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18,
@@ -289,8 +288,12 @@ public class BlackjackController {
     }
 
     public void updateTableTopPlayers() {
-        ObservableList<String> topPlayers = fileHandler.updateTopPlayers();
-
-        TopPlayersListView.getItems().addAll(topPlayers);
+        List<String> topPlayers = fileHandler.updateTopPlayers();
+        for (String string : topPlayers) {
+            String[] info = string.split(",");
+            RankListView.getItems().add(topPlayers.indexOf(string)+1+"");
+            TopPlayersListView.getItems().add(info[0]);
+            TopPlayersBalanceListView.getItems().add(info[1]);
+        }
     }
 }
