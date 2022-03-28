@@ -291,25 +291,9 @@
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="ShowCurrentBet" strokeType="OUTSIDE" strokeWidth="0.0" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets right="20.0" top="70.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Times New Roman" size="18.0" />
-               </font>
-            </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="10.0" top="95.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Times New Roman" size="18.0" />
-               </font>
-            </Text>
-            <Text fx:id="ShowStandardBet" strokeType="OUTSIDE" strokeWidth="0.0" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets right="20.0" top="95.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
@@ -323,6 +307,22 @@
                   <Font name="Times New Roman" size="20.0" />
                </font>
             </Text>
+            <Label fx:id="ShowCurrentBet" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="20.0" top="70.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="ShowStandardBet" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="20.0" top="95.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
          </children>
          <rotationAxis>
             <Point3D />
