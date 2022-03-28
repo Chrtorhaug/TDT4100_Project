@@ -1,5 +1,6 @@
 package Blackjack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,11 +82,11 @@ public class BlackjackController {
                     view.get(i).imageProperty().set(null);  
                 }
                 dealer.newHand(deck);
-                DealerPicture11.setImage(dealer.getCard(0, 0).getCardPicture());
+                DealerPicture11.setImage(getCardPicture(dealer.getCard(0, 0)));
             }
             else {
                 for (int i = 0; i < dealer.getHand(0).size(); i++) {
-                    view.get(i).setImage(dealer.getCard(0, i).getCardPicture());
+                    view.get(i).setImage(getCardPicture(dealer.getCard(0, i)));
                 }
             }
         }
@@ -104,11 +105,11 @@ public class BlackjackController {
             } 
             if (event.getSource().equals(SplitButton)) {
                 view.get(1).imageProperty().set(null);
-                hands.get(handIndex).get(0).imageProperty().set(player.getCard(handIndex, 0).getCardPicture());
-                hands.get(handIndex + 1).get(0).imageProperty().set(player.getCard(handIndex + 1, 0).getCardPicture());
+                hands.get(handIndex).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex, 0)));
+                hands.get(handIndex + 1).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex + 1, 0)));
             }
             for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
-                view.get(i).setImage(player.getCard(handIndex, i).getCardPicture());
+                view.get(i).setImage(getCardPicture(player.getCard(handIndex, i)));
             }
         }
     }
@@ -131,10 +132,10 @@ public class BlackjackController {
             else lb.setText(String.valueOf(pl.getScore(0)));
         }
     }
-    /*
+
     private Image getCardPicture(Card card) {
-        return new Image(new File("src/main/resources/Carddeck/" +  + getFace() +".png").toURI().toString());
-    } */
+        return new Image(new File("src/main/resources/Carddeck/" + card.getSuit() + card.getFace() +".png").toURI().toString());
+    }
 
     @FXML
     public void handleNewGame(ActionEvent newGameEvent) {
