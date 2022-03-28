@@ -1,12 +1,11 @@
 package Blackjack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 public class BlackjackPlayer implements PlayerInterface {
 
-    private List<Card> cardHand = new ArrayList<>();
-    private List<List<Card>> hands = new ArrayList<>();
-
+    private List<List<Card>> hands = Arrays.asList(new ArrayList<Card>(), new ArrayList<Card>(), new ArrayList<Card>());
     private String name;
     private double balance;
     private double bet;
@@ -21,16 +20,11 @@ public class BlackjackPlayer implements PlayerInterface {
         this.balance = balance;
         this.name = name;
         this.standardBet = 5.0;
-        cardHand.add(deck.getCard());
-        cardHand.add(deck.getCard());
-        hands.add(cardHand);
-        hands.add(new ArrayList<>());
-        hands.add(new ArrayList<>());   
     }
 
     @Override
     public String toString() {
-        return "BlackjackPlayer [balance=" + balance + ", cardHand=" + cardHand + ", name=" + name + "]";
+        return "BlackjackPlayer [balance=" + balance + ", cardHand=" + hands + ", name=" + name + "]";
     }
 
     public int getScore(int n) {
@@ -53,10 +47,6 @@ public class BlackjackPlayer implements PlayerInterface {
         return hands.get(hand).get(n);
     }
 
-    public int getCardCount() {
-        return cardHand.size();
-    }
-
     public List<List<Card>> getHands() {
         return hands;
     }
@@ -70,13 +60,11 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public void newHand(CardDeck deck) {
-        cardHand.clear();
-        cardHand.add(deck.getCard());
-        cardHand.add(deck.getCard());
-
-        if (hands.get(1).size() > 0) {
-            hands.get(1).clear();
+        for (List<Card> hand : hands) {
+            hand.clear();
         }
+        hands.get(0).add(deck.getCard());
+        hands.get(0).add(deck.getCard());
 
         this.playing = true;
     }
@@ -89,10 +77,6 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         hand.add(deck.getCard());
 
-        if (hand.get(hand.size() - 1).getValue() == 11 && getScore(handIndex) > 21) { //Checking if the new card is Ace
-            hand.get(hand.size() - 1).setAceToOne();
-        }
-
         for (Card card : hand) {
             if (card.getFace().equals("A") && card.getValue() == 11 && getScore(handIndex) > 21){
                 card.setAceToOne();
@@ -102,10 +86,7 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public boolean checkPlaying() {
-        if (getScore(0) >= 21 || !playing) {
-            return false;
-        }
-        else return true;
+        return !(getScore(0) >= 21 || !playing);
     }
     
     public void hold() {
@@ -121,7 +102,7 @@ public class BlackjackPlayer implements PlayerInterface {
                 break;
             }
         }
-        //System.out.println(numberOfHands);
+
         for (int i = 0; i < numberOfHands; i++) {
             currentHandIndex = i;
             if (hands.get(i).size() == 2 && getScore(i) == 21) {
@@ -141,9 +122,8 @@ public class BlackjackPlayer implements PlayerInterface {
             if (betString.isBlank()) {
                 return " ";
             }
-            
-            double betNum;
-            betNum = Double.parseDouble(betString);
+            double betNum = Double.parseDouble(betString);
+
             if (betNum < balance && betNum > 0){
                 this.bet = betNum;
                 return " ";
@@ -151,15 +131,15 @@ public class BlackjackPlayer implements PlayerInterface {
             else return "money";
         } 
         catch (Exception e) {
-            //System.out.println("A double must be entered");
             return "double";
         }   
     }
 
     public void split(List<Card> hand) {
-        if (canSplit(hand)) {
+        if (canSplit(hand) && hand.equals(getHand(0))) {
             hands.get(1).add(hands.get(0).remove(1));
         }
+        else hands.get(2).add(hands.get(0).remove(1));
     }
 
     public boolean canSplit(List<Card> hand) {
@@ -170,26 +150,4 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         return false;
     }
-
-    public static void main(String[] args) {
-        CardDeck deck = new CardDeck(5);
-        BlackjackPlayer p1 = new BlackjackPlayer(10, "Jens", deck);
-        //Card ace = new Card('C', "J");
-        //Card king = new Card('C', "K");
-        //System.out.println(p1.getHand());
-        //System.out.println(p1.getScore());
-
-        //p1.cardHand.clear();
-        //p1.cardHand.add(ace);
-        //p1.cardHand.add(king);
-
-        //System.out.println(p1.getHands());
-        //p1.split(p1.getHand(0));
-        //System.out.println(p1.getHand());
-        //System.out.println(p1.getScore());
-        //System.out.println(p1.getHands());
-
-        p1.setBet("-2");
-    }
-
 }

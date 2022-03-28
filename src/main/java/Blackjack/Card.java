@@ -1,8 +1,8 @@
 package Blackjack;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.scene.image.Image;
 public class Card {
@@ -11,8 +11,8 @@ public class Card {
     private Character suit;
     private String face;
     private Image cardImage;
-    private final ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
-    private final ArrayList<Character> validSuitList = new ArrayList<>(Arrays.asList('S', 'H', 'C', 'D'));
+    private final List<String> validFaceList = Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K");
+    private final List<Character> validSuitList = Arrays.asList('S', 'H', 'C', 'D');
 
     public Card(Character suit, String face){
         if (isValidFace(face) && isValidSuit(suit)) {
@@ -32,13 +32,11 @@ public class Card {
         return validFaceList.contains(face);
     }
 
-    //Alle bildekort får verdi 10       
-    //Setter verdi av ess til 1, men vi kan implementere endring i objektet for hånda
     public int setValue(String face) {
-        if (validFaceList.indexOf(face) > 9) {
+        if (face.equals("10") || face.equals("J") || face.equals("Q") || face.equals("K")) {
             return 10;
         }
-        else if (validFaceList.indexOf(face) == 0) {
+        else if (face.equals("A")) {
             return 11;
         }
         else return validFaceList.indexOf(face) + 1;
@@ -67,9 +65,5 @@ public class Card {
 
     public Image getCardPicture() {
         return cardImage;
-    }
-    public static void main(String[] args) {
-        Card KingOfClubs = new Card('C',"2");
-        System.out.println(KingOfClubs);
     }
 }
