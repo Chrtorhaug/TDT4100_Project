@@ -150,4 +150,8 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         return false;
     }
+
+    public double getBet() {
+        return bet;
+    }
 }
