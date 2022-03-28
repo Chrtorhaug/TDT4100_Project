@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -131,6 +132,10 @@ public class BlackjackController {
             else lb.setText(String.valueOf(pl.getScore(0)));
         }
     }
+    /*
+    private Image getCardPicture(Card card) {
+        return new Image(new File("src/main/resources/Carddeck/" +  + getFace() +".png").toURI().toString());
+    } */
 
     @FXML
     public void handleNewGame(ActionEvent newGameEvent) {
