@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,19 +159,35 @@ public class FileHandler {
 
 
 
-    public List<String> updateTopPlayers(){
-        List<String> topPlayers = new ArrayList<>();
+    public ObservableList<String> updateTopPlayers(){
+        ObservableList<String> topPlayers = FXCollections.observableArrayList();
+        ObservableList<String> topPlayersFormated = FXCollections.observableArrayList();
+
         try {
             Map<String,String> NameBalance = getUserNamesFromFile("Balance");
             for (Map.Entry<String,String> entry : NameBalance.entrySet()) {
                 topPlayers.add(entry.getKey()+","+entry.getValue());  
             }
             topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1]))-(Integer.parseInt(o1.split("[,.]")[1]))));
-            return topPlayers;
+            for (String string : topPlayers) {
+                topPlayersFormated.add(padString(string,40));
+            }
+            return topPlayersFormated;
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            return topPlayers;
+            return topPlayersFormated;
         }
+    }
+
+    private String padString(String string, int len) {
+        String[] info = string.split(",");
+        String retString=info[0];
+        for (int i = 0; i < len; i++) {
+            if((retString+info[1]).length()<len){
+                retString+=" ";
+            }
+        }
+        return retString+info[1];
     }
 
     public static void main(String[] args) {
@@ -180,6 +195,9 @@ public class FileHandler {
         //sjekk.registerUserToFile("UserName", "BlackJack123");
         //sjekk.UpdateBalance("Jens",60.0);
         //System.out.println(Integer.parseInt(("100.0".split("[.,]")[0])));
-        System.out.println(Arrays.asList(sjekk.updateTopPlayers()));
+        for (String string : sjekk.updateTopPlayers()) {
+            System.out.println(string);
+        }
+        //System.out.println(Arrays.asList(sjekk.updateTopPlayers()));
     } 
 }
