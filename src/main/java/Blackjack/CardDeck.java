@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 public class CardDeck {
     
-    private final ArrayList<String> validFaceList = new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
-    private final ArrayList<Character> suits = new ArrayList<>(Arrays.asList('S', 'H', 'C', 'D'));
+    private final List<String> validFaceList = Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K");
+    private final List<Character> suits = Arrays.asList('S', 'H', 'C', 'D');
     private List<Card> deck = new ArrayList<>();
 
     public CardDeck(int n) {
@@ -36,10 +35,5 @@ public class CardDeck {
 
     public int getSize() {
         return deck.size();
-    }
-
-    public static void main(String[] args) {
-        CardDeck deck = new CardDeck(1);
-        System.out.println(deck.getDeck());
     }
 }

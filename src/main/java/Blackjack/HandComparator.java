@@ -1,8 +1,7 @@
 package Blackjack;
 
 import java.util.Comparator;
-
-public class HandComparator implements Comparator<PlayerInterface>{
+public class HandComparator implements Comparator<PlayerInterface> {
 
 	@Override
 	public int compare(PlayerInterface player, PlayerInterface dealer) {
