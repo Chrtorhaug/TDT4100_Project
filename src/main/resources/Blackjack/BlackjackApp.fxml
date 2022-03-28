@@ -150,7 +150,7 @@
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="10.0" top="50.0" />
+                  <Insets left="10.0" top="45.0" />
                </GridPane.margin>
             </Text>
             <Label fx:id="ShowBalance" text="Bal" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
@@ -158,7 +158,7 @@
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets right="20.0" top="50.0" />
+                  <Insets right="20.0" top="45.0" />
                </GridPane.margin>
             </Label>
             <TextField fx:id="PasswordField" prefHeight="45.0" prefWidth="192.0" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -278,9 +278,51 @@
                   <Insets bottom="150.0" left="10.0" right="10.0" top="150.0" />
                </GridPane.margin>
                <children>
-                  <ListView fx:id="TopPlayersListView" layoutX="-1.0" prefHeight="300.0" prefWidth="230.0" />
+                  <ListView fx:id="TopPlayersListView" layoutX="26.0" prefHeight="300.0" prefWidth="136.0" />
+                  <ListView fx:id="TopPlayersBalanceListView" layoutX="158.0" prefHeight="300.0" prefWidth="73.0" />
+                  <ListView fx:id="RankListView" layoutX="2.0" layoutY="-1.0" prefHeight="300.0" prefWidth="25.0" />
                </children>
             </Pane>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="70.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="ShowCurrentBet" strokeType="OUTSIDE" strokeWidth="0.0" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="20.0" top="70.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="95.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="ShowStandardBet" strokeType="OUTSIDE" strokeWidth="0.0" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="20.0" top="95.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Top Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="125.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Times New Roman" size="20.0" />
+               </font>
+            </Text>
          </children>
          <rotationAxis>
             <Point3D />

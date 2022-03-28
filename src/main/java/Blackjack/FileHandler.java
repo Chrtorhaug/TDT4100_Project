@@ -13,9 +13,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class FileHandler {
 
     public boolean CheckRegisterOrLogin(String string,String UserName, String Password){
@@ -159,9 +156,8 @@ public class FileHandler {
 
 
 
-    public ObservableList<String> updateTopPlayers(){
-        ObservableList<String> topPlayers = FXCollections.observableArrayList();
-        ObservableList<String> topPlayersFormated = FXCollections.observableArrayList();
+    public List<String> updateTopPlayers(){
+        List<String> topPlayers = new ArrayList<>(10);
 
         try {
             Map<String,String> NameBalance = getUserNamesFromFile("Balance");
@@ -169,26 +165,14 @@ public class FileHandler {
                 topPlayers.add(entry.getKey()+","+entry.getValue());  
             }
             topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1]))-(Integer.parseInt(o1.split("[,.]")[1]))));
-            for (String string : topPlayers) {
-                topPlayersFormated.add(padString(string,55));
-            }
-            return topPlayersFormated;
+            
+            return topPlayers;
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            return topPlayersFormated;
+            return topPlayers;
         }
     }
 
-    private String padString(String string, int len) {
-        String[] info = string.split(",");
-        String retString=info[0];
-        for (int i = 0; i < len; i++) {
-            if((retString+info[1]).length()<len){
-                retString+=" ";
-            }
-        }
-        return retString+info[1];
-    }
 
     public static void main(String[] args) {
         FileHandler sjekk = new FileHandler();
