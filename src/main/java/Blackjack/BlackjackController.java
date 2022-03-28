@@ -85,11 +85,11 @@ public class BlackjackController {
                     view.get(i).imageProperty().set(null);  
                 }
                 dealer.newHand(deck);
-                DealerPicture11.setImage(dealer.getHand(0).get(0).getCardPicture());
+                DealerPicture11.setImage(dealer.getCard(0, 0).getCardPicture());
             }
             else {
                 for (int i = 0; i < dealer.getHand(0).size(); i++) {
-                    view.get(i).setImage(dealer.getHand(0).get(i).getCardPicture());
+                    view.get(i).setImage(dealer.getCard(0, i).getCardPicture());
                 }
             }
         }
@@ -119,13 +119,18 @@ public class BlackjackController {
 
     private void updateLabel(Label lb, PlayerInterface pl) {
         if (pl.getClass().equals(BlackJackDealer.class) && player.checkPlaying()) { // Hvis runden ikke er ferdig skal Dealer bare vise scoren til første kort 
-            lb.setText(String.valueOf(pl.getHand(0).get(0).getValue()));
+            lb.setText(String.valueOf(pl.getCard(0, 0).getValue()));
         }
         else {
             if (lb.equals(PlayerScore2)) {
                 lb.setText(String.valueOf(pl.getScore(1)));
                 PlayerScoreText2.setVisible(true);
                 PlayerScore2.setVisible(true);
+            }
+            if (lb.equals(PlayerScore3)) {
+                lb.setText(String.valueOf(pl.getScore(2)));
+                PlayerScoreText3.setVisible(true);
+                PlayerScore3.setVisible(true);
             }
             else lb.setText(String.valueOf(pl.getScore(0)));
         }
@@ -156,7 +161,7 @@ public class BlackjackController {
         PlayerScore2.setVisible(false);
         PlayerScore3.setVisible(false);
 
-        if (player.canSplit(player.getHand(0))) {
+        if (player.canSplit(player.getHand(0)) || player.canSplit(player.getHand(1))) {
             SplitButton.setDisable(false);
         }
 
@@ -182,14 +187,14 @@ public class BlackjackController {
 
     @FXML
     public void handleHold(ActionEvent holdEvent) {
-        if (player.getHand(currentHand + 1).size() == 0) {
+        if (currentHand == player.getHands().size() - 1 || player.getHand(currentHand + 1).size() == 0) {
             player.hold();
             currentHand = 0;
             updateCardHandPictures(dealerHandImageViews, holdEvent);
             updateLabel(DealerScore, dealer);
             player.findWinner(new HandComparator(), dealer);
             ShowBalance.setText(player.getBalance() + "$");
-            fileHandler.UpdateBalance(player.getName(),player.getBalance());
+            fileHandler.UpdateBalance(player.getName(), player.getBalance());
 
             HoldButton.setDisable(true);
             HitButton.setDisable(true);
@@ -204,11 +209,20 @@ public class BlackjackController {
 
     @FXML
     public void handleSplit(ActionEvent splitEvent) {
-        player.split(player.getHand(0));
-        updateCardHandPictures(firstHandImageViews, splitEvent);
-        updateLabel(PlayerScore1, player);
-        updateLabel(PlayerScore2, player);
-        SplitButton.setDisable(true);
+        if (player.getHand(1).size() == 0) {
+            player.split(player.getHand(0));
+            updateCardHandPictures(firstHandImageViews, splitEvent);
+            updateLabel(PlayerScore1, player);
+            updateLabel(PlayerScore2, player);
+            SplitButton.setDisable(true);
+        }
+        else if (player.getHand(1).size() != 0 && player.getHand(2).size() == 0) {
+            player.split(player.getHand(1));
+            updateCardHandPictures(secondHandImageViews, splitEvent);
+            updateLabel(PlayerScore2, player);
+            updateLabel(PlayerScore3, player);
+            SplitButton.setDisable(true);
+        }
     }
 
     @FXML

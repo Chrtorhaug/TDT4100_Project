@@ -20,7 +20,7 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         this.balance = balance;
         this.name = name;
-        this.standardBet = 1.0;
+        this.standardBet = 5.0;
         cardHand.add(deck.getCard());
         cardHand.add(deck.getCard());
         hands.add(cardHand);
@@ -115,12 +115,13 @@ public class BlackjackPlayer implements PlayerInterface {
     public void findWinner(HandComparator comp, PlayerInterface dealer) {
         int numberOfHands = hands.size();
 
-        if (hands.get(2).size() == 0 && hands.get(1).size() == 0) {
-            numberOfHands = 1;
+        for (int i = 1; i < hands.size(); i++) {
+            if (hands.get(i).size() == 0) {
+                numberOfHands = i;
+                break;
+            }
         }
-        else if (hands.get(2).size() == 0) {
-            numberOfHands = 2;
-        }
+        //System.out.println(numberOfHands);
         for (int i = 0; i < numberOfHands; i++) {
             currentHandIndex = i;
             if (hands.get(i).size() == 2 && getScore(i) == 21) {

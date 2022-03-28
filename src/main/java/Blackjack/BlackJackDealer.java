@@ -40,6 +40,10 @@ public class BlackJackDealer implements PlayerInterface {
 	public List<Card> getHand(int n) {
 		return cardHand;
 	}
+
+    public Card getCard(int hand, int n) {
+        return cardHand.get(n);
+    }
     
     public int getCurrentHandIndex() {
         return 0;
