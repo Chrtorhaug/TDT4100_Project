@@ -63,8 +63,8 @@ public class BlackjackPlayer implements PlayerInterface {
         for (List<Card> hand : hands) {
             hand.clear();
         }
-        hands.get(0).add(deck.getCard());
-        hands.get(0).add(deck.getCard());
+        addCard(deck, 0);
+        addCard(deck, 0);
 
         this.playing = true;
     }

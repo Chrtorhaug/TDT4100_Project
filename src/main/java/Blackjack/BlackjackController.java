@@ -1,5 +1,6 @@
 package Blackjack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class BlackjackController { 
@@ -29,7 +32,7 @@ public class BlackjackController {
     private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance, ShowCurrentBet, ShowStandardBet;
 
     @FXML
-    private Text PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScoreText, DealerCardsText;
+    private Text PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScoreText;
     
     @FXML
     private Button LoginButton, RegisterButton, NewGameButton, BetButton, HitButton, HoldButton, SplitButton;
@@ -41,7 +44,10 @@ public class BlackjackController {
     private ListView<String> TopPlayersListView, TopPlayersBalanceListView, RankListView;
 
     @FXML
-    private ImageView DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18,
+    private Rectangle PlayerHandFrame1, PlayerHandFrame2, PlayerHandFrame3;
+
+    @FXML
+    private ImageView BlackjackBoard, DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18,
                     CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18,
                     CardPicture21, CardPicture22, CardPicture23, CardPicture24, CardPicture25, CardPicture26, CardPicture27, CardPicture28, 
                     CardPicture31, CardPicture32, CardPicture33, CardPicture34, CardPicture35, CardPicture36, CardPicture37, CardPicture38;
@@ -50,41 +56,25 @@ public class BlackjackController {
     public void initialize() {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
+        BlackjackBoard.setImage(new Image(new File("src/main/resources/BlackjackTable.jpg").toURI().toString()));
         updateTableTopPlayers();
-        PlayerScore1.setVisible(false);
-        PlayerScore2.setVisible(false);
-        PlayerScore3.setVisible(false);
-        DealerScore.setVisible(false);
-        DealerCardsText.setVisible(false);
-        ShowBalance.setVisible(true);
-        PlayerScoreText1.setVisible(false);
-        PlayerScoreText2.setVisible(false);
-        PlayerScoreText3.setVisible(false);
-        DealerScoreText.setVisible(false);
-        WelcomeSign.setVisible(false);
-
-        NewGameButton.setDisable(true);
-        BetButton.setDisable(true);
-        HitButton.setDisable(true);
-        HoldButton.setDisable(true);
-        SplitButton.setDisable(true);
-        BetField.setDisable(true);
     }
 
     private void updateCardHandPictures(List<ImageView> view, ActionEvent event) {
         List<List<ImageView>> hands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews, dealerHandImageViews);
         int handIndex = hands.indexOf(view);
+
         if (view.equals(dealerHandImageViews)) {
             if (event.getSource().equals(NewGameButton)) {
                 for (int i = 0; i < dealer.getHand(0).size(); i++) {
                     view.get(i).imageProperty().set(null);  
                 }
                 dealer.newHand(deck);
-                DealerPicture11.setImage(dealer.getCard(0, 0).getCardPicture());
+                DealerPicture11.setImage(getCardPicture(dealer.getCard(0, 0)));
             }
             else {
                 for (int i = 0; i < dealer.getHand(0).size(); i++) {
-                    view.get(i).setImage(dealer.getCard(0, i).getCardPicture());
+                    view.get(i).setImage(getCardPicture(dealer.getCard(0, i)));
                 }
             }
         }
@@ -103,13 +93,17 @@ public class BlackjackController {
             } 
             if (event.getSource().equals(SplitButton)) {
                 view.get(1).imageProperty().set(null);
-                hands.get(handIndex).get(0).imageProperty().set(player.getCard(handIndex, 0).getCardPicture());
-                hands.get(handIndex + 1).get(0).imageProperty().set(player.getCard(handIndex + 1, 0).getCardPicture());
+                hands.get(handIndex).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex, 0)));
+                hands.get(handIndex + 1).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex + 1, 0)));
             }
             for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
-                view.get(i).setImage(player.getCard(handIndex, i).getCardPicture());
+                view.get(i).setImage(getCardPicture(player.getCard(handIndex, i)));
             }
         }
+    }
+
+    private Image getCardPicture(Card card) {
+        return new Image(new File("src/main/resources/Carddeck/" + card.getSuit() + card.getFace() + ".png").toURI().toString());
     }
 
     private void updateLabel(Label lb, PlayerInterface pl) {
@@ -131,6 +125,12 @@ public class BlackjackController {
         }
     }
 
+    private void showPlayingFrame() {
+        List<Rectangle> frames = Arrays.asList(PlayerHandFrame1, PlayerHandFrame2, PlayerHandFrame3);
+        frames.stream().forEach(frame -> frame.setVisible(false));
+        frames.get(currentHand).setVisible(true);
+    }
+
     @FXML
     public void handleNewGame(ActionEvent newGameEvent) {
         if (deck.getSize() < 50) {
@@ -142,11 +142,11 @@ public class BlackjackController {
         updateCardHandPictures(dealerHandImageViews, newGameEvent);
         updateLabel(PlayerScore1, player);
         updateLabel(DealerScore, dealer);
+        showPlayingFrame();
 
         NewGameButton.setDisable(true);
         HitButton.setDisable(false);
         DealerScore.setVisible(true);
-        DealerCardsText.setVisible(true);
         PlayerScore1.setVisible(true);
         HoldButton.setDisable(false);
         PlayerScoreText1.setVisible(true);
@@ -199,6 +199,7 @@ public class BlackjackController {
         }
         else if (currentHand == 0) {
             currentHand++;
+            showPlayingFrame();
         }
     }
 

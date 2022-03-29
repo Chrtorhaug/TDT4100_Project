@@ -12,10 +12,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Blackjack.BlackjackController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: #1c4420;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Blackjack.BlackjackController">
    <children>
       <GridPane gridLinesVisible="true" prefHeight="700.0" prefWidth="800.0">
         <columnConstraints>
@@ -27,6 +28,21 @@
           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <ImageView fx:id="BlackjackBoard" depthTest="DISABLE" fitHeight="160.0" fitWidth="550.0" pickOnBounds="true" preserveRatio="true">
+               <GridPane.margin>
+                  <Insets bottom="215.0" />
+               </GridPane.margin>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1c4420" height="70.0" rotate="-10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="263.0" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="125.0" right="16.0" />
+               </GridPane.margin>
+            </Rectangle>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1c4420" height="122.0" rotate="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="300.0">
+               <GridPane.margin>
+                  <Insets bottom="72.0" left="12.0" />
+               </GridPane.margin>
+            </Rectangle>
             <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="45.0" prefWidth="120.0" text="Login" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets right="2.0" top="2.0" />
@@ -45,32 +61,32 @@
                   <Insets left="2.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="NewGameButton" mnemonicParsing="false" onAction="#handleNewGame" prefHeight="45.0" prefWidth="100.0" text="New Game" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="NewGameButton" disable="true" mnemonicParsing="false" onAction="#handleNewGame" prefHeight="45.0" prefWidth="100.0" text="New Game" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="2.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="HoldButton" mnemonicParsing="false" onAction="#handleHold" prefHeight="45.0" prefWidth="100.0" text="Hold" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="HoldButton" disable="true" mnemonicParsing="false" onAction="#handleHold" prefHeight="45.0" prefWidth="100.0" text="Hold" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="95.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="SplitButton" mnemonicParsing="false" onAction="#handleSplit" prefHeight="45.0" prefWidth="100.0" text="Split" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="SplitButton" disable="true" mnemonicParsing="false" onAction="#handleSplit" prefHeight="45.0" prefWidth="100.0" text="Split" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="300.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="BetButton" mnemonicParsing="false" onAction="#handleBet" prefHeight="45.0" prefWidth="100.0" text="Bet" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <Button fx:id="BetButton" disable="true" mnemonicParsing="false" onAction="#handleBet" prefHeight="45.0" prefWidth="100.0" text="Bet" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="HitButton" mnemonicParsing="false" onAction="#handleHit" prefHeight="45.0" prefWidth="100.0" text="Hit" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="HitButton" disable="true" mnemonicParsing="false" onAction="#handleHit" prefHeight="45.0" prefWidth="100.0" text="Hit" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="110.0" top="2.0" />
                </GridPane.margin>
             </Button>
-            <TextField fx:id="BetField" prefHeight="45.0" prefWidth="102.0" promptText="Enter Amount" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <TextField fx:id="BetField" disable="true" prefHeight="45.0" prefWidth="102.0" promptText="Enter Amount" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="105.0" right="198.0" />
                </GridPane.margin>
@@ -89,7 +105,7 @@
                   <Insets bottom="2.0" />
                </GridPane.margin>
             </GridPane>
-            <Text fx:id="PlayerScoreText1" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Text fx:id="PlayerScoreText1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" visible="false" wrappingWidth="102.93667411804199" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -97,7 +113,7 @@
                   <Insets bottom="140.0" right="30.0" />
                </GridPane.margin>
             </Text>
-            <Label fx:id="PlayerScore1" prefHeight="16.0" prefWidth="22.0" text="PS" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label fx:id="PlayerScore1" prefHeight="16.0" prefWidth="22.0" text="PS" textFill="WHITE" visible="false" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="140.0" left="85.0" />
                </GridPane.margin>
@@ -105,15 +121,7 @@
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="DealerCardsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Dealer's Cards:" textAlignment="CENTER" wrappingWidth="79.1041259765625" GridPane.halignment="LEFT" GridPane.valignment="TOP">
-               <font>
-                  <Font name="Times New Roman" size="18.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" top="70.0" />
-               </GridPane.margin>
-            </Text>
-            <Text fx:id="DealerScoreText" strokeType="OUTSIDE" strokeWidth="0.0" text="Dealer Score:" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Text fx:id="DealerScoreText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Dealer Score:" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -121,7 +129,7 @@
                   <Insets right="12.0" top="70.0" />
                </GridPane.margin>
             </Text>
-            <Label fx:id="DealerScore" prefWidth="24.0" text="DS" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Label fx:id="DealerScore" prefWidth="24.0" text="DS" textFill="WHITE" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="55.0" top="95.0" />
                </GridPane.margin>
@@ -129,7 +137,7 @@
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="WelcomeSign" accessibleText="TEXT" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="196.0" text="Welcome to BlackJack" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <Label fx:id="WelcomeSign" accessibleText="TEXT" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="196.0" text="Welcome to BlackJack" textAlignment="CENTER" textFill="WHITE" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -137,7 +145,7 @@
                   <Insets bottom="2.0" />
                </GridPane.margin>
             </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font name="Times New Roman" size="22.0" />
                </font>
@@ -145,20 +153,20 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Balance:" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Balance:" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="10.0" top="45.0" />
+                  <Insets left="10.0" top="55.0" />
                </GridPane.margin>
             </Text>
-            <Label fx:id="ShowBalance" text="Bal" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Label fx:id="ShowBalance" text="Bal" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets right="20.0" top="45.0" />
+                  <Insets right="20.0" top="55.0" />
                </GridPane.margin>
             </Label>
             <TextField fx:id="PasswordField" prefHeight="45.0" prefWidth="192.0" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -182,9 +190,9 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <ImageView fx:id="CardPicture11" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
@@ -213,19 +221,22 @@
                   <ImageView fx:id="CardPicture38" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="270.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="540.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <GridPane.margin>
-                  <Insets top="5.0" />
+                  <Insets top="15.0" />
                </GridPane.margin>
                <children>
                   <ImageView fx:id="DealerPicture14" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
@@ -235,13 +246,13 @@
                         <Insets />
                      </GridPane.margin></ImageView>
                   <ImageView fx:id="DealerPicture12" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <ImageView fx:id="DealerPicture15" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <ImageView fx:id="DealerPicture16" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <ImageView fx:id="DealerPicture17" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <ImageView fx:id="DealerPicture18" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <ImageView fx:id="DealerPicture15" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <ImageView fx:id="DealerPicture16" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <ImageView fx:id="DealerPicture17" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <ImageView fx:id="DealerPicture18" fitHeight="90.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
-            <Text fx:id="PlayerScoreText2" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <Text fx:id="PlayerScoreText2" fill="WHITE" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" visible="false" wrappingWidth="102.93667411804199" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -249,7 +260,7 @@
                   <Insets bottom="140.0" right="70.0" />
                </GridPane.margin>
             </Text>
-            <Label fx:id="PlayerScore2" layoutX="274.0" layoutY="240.0" prefHeight="16.0" prefWidth="22.0" text="PS" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <Label fx:id="PlayerScore2" layoutX="274.0" layoutY="240.0" prefHeight="16.0" prefWidth="22.0" text="PS" textFill="WHITE" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
@@ -257,7 +268,7 @@
                   <Insets bottom="140.0" right="50.0" />
                </GridPane.margin>
             </Label>
-            <Text fx:id="PlayerScoreText3" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" wrappingWidth="102.93667411804199" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+            <Text fx:id="PlayerScoreText3" fill="WHITE" layoutX="194.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Score:" textAlignment="CENTER" visible="false" wrappingWidth="102.93667411804199" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -265,7 +276,7 @@
                   <Insets bottom="140.0" left="40.0" />
                </GridPane.margin>
             </Text>
-            <Label fx:id="PlayerScore3" layoutX="274.0" layoutY="240.0" prefHeight="16.0" prefWidth="22.0" text="PS" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+            <Label fx:id="PlayerScore3" layoutX="274.0" layoutY="240.0" prefHeight="16.0" prefWidth="22.0" text="PS" textFill="WHITE" visible="false" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                <font>
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
@@ -273,56 +284,67 @@
                   <Insets bottom="140.0" left="140.0" />
                </GridPane.margin>
             </Label>
-            <Pane prefHeight="459.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Pane prefHeight="459.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="150.0" left="10.0" right="10.0" top="150.0" />
+                  <Insets bottom="90.0" left="10.0" right="10.0" top="210.0" />
                </GridPane.margin>
                <children>
                   <ListView fx:id="TopPlayersListView" layoutX="26.0" prefHeight="300.0" prefWidth="136.0" />
                   <ListView fx:id="TopPlayersBalanceListView" layoutX="158.0" prefHeight="300.0" prefWidth="73.0" />
-                  <ListView fx:id="RankListView" layoutX="2.0" layoutY="-1.0" prefHeight="300.0" prefWidth="25.0" />
+                  <ListView fx:id="RankListView" layoutX="2.0" prefHeight="300.0" prefWidth="25.0" />
                </children>
             </Pane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="70.0" />
+                  <Insets left="10.0" top="85.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="95.0" />
+                  <Insets left="10.0" top="115.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Top Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="125.0" />
+                  <Insets top="180.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="20.0" />
                </font>
             </Text>
-            <Label fx:id="ShowCurrentBet" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Label fx:id="ShowCurrentBet" text="Bet" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="20.0" top="70.0" />
+                  <Insets right="20.0" top="85.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="ShowStandardBet" text="Bet" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Label fx:id="ShowStandardBet" text="Bet" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="20.0" top="95.0" />
+                  <Insets right="20.0" top="115.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Label>
+            <Rectangle fx:id="PlayerHandFrame1" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="385.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="180.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+            <Rectangle fx:id="PlayerHandFrame2" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="385.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="180.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Rectangle>
+            <Rectangle fx:id="PlayerHandFrame3" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="385.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="180.0" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+            </Rectangle>
          </children>
          <rotationAxis>
             <Point3D />
