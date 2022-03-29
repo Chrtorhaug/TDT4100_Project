@@ -122,7 +122,7 @@ public class BlackjackController {
                 PlayerScoreText2.setVisible(true);
                 PlayerScore2.setVisible(true);
             }
-            if (lb.equals(PlayerScore3)) {
+            else if (lb.equals(PlayerScore3)) {
                 lb.setText(String.valueOf(pl.getScore(2)));
                 PlayerScoreText3.setVisible(true);
                 PlayerScore3.setVisible(true);
