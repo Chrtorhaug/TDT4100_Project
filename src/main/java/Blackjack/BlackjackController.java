@@ -1,6 +1,5 @@
 package Blackjack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -82,11 +80,11 @@ public class BlackjackController {
                     view.get(i).imageProperty().set(null);  
                 }
                 dealer.newHand(deck);
-                DealerPicture11.setImage(getCardPicture(dealer.getCard(0, 0)));
+                DealerPicture11.setImage(dealer.getCard(0, 0).getCardPicture());
             }
             else {
                 for (int i = 0; i < dealer.getHand(0).size(); i++) {
-                    view.get(i).setImage(getCardPicture(dealer.getCard(0, i)));
+                    view.get(i).setImage(dealer.getCard(0, i).getCardPicture());
                 }
             }
         }
@@ -105,11 +103,11 @@ public class BlackjackController {
             } 
             if (event.getSource().equals(SplitButton)) {
                 view.get(1).imageProperty().set(null);
-                hands.get(handIndex).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex, 0)));
-                hands.get(handIndex + 1).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex + 1, 0)));
+                hands.get(handIndex).get(0).imageProperty().set(player.getCard(handIndex, 0).getCardPicture());
+                hands.get(handIndex + 1).get(0).imageProperty().set(player.getCard(handIndex + 1, 0).getCardPicture());
             }
             for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
-                view.get(i).setImage(getCardPicture(player.getCard(handIndex, i)));
+                view.get(i).setImage(player.getCard(handIndex, i).getCardPicture());
             }
         }
     }
@@ -131,10 +129,6 @@ public class BlackjackController {
             }
             else lb.setText(String.valueOf(pl.getScore(0)));
         }
-    }
-
-    private Image getCardPicture(Card card) {
-        return new Image(new File("src/main/resources/Carddeck/" + card.getSuit() + card.getFace() +".png").toURI().toString());
     }
 
     @FXML
@@ -241,7 +235,7 @@ public class BlackjackController {
                 player.setBet(String.valueOf(player.getStandardBet()));
             }
             else player.setBet(BetField.getText());
-
+            ShowCurrentBet.setText(player.getBet()+"$");
             BetField.setPromptText("Enter Bet Amount:");
             NewGameButton.setDisable(false);
             BetButton.setDisable(true);
@@ -275,6 +269,7 @@ public class BlackjackController {
             PasswordField.clear();
             WelcomeSign.setText("Welcome " + player.getName());
             ShowBalance.setText(player.getBalance() + "$");
+            ShowStandardBet.setText(player.getStandardBet() + "$");
             
             WelcomeSign.setVisible(true);
             LoginButton.setVisible(false);
