@@ -73,7 +73,7 @@ public class FileHandler {
         if (UserName.equals(Password)) {
             return false;
         }
-        if (Password.toLowerCase().contains("passord")) {
+        if (Password.toLowerCase().contains("password")){
             return false;
         }
 
@@ -90,10 +90,10 @@ public class FileHandler {
     private boolean validateUserAtRegister(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password");
-            if (!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password)) {
+            if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",")){
                 registerUserToFile(UserName,Password);       
             } 
-            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password);  
+            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",");  
 
         } catch (Exception e) {
             return false;
@@ -104,7 +104,7 @@ public class FileHandler {
     private boolean validateUserAtLogin(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password"); //igjen, vi må lage en fil
-            return (UserNameMap.containsKey(UserName) && UserNameMap.get(UserName).equals(Password));
+            return (UserNameMap.containsKey(UserName) && UserNameMap.get(UserName).equals(Password) && !UserName.contains(","));
         } catch (Exception e) {
             return false;
         }
