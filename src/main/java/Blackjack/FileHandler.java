@@ -11,15 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-
 public class FileHandler {
 
-    public boolean CheckRegisterOrLogin(String string,String UserName, String Password){
-        if (string.equals("Register")){
+    public boolean CheckRegisterOrLogin(String string, String UserName, String Password){
+        if (string.equals("Register")) {
             return validateUserAtRegister(UserName, Password);
         }
-        if (string.equals("Login")){
+        if (string.equals("Login")) {
             return validateUserAtLogin(UserName, Password);
         }
         else return false;
@@ -30,8 +28,8 @@ public class FileHandler {
         Scanner scanner = new Scanner(filename);
         Map<String, String> UserNameMap = new HashMap<>();
 
-        if (value.equals("Password")){
-            while (scanner.hasNextLine()){
+        if (value.equals("Password")) {
+            while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] lineInfo = line.split(",");
                 String UserName = lineInfo[0];
@@ -40,8 +38,8 @@ public class FileHandler {
                 UserNameMap.put(UserName,PassWord);
             }
         }
-        if (value.equals("Balance")){
-            while (scanner.hasNextLine()){
+        if (value.equals("Balance")) {
+            while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] lineInfo = line.split(",");
                 String UserName = lineInfo[0];
@@ -68,14 +66,14 @@ public class FileHandler {
         }
     }
 
-    private boolean validatePassword(String UserName,String Password) {
-        if (Password.length()<10){
+    private boolean validatePassword(String UserName, String Password) {
+        if (Password.length() < 10) {
             return false;
         }
-        if (UserName.equals(Password)){
+        if (UserName.equals(Password)) {
             return false;
         }
-        if (Password.toLowerCase().contains("passord")){
+        if (Password.toLowerCase().contains("passord")) {
             return false;
         }
 
@@ -92,7 +90,7 @@ public class FileHandler {
     private boolean validateUserAtRegister(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password");
-            if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password)){
+            if (!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password)) {
                 registerUserToFile(UserName,Password);       
             } 
             return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password);  
@@ -126,21 +124,20 @@ public class FileHandler {
             File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
             List<String> fileList = new ArrayList<>();
             Scanner scanner = new Scanner(filename);
+
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 
                 fileList.add(line);
             }
             scanner.close(); 
-            String newFileString="";
+            String newFileString = "";
             for (String line : fileList) {
-                if(line.contains(Username)){
+                if(line.contains(Username)) {
                     String[] info = line.split(",");
-                    newFileString+= info[0]+","+info[1]+","+Balance+"\n";
+                    newFileString += info[0] + "," + info[1] + "," + Balance + "\n";
                 }
-                else{
-                    newFileString+=line+"\n";
-                }
+                else newFileString += line + "\n";
             }
             FileWriter f = new FileWriter(filename, false);
             
@@ -148,13 +145,10 @@ public class FileHandler {
             f.flush();
             f.close();  
 
-
         } catch (Exception e) {
-            
+            return;     
         }
     }
-
-
 
     public List<String> updateTopPlayers(){
         List<String> topPlayers = new ArrayList<>(10);
@@ -164,24 +158,11 @@ public class FileHandler {
             for (Map.Entry<String,String> entry : NameBalance.entrySet()) {
                 topPlayers.add(entry.getKey()+","+entry.getValue());  
             }
-            topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1]))-(Integer.parseInt(o1.split("[,.]")[1]))));
+            topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1])) - (Integer.parseInt(o1.split("[,.]")[1]))));
             
             return topPlayers;
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             return topPlayers;
         }
     }
-
-
-    public static void main(String[] args) {
-        FileHandler sjekk = new FileHandler();
-        //sjekk.registerUserToFile("UserName", "BlackJack123");
-        //sjekk.UpdateBalance("Jens",60.0);
-        //System.out.println(Integer.parseInt(("100.0".split("[.,]")[0])));
-        for (String string : sjekk.updateTopPlayers()) {
-            System.out.println(string);
-        }
-        //System.out.println(Arrays.asList(sjekk.updateTopPlayers()));
-    } 
 }

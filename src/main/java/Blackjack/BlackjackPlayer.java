@@ -144,7 +144,7 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public boolean canSplit(List<Card> hand) {
         if (hand.size() == 2 && balance - 2*bet >= 0) {
-            if (hand.get(0).getValue() == hand.get(1).getValue()) {
+            if ((hand.get(0).getFace() == hand.get(1).getFace()) || (hand.get(0).getValue() == hand.get(1).getValue())) {
                 return true;
             }
         }
