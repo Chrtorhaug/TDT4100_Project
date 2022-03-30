@@ -1,4 +1,5 @@
 Jens,PokerPlayer123,526.2
-UserName,BlackJack123,100.0
+UserName,BlackJack123,85.3
 Christian,TexasTiger123,224.5
 Kokos,Blackjack543,100.0
+JamesBond,ShakenNotStirred,700.7

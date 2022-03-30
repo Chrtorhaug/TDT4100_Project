@@ -75,7 +75,7 @@ public class FileHandler {
         if (UserName.equals(Password)){
             return false;
         }
-        if (Password.toLowerCase().contains("passord")){
+        if (Password.toLowerCase().contains("password")){
             return false;
         }
 
