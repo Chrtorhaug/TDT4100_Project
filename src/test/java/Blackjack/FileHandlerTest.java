@@ -56,9 +56,11 @@ public class FileHandlerTest {
 
     @Test
     public void testValidateUserAtRegister() {
-        assertFalse(condition);
-        assertTrue(condition);
-        assertFalse(true);
+        assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","Password"));
+        assertFalse(handler.CheckRegisterOrLogin("Register","JamesBond","MonteCarlo"));
+        assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo"));
+        //assertTrue(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo123"));
+        //assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo123"));
     }
     
 }
