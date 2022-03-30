@@ -173,7 +173,7 @@ public class BlackjackController {
         updateCardHandPictures(playerHands.get(currentHand), hitEvent);
         updateLabel(playerScores.get(currentHand), player);
 
-        if (player.canSplit(player.getHand(currentHand)) && !(currentHand == playerHands.size())) {
+        if (player.canSplit(player.getHand(currentHand)) && player.getHand(2).size() == 0) {
             SplitButton.setDisable(false);
         }
 
@@ -199,8 +199,13 @@ public class BlackjackController {
             SplitButton.setDisable(true);
             BetButton.setDisable(false);
             BetField.setDisable(false);
+
+            if (player.getBalance() == 0) {
+                player.setBalance(100);
+                ShowBalance.setText(player.getBalance() + "$");
+            }
         }
-        else if (currentHand == 0) {
+        else if (currentHand == 0 || currentHand == 1) {
             currentHand++;
             showPlayingFrame();
 
@@ -219,7 +224,7 @@ public class BlackjackController {
             player.split(player.getHand(currentHand));
             updateCardHandPictures(playerHands.get(currentHand), splitEvent);
             updateLabel(playerScores.get(currentHand), player);
-            updateLabel(playerScores.get(currentHand), player);
+            updateLabel(playerScores.get(currentHand + 1), player);
             SplitButton.setDisable(true);
         }
         else if (player.getHand(2).size() == 0) {

@@ -59,6 +59,10 @@ public class BlackjackPlayer implements PlayerInterface {
         return currentHandIndex;
     }
 
+    public void setBalance(double bal) {
+        this.balance = bal;
+    }
+
     public void newHand(CardDeck deck) {
         for (List<Card> hand : hands) {
             hand.clear();
@@ -124,7 +128,7 @@ public class BlackjackPlayer implements PlayerInterface {
             }
             double betNum = Double.parseDouble(betString);
 
-            if (betNum < balance && betNum > 0){
+            if (betNum <= balance && betNum > 0){
                 this.bet = betNum;
                 return " ";
             }
@@ -137,9 +141,12 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public void split(List<Card> hand) {
         if (canSplit(hand) && hand.equals(getHand(0))) {
-            hands.get(1).add(hands.get(0).remove(1));
+            if (getHand(1).size() == 0) {
+                hands.get(1).add(hands.get(0).remove(1));
+            }
+            else hands.get(1).add(hands.get(0).remove(1));
         }
-        else hands.get(2).add(hands.get(0).remove(1));
+        else hands.get(2).add(hands.get(1).remove(1));
     }
 
     public boolean canSplit(List<Card> hand) {
