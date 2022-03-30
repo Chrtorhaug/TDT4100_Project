@@ -92,8 +92,7 @@ public class BlackjackController {
                 player.addCard(deck, handIndex);
             } 
             if (event.getSource().equals(SplitButton)) {
-                hands.stream().skip(1).limit(handIndex).forEach(v -> v.get(1).imageProperty().set(null));
-                hands.get(handIndex).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex, 0)));
+                hands.stream().limit(handIndex + 1).forEach(v -> v.get(1).imageProperty().set(null));
                 hands.get(handIndex + 1).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex + 1, 0)));
             }
             for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
@@ -174,7 +173,7 @@ public class BlackjackController {
         updateCardHandPictures(playerHands.get(currentHand), hitEvent);
         updateLabel(playerScores.get(currentHand), player);
 
-        if (player.canSplit(player.getHand(currentHand))) {
+        if (player.canSplit(player.getHand(currentHand)) && !(currentHand == playerHands.size())) {
             SplitButton.setDisable(false);
         }
 
@@ -213,14 +212,17 @@ public class BlackjackController {
 
     @FXML
     public void handleSplit(ActionEvent splitEvent) {
-        if (player.getHand(1).size() == 0) {
-            player.split(player.getHand(0));
-            updateCardHandPictures(firstHandImageViews, splitEvent);
-            updateLabel(PlayerScore1, player);
-            updateLabel(PlayerScore2, player);
+        List<List<ImageView>> playerHands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews);
+        List<Label> playerScores = Arrays.asList(PlayerScore1, PlayerScore2, PlayerScore3);
+
+        if (player.getHand(currentHand + 1).size() == 0) {
+            player.split(player.getHand(currentHand));
+            updateCardHandPictures(playerHands.get(currentHand), splitEvent);
+            updateLabel(playerScores.get(currentHand), player);
+            updateLabel(playerScores.get(currentHand), player);
             SplitButton.setDisable(true);
         }
-        else if (player.getHand(1).size() != 0 && player.getHand(2).size() == 0) {
+        else if (player.getHand(2).size() == 0) {
             player.split(player.getHand(1));
             updateCardHandPictures(secondHandImageViews, splitEvent);
             updateLabel(PlayerScore2, player);
