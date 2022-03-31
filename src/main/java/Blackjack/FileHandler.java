@@ -67,16 +67,9 @@ public class FileHandler {
     }
 
     private boolean validatePassword(String UserName, String Password) {
-        if (Password.length() < 10) {
+        if (Password.length() < 10 || UserName.equals(Password) || Password.toLowerCase().contains("password") || Password.contains(",") || Password.contains(".")) {
             return false;
         }
-        if (UserName.equals(Password)) {
-            return false;
-        }
-        if (Password.toLowerCase().contains("password")){
-            return false;
-        }
-
         ArrayList<Character> array = new ArrayList<>();
         for (Character c : Password.toCharArray()) {
             array.add(c);
@@ -90,10 +83,10 @@ public class FileHandler {
     private boolean validateUserAtRegister(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password");
-            if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",")){
+            if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",") && !UserName.contains(".")){
                 registerUserToFile(UserName,Password);       
             } 
-            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",");  
+            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",") && !UserName.contains(".");  
 
         } catch (Exception e) {
             return false;
@@ -104,7 +97,7 @@ public class FileHandler {
     private boolean validateUserAtLogin(String UserName, String Password) {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password"); //igjen, vi må lage en fil
-            return (UserNameMap.containsKey(UserName) && UserNameMap.get(UserName).equals(Password) && !UserName.contains(","));
+            return (UserNameMap.containsKey(UserName) && UserNameMap.get(UserName).equals(Password) && !UserName.contains(",") && !UserName.contains("."));
         } catch (Exception e) {
             return false;
         }
@@ -164,5 +157,10 @@ public class FileHandler {
         } catch (FileNotFoundException e) {
             return topPlayers;
         }
+    }
+
+
+    public void removePlayerJustForTestUse(String Username) {
+        
     }
 }

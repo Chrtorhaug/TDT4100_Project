@@ -51,7 +51,7 @@ public class FileHandlerTest {
     public void updateTopPlayers() {
         List<String> topPlayers = handler.updateTopPlayers();
         assertEquals("JamesBond,700.7",topPlayers.get(0));
-        assertEquals("UserName,85.3",topPlayers.get(topPlayers.size()-1));
+        assertEquals("UserName,85.3",topPlayers.get(topPlayers.size() -1));
     }
 
     @Test
