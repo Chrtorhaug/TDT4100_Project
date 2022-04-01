@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-public class FileHandler {
+public class FileHandler implements FileHandlerInterface {
 
-    public boolean CheckRegisterOrLogin(String string, String UserName, String Password){
+    public boolean CheckRegisterOrLogin(String string, String UserName, String Password) {
         if (string.equals("Register")) {
             return validateUserAtRegister(UserName, Password);
         }
@@ -23,7 +23,7 @@ public class FileHandler {
         else return false;
     }
 
-    private Map<String,String> getUserNamesFromFile(String value) throws FileNotFoundException {
+    public Map<String,String> getUserNamesFromFile(String value) throws FileNotFoundException {
         File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
         Scanner scanner = new Scanner(filename);
         Map<String, String> UserNameMap = new HashMap<>();
@@ -52,7 +52,7 @@ public class FileHandler {
         return UserNameMap;   
     }
 
-    private void registerUserToFile(String UserName, String Password) {
+    public void registerUserToFile(String UserName, String Password) {
         File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
         try {
             FileWriter f = new FileWriter(filename, true);
@@ -150,7 +150,7 @@ public class FileHandler {
         }
     }
 
-    public List<String> updateTopPlayers(){
+    public List<String> updateTopPlayers() {
         List<String> topPlayers = new ArrayList<>(10);
 
         try {
