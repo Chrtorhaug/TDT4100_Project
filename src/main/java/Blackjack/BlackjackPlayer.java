@@ -82,7 +82,7 @@ public class BlackjackPlayer implements PlayerInterface {
         hand.add(deck.getCard());
 
         for (Card card : hand) {
-            if (card.getFace().equals("A") && card.getValue() == 11 && getScore(handIndex) > 21){
+            if (card.getFace().equals("A") && card.getValue() == 11 && getScore(handIndex) > 21) {
                 card.setAceToOne();
                 break;
             }
@@ -124,6 +124,7 @@ public class BlackjackPlayer implements PlayerInterface {
     public String setBet(String betString) {
         try {
             if (betString.isBlank()) {
+                this.bet = standardBet;
                 return " ";
             }
             double betNum = Double.parseDouble(betString);
