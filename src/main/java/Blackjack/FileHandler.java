@@ -24,7 +24,7 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public Map<String,String> getUserNamesFromFile(String value) throws FileNotFoundException {
-        File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
+        File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
         Scanner scanner = new Scanner(filename);
         Map<String, String> UserNameMap = new HashMap<>();
 
@@ -53,7 +53,7 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public void registerUserToFile(String UserName, String Password) {
-        File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
+        File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
         try {
             FileWriter f = new FileWriter(filename, true);
             BufferedWriter b = new BufferedWriter(f);
@@ -114,7 +114,7 @@ public class FileHandler implements FileHandlerInterface {
 
     public void UpdateBalance(String Username, double Balance) {
         try {
-            File filename = new File("src\\main\\java\\Blackjack\\DataBlackjack.txt").getAbsoluteFile();
+            File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
             List<String> fileList = new ArrayList<>();
             Scanner scanner = new Scanner(filename);
 
@@ -158,8 +158,7 @@ public class FileHandler implements FileHandlerInterface {
             return topPlayers;
         }
     }
-
-
+    
     public void removePlayerJustForTestUse(String Username) {
         
     }

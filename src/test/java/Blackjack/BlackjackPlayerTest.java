@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,6 @@ public class BlackjackPlayerTest {
         for (int i = 1; i < player.getHands().size(); i++) {
             assertEquals(0, player.getHand(i).size());
         }
-
         assertTrue(player.checkPlaying());
     }
 

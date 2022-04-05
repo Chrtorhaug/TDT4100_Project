@@ -41,6 +41,10 @@ public class Card {
         this.value = 1;
     }
 
+    public void setAceToEleven() {
+        this.value = 11;
+    }
+
     public int getValue() {
         return value;
     }

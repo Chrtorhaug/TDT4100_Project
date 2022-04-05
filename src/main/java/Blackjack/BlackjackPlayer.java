@@ -141,7 +141,11 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public void split(List<Card> hand) {
-        if (canSplit(hand) && hand.equals(getHand(0))) {
+        if (hand.get(0).getFace().equals("A") && hand.get(0).getFace().equals("A")) { //When you split two Aces
+            hand.get(0).setAceToEleven();
+        }
+
+        if (canSplit(hand) && hand.equals(getHand(0))) { //Finding the right hand to split
             if (getHand(1).size() == 0) {
                 hands.get(1).add(hands.get(0).remove(1));
             }

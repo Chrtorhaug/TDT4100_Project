@@ -194,6 +194,11 @@ public class BlackjackController {
             ShowBalance.setText(player.getBalance() + "$");
             fileHandler.UpdateBalance(player.getName(), player.getBalance());
 
+            TopPlayersListView.getItems().clear();
+            TopPlayersBalanceListView.getItems().clear();
+            RankListView.getItems().clear();
+            updateTableTopPlayers();
+
             HoldButton.setDisable(true);
             HitButton.setDisable(true);
             SplitButton.setDisable(true);
@@ -228,7 +233,7 @@ public class BlackjackController {
             SplitButton.setDisable(true);
         }
         else if (player.getHand(2).size() == 0) {
-            player.split(player.getHand(1));
+            player.split(player.getHand(0));
             updateCardHandPictures(secondHandImageViews, splitEvent);
             updateLabel(PlayerScore2, player);
             updateLabel(PlayerScore3, player);
@@ -260,16 +265,16 @@ public class BlackjackController {
     }
 
     @FXML
-    public void handleRegister() {
-        RegisterOrLogin("Register");   
+    public void handleRegister(ActionEvent registerEvent) {
+        RegisterOrLogin("Register", registerEvent);   
     }
 
     @FXML
-    public void handleLogin() {
-        RegisterOrLogin("Login");
+    public void handleLogin(ActionEvent loginEvent) {
+        RegisterOrLogin("Login", loginEvent);
     }
 
-    private void RegisterOrLogin(String start) {
+    private void RegisterOrLogin(String start, ActionEvent event) {
         dealerHandImageViews = Arrays.asList(DealerPicture11, DealerPicture12, DealerPicture13, DealerPicture14, DealerPicture15, DealerPicture16, DealerPicture17, DealerPicture18);
         firstHandImageViews = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
         secondHandImageViews = Arrays.asList(CardPicture21, CardPicture22, CardPicture23, CardPicture24, CardPicture25, CardPicture26, CardPicture27, CardPicture28); 
@@ -300,7 +305,10 @@ public class BlackjackController {
             NameField.clear();
             PasswordField.clear();
             NameField.setPromptText("Invalid Username");
-            PasswordField.setPromptText("Invalid password");
+            if (event.getSource().equals(LoginButton)) {
+                PasswordField.setPromptText("Invalid password");
+            }
+            else PasswordField.setPromptText("Password needs min: 10 chars, 1 number");
         }
     }
 

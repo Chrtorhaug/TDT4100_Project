@@ -169,7 +169,7 @@
                   <Insets right="20.0" top="55.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="PasswordField" prefHeight="45.0" prefWidth="192.0" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <TextField fx:id="PasswordField" prefHeight="45.0" prefWidth="192.0" promptText="Enter Password (10 chars, 1 number)" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" />
                </GridPane.margin>
