@@ -93,7 +93,10 @@ public class BlackjackController {
             } 
             if (event.getSource().equals(SplitButton)) {
                 hands.stream().limit(handIndex + 1).forEach(v -> v.get(1).imageProperty().set(null));
-                hands.get(handIndex + 1).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex + 1, 0)));
+                if (player.getHand(2).size() == 0 && handIndex == 0) {
+                    hands.get(handIndex + 1).get(0).imageProperty().set(getCardPicture(player.getCard(handIndex + 1, 0)));
+                }
+                else hands.get(2).get(0).imageProperty().set(getCardPicture(player.getCard(2, 0)));
             }
             for (int i = 0; i < player.getHand(hands.indexOf(view)).size(); i++) {
                 view.get(i).setImage(getCardPicture(player.getCard(handIndex, i)));
@@ -235,7 +238,7 @@ public class BlackjackController {
         else if (player.getHand(2).size() == 0) {
             player.split(player.getHand(0));
             updateCardHandPictures(secondHandImageViews, splitEvent);
-            updateLabel(PlayerScore2, player);
+            updateLabel(PlayerScore1, player);
             updateLabel(PlayerScore3, player);
             SplitButton.setDisable(true);
         }

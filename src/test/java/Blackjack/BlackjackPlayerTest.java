@@ -42,15 +42,30 @@ public class BlackjackPlayerTest {
     @Test
     public void testAddCard() {
         player.addCard(deck, 0);
-        assertEquals(1, player.getHand(0).size());        
+
+        while (true) {
+            try {
+                player.addCard(deck, 0);
+            } catch (Exception e) {
+                assertThrows(IllegalArgumentException.class, () -> player.addCard(deck, 0), "Can't add a card when score is >= 21");
+                break;
+            }
+        }     
     }
 
     @Test
     public void testFindWinner() {
-        //HandComparator comp = new HandComparator();
-        //BlackJackDealer dealer = new BlackJackDealer(deck);
-        player.newHand(deck);
-        //assertEquals(1, player.findWinner(comp, dealer));
+        HandComparator comp = new HandComparator();
+        BlackJackDealer dealer = new BlackJackDealer(deck);
+        
+        while (true) {
+            try {
+                player.addCard(deck, 0);
+            } catch (Exception e) {
+                break;
+            }
+        } 
+        assertEquals(1, comp.compare(player, dealer));
     }
 
     @Test
@@ -81,18 +96,6 @@ public class BlackjackPlayerTest {
         assertEquals(1, player.getHand(1).size());
         assertEquals(c1, player.getCard(0, 0));
         assertEquals(c2, player.getCard(1, 0));
-        /*
-        while (! player.canSplit(player.getHand(0))) {
-            player.addCard(deck, 0);
-        }
-        Card c3 = player.getCard(0, 1);
-        assertTrue(c1.getFace() == c3.getFace() || c1.getValue() == c3.getValue());
-
-        player.split(player.getHand(0));
-        assertTrue(player.getHand(0).size() == 1);
-        assertTrue(player.getHand(1).size() == 1);
-        assertTrue(player.getHand(2).size() == 1);
-        assertEquals(c3, player.getCard(2, 1)); */
     }
 
     @Test

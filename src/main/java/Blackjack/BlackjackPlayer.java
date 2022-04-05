@@ -149,7 +149,7 @@ public class BlackjackPlayer implements PlayerInterface {
             if (getHand(1).size() == 0) {
                 hands.get(1).add(hands.get(0).remove(1));
             }
-            else hands.get(1).add(hands.get(0).remove(1));
+            else hands.get(2).add(hands.get(0).remove(1));
         }
         else hands.get(2).add(hands.get(1).remove(1));
     }
