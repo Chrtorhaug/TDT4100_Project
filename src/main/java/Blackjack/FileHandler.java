@@ -160,6 +160,36 @@ public class FileHandler implements FileHandlerInterface {
     }
     
     public void removePlayerJustForTestUse(String Username) {
-        
+        File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        List<String> players = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(filename);
+            while (scanner.hasNextLine()) {
+                String info = scanner.nextLine();
+                if (!info.contains(Username)){
+                    players.add(info);
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            return;
+        }
+            try {
+                FileWriter f = new FileWriter(filename, false);
+                for (String string : players) {
+                    f.write(string+"\n");
+                }
+                f.flush();
+                f.close();
+            } catch (IOException e) {
+                return;
+            }
+            
+    }
+
+    public static void main(String[] args) {
+        FileHandler handler = new FileHandler();
+        handler.removePlayerJustForTestUse("MoneyMaker");
     }
 }

@@ -24,7 +24,7 @@ public class FileHandlerTest {
 
     @Test
     public void testGetBalance() {
-        assertEquals("700.7",handler.getBalance("JamesBond"));
+        assertEquals("700.7",handler.getBalance("James Bond"));
         assertEquals("85.3",handler.getBalance("UserName"));
     }
 
@@ -50,7 +50,7 @@ public class FileHandlerTest {
     @Test
     public void updateTopPlayers() {
         List<String> topPlayers = handler.updateTopPlayers();
-        assertEquals("JamesBond,700.7",topPlayers.get(0));
+        assertEquals("James Bond,700.7",topPlayers.get(0));
         assertEquals("UserName,85.3",topPlayers.get(topPlayers.size() -1));
     }
 
@@ -59,8 +59,9 @@ public class FileHandlerTest {
         assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","Password"));
         assertFalse(handler.CheckRegisterOrLogin("Register","JamesBond","MonteCarlo"));
         assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo"));
-        //assertTrue(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo123"));
-        //assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo123"));
+        assertTrue(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo123"));
+        assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo123"));
+        handler.removePlayerJustForTestUse("MoneyMaker");
     }
     
 }
