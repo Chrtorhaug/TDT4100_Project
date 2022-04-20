@@ -199,7 +199,6 @@ public class FileHandler implements FileHandlerInterface {
         handler.removePlayerJustForTestUse("MoneyMaker");
         //System.out.println(FileHandler.class.getResource("DataBlackjack").getFile());
         //System.out.println(Path.of(FileHandler.class.getResource("CardDeck/").getFile() + "DataBlackjack.txt"));
-        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
-        System.out.println(filename.exists());
+        //File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
     }
 }

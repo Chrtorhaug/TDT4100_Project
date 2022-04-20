@@ -46,7 +46,9 @@ public class Card {
     }
 
     public void setAceToEleven() {
-        this.value = 11;
+        if (getFace().equals("A") && getValue() == 1) {
+            this.value = 11;
+        }
     }
 
     public int getValue() {
