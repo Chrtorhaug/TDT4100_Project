@@ -82,8 +82,7 @@ public class BlackjackPlayer implements PlayerInterface {
         hand.add(deck.getCard());
 
         for (Card card : hand) {
-            if (card.getFace().equals("A") && card.getValue() == 11 && getScore(handIndex) > 21) {
-                card.setAceToOne();
+            if (card.setAceToOne(this, handIndex)) {
                 break;
             }
         }

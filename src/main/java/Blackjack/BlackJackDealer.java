@@ -18,8 +18,7 @@ public class BlackJackDealer implements PlayerInterface {
             cardHand.add(deck.getCard()); 
 
             for (Card card : cardHand) {
-                if (card.getFace().equals("A") && card.getValue() == 11 && getScore(0) > 21) {
-                    card.setAceToOne();
+                if (card.setAceToOne(this, 0)) {
                     break;
                 }
             }

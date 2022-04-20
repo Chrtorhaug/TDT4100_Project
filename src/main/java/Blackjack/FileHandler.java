@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,8 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public Map<String,String> getUserNamesFromFile(String value) throws FileNotFoundException {
-        File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        //File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
         Scanner scanner = new Scanner(filename);
         Map<String, String> UserNameMap = new HashMap<>();
 
@@ -53,7 +55,9 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public void registerUserToFile(String UserName, String Password) {
-        File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        //File filename1 = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        //File filename = new File(FileHandler.class.getResource("DataBlackjack").getFile() + "DataBlackjack.txt");
+        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
         try {
             FileWriter f = new FileWriter(filename, true);
             BufferedWriter b = new BufferedWriter(f);
@@ -114,7 +118,9 @@ public class FileHandler implements FileHandlerInterface {
 
     public void UpdateBalance(String Username, double Balance) {
         try {
-            File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+            //File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+            //File filename = new File(CardDeck.class.getResource("DataBlackjack").getFile() + "DataBlackjack.txt");
+            File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
             List<String> fileList = new ArrayList<>();
             Scanner scanner = new Scanner(filename);
 
@@ -160,7 +166,8 @@ public class FileHandler implements FileHandlerInterface {
     }
     
     public void removePlayerJustForTestUse(String Username) {
-        File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        //File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
+        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
         List<String> players = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(filename);
@@ -172,13 +179,12 @@ public class FileHandler implements FileHandlerInterface {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             return;
         }
             try {
                 FileWriter f = new FileWriter(filename, false);
                 for (String string : players) {
-                    f.write(string+"\n");
+                    f.write(string + "\n");
                 }
                 f.flush();
                 f.close();
@@ -191,5 +197,9 @@ public class FileHandler implements FileHandlerInterface {
     public static void main(String[] args) {
         FileHandler handler = new FileHandler();
         handler.removePlayerJustForTestUse("MoneyMaker");
+        //System.out.println(FileHandler.class.getResource("DataBlackjack").getFile());
+        //System.out.println(Path.of(FileHandler.class.getResource("CardDeck/").getFile() + "DataBlackjack.txt"));
+        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
+        System.out.println(filename.exists());
     }
 }

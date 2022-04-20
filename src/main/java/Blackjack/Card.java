@@ -37,8 +37,12 @@ public class Card {
         else return validFaceList.indexOf(face) + 1;
     }
 
-    public void setAceToOne() {
-        this.value = 1;
+    public boolean setAceToOne(PlayerInterface pl, int handIndex) {
+        if (getFace().equals("A") && getValue() == 11 && pl.getScore(handIndex) > 21) {
+            this.value = 1;
+            return true;
+        }
+        return false;
     }
 
     public void setAceToEleven() {
