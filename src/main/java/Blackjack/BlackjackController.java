@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -22,20 +23,20 @@ public class BlackjackController {
     private CardDeck deck;
     private BlackJackDealer dealer;
     private int currentHand;
+    private double sessionStartMoney = 0;
     private FileHandler fileHandler = new FileHandler();
-    private List<ImageView> firstHandImageViews = new ArrayList<>();
-    private List<ImageView> dealerHandImageViews = new ArrayList<>();
-    private List<ImageView> secondHandImageViews = new ArrayList<>();
-    private List<ImageView> thirdHandImageViews = new ArrayList<>();
+    private List<ImageView> firstHandImageViews, secondHandImageViews, thirdHandImageViews, dealerHandImageViews = new ArrayList<>();
+    private List<Label> playerScores;
+    private List<List<ImageView>> playerHands;
 
     @FXML
-    private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance, ShowCurrentBet, ShowStandardBet;
+    private Label PlayerScore1, PlayerScore2, PlayerScore3, DealerScore, WelcomeSign, ShowBalance, ShowCurrentBet, ShowStandardBet, ShowSessionMoney;
 
     @FXML
     private Text PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScoreText;
     
     @FXML
-    private Button LoginButton, RegisterButton, NewGameButton, BetButton, HitButton, HoldButton, SplitButton;
+    private Button LoginButton, RegisterButton, NewGameButton, BetButton, HitButton, HoldButton, SplitButton, LogOutButton;
 
     @FXML
     private TextField NameField, PasswordField, BetField;
@@ -115,13 +116,11 @@ public class BlackjackController {
         else {
             if (lb.equals(PlayerScore2)) {
                 lb.setText(String.valueOf(pl.getScore(1)));
-                PlayerScoreText2.setVisible(true);
-                PlayerScore2.setVisible(true);
+                Arrays.asList(PlayerScoreText2, PlayerScore2).forEach(s -> s.setVisible(true));
             }
             else if (lb.equals(PlayerScore3)) {
                 lb.setText(String.valueOf(pl.getScore(2)));
-                PlayerScoreText3.setVisible(true);
-                PlayerScore3.setVisible(true);
+                Arrays.asList(PlayerScoreText3, PlayerScore3).forEach(s -> s.setVisible(true));
             }
             else lb.setText(String.valueOf(pl.getScore(0)));
         }
@@ -129,7 +128,7 @@ public class BlackjackController {
 
     private void showPlayingFrame() {
         List<Rectangle> frames = Arrays.asList(PlayerHandFrame1, PlayerHandFrame2, PlayerHandFrame3);
-        frames.stream().forEach(frame -> frame.setVisible(false));
+        frames.forEach(frame -> frame.setVisible(false));
         frames.get(currentHand).setVisible(true);
     }
 
@@ -146,33 +145,22 @@ public class BlackjackController {
         updateLabel(DealerScore, dealer);
         showPlayingFrame();
 
+        Arrays.asList(DealerScore, PlayerScore1, PlayerScoreText1, DealerScoreText).forEach(b -> b.setVisible(true));
+        Arrays.asList(PlayerScoreText2, PlayerScoreText3, PlayerScore2, PlayerScore3).forEach(b -> b.setVisible(false));
+        Arrays.asList(HitButton, HoldButton).forEach(b -> b.setDisable(false));
         NewGameButton.setDisable(true);
-        HitButton.setDisable(false);
-        DealerScore.setVisible(true);
-        PlayerScore1.setVisible(true);
-        HoldButton.setDisable(false);
-        PlayerScoreText1.setVisible(true);
-        PlayerScoreText2.setVisible(false);
-        PlayerScoreText3.setVisible(false);
-        DealerScoreText.setVisible(true);
-        PlayerScore2.setVisible(false);
-        PlayerScore3.setVisible(false);
 
         if (player.canSplit(player.getHand(0))) {
             SplitButton.setDisable(false);
         }
 
         if (player.getScore(0) == 21) {
-            HitButton.setDisable(true);
-            SplitButton.setDisable(true);
+            Arrays.asList(HitButton, SplitButton).forEach(b -> b.setDisable(true));
         }
     }
 
     @FXML
     public void handleHit(ActionEvent hitEvent) {
-        List<List<ImageView>> playerHands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews);
-        List<Label> playerScores = Arrays.asList(PlayerScore1, PlayerScore2, PlayerScore3);
-
         updateCardHandPictures(playerHands.get(currentHand), hitEvent);
         updateLabel(playerScores.get(currentHand), player);
 
@@ -181,8 +169,7 @@ public class BlackjackController {
         }
 
         if (player.getScore(currentHand) >= 21 && currentHand != player.getHands().size() - 1 && player.getHand(currentHand + 1).size() == 0) {
-            HitButton.setDisable(true);
-            SplitButton.setDisable(true);
+            Arrays.asList(HitButton, SplitButton).forEach(b -> b.setDisable(true));
         }
     }
 
@@ -191,22 +178,31 @@ public class BlackjackController {
         if (currentHand == player.getHands().size() - 1 || player.getHand(currentHand + 1).size() == 0) {
             player.hold();
             currentHand = 0;
+
             updateCardHandPictures(dealerHandImageViews, holdEvent);
             updateLabel(DealerScore, dealer);
             player.findWinner(new HandComparator(), dealer);
-            ShowBalance.setText(player.getBalance() + "$");
             fileHandler.UpdateBalance(player.getName(), player.getBalance());
+            ShowBalance.setText(player.getBalance() + "$");
 
-            TopPlayersListView.getItems().clear();
-            TopPlayersBalanceListView.getItems().clear();
-            RankListView.getItems().clear();
+            if (player.getBalance() > sessionStartMoney) { // If a player is up this session show the earned money in green
+                ShowSessionMoney.setText("+ " + (player.getBalance() - sessionStartMoney) + " $");
+                ShowSessionMoney.setTextFill(Color.GREEN);
+            }
+            else if (player.getBalance() < sessionStartMoney) { // If a player is down this session show the lost money in red
+                ShowSessionMoney.setText("- " + (sessionStartMoney - player.getBalance() + " $"));
+                ShowSessionMoney.setTextFill(Color.RED);
+            }
+            else { // If the player is even show 0 in white 
+                ShowSessionMoney.setText("0 $"); 
+                ShowSessionMoney.setTextFill(Color.WHITE);
+            }
+
+            Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
             updateTableTopPlayers();
 
-            HoldButton.setDisable(true);
-            HitButton.setDisable(true);
-            SplitButton.setDisable(true);
-            BetButton.setDisable(false);
-            BetField.setDisable(false);
+            Arrays.asList(HoldButton, HitButton, SplitButton).forEach(b -> b.setDisable(true));
+            Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
 
             if (player.getBalance() == 0) {
                 player.setBalance(100);
@@ -225,9 +221,6 @@ public class BlackjackController {
 
     @FXML
     public void handleSplit(ActionEvent splitEvent) {
-        List<List<ImageView>> playerHands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews);
-        List<Label> playerScores = Arrays.asList(PlayerScore1, PlayerScore2, PlayerScore3);
-
         if (player.getHand(currentHand + 1).size() == 0) {
             player.split(player.getHand(currentHand));
             updateCardHandPictures(playerHands.get(currentHand), splitEvent);
@@ -258,12 +251,13 @@ public class BlackjackController {
             if (BetField.getText().isBlank()) {
                 player.setBet(String.valueOf(player.getStandardBet()));
             }
-            else player.setBet(BetField.getText());
-            ShowCurrentBet.setText(player.getBet()+"$");
-            BetField.setPromptText("Enter Bet Amount:");
-            NewGameButton.setDisable(false);
-            BetButton.setDisable(true);
-            BetField.setDisable(true);
+            else {
+                player.setBet(BetField.getText());
+                ShowCurrentBet.setText(player.getBet() + " $");
+                BetField.setPromptText("Enter Bet Amount:");
+                NewGameButton.setDisable(false);
+                Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(true));
+            }
         }
     }
 
@@ -282,6 +276,8 @@ public class BlackjackController {
         firstHandImageViews = Arrays.asList(CardPicture11, CardPicture12, CardPicture13, CardPicture14, CardPicture15, CardPicture16, CardPicture17, CardPicture18);
         secondHandImageViews = Arrays.asList(CardPicture21, CardPicture22, CardPicture23, CardPicture24, CardPicture25, CardPicture26, CardPicture27, CardPicture28); 
         thirdHandImageViews = Arrays.asList(CardPicture31, CardPicture32, CardPicture33, CardPicture34, CardPicture35, CardPicture36, CardPicture37, CardPicture38);
+        playerHands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews);
+        playerScores = Arrays.asList(PlayerScore1, PlayerScore2, PlayerScore3);
         
         if (fileHandler.CheckRegisterOrLogin(start, NameField.getText(), PasswordField.getText())){
             if (start == "Login") {
@@ -294,15 +290,17 @@ public class BlackjackController {
             WelcomeSign.setText("Welcome " + player.getName());
             ShowBalance.setText(player.getBalance() + "$");
             ShowStandardBet.setText(player.getStandardBet() + "$");
+            this.sessionStartMoney = player.getBalance();
             
-            WelcomeSign.setVisible(true);
-            LoginButton.setVisible(false);
-            RegisterButton.setVisible(false);
-            NameField.setDisable(true);
-            BetButton.setDisable(false);
-            BetField.setDisable(false);
-            NameField.setDisable(true);
-            PasswordField.setDisable(true);
+            Arrays.asList(WelcomeSign, LogOutButton).forEach(b -> b.setVisible(true));
+            Arrays.asList(NameField, PasswordField).forEach(b -> b.setDisable(true));
+            Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
+            Arrays.asList(PlayerHandFrame1, PlayerHandFrame2, PlayerHandFrame3, PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScore, DealerScoreText, LoginButton, RegisterButton).forEach(f -> f.setVisible(false));
+
+            dealerHandImageViews.stream().forEach(i -> i.imageProperty().set(null));
+            playerHands.stream().forEach(l -> l.forEach(i -> i.imageProperty().set(null)));
+            playerScores.stream().forEach(s -> s.setVisible(false));
+            Arrays.asList(ShowSessionMoney, ShowCurrentBet).forEach(s -> s.setText("0 $"));
         }
         else {
             NameField.clear();
@@ -315,13 +313,24 @@ public class BlackjackController {
         }
     }
 
-    public void updateTableTopPlayers() {
+    private void updateTableTopPlayers() {
         List<String> topPlayers = fileHandler.updateTopPlayers();
         for (String string : topPlayers) {
             String[] info = string.split(",");
-            RankListView.getItems().add(topPlayers.indexOf(string)+1+"");
+            RankListView.getItems().add(topPlayers.indexOf(string) + 1 + "");
             TopPlayersListView.getItems().add(info[0]);
-            TopPlayersBalanceListView.getItems().add(info[1]);
+            TopPlayersBalanceListView.getItems().add(info[1] + " $");
         }
+    }
+
+    @FXML
+    private void handleLogOut() {
+        initialize();
+        Arrays.asList(LogOutButton, WelcomeSign).forEach(b -> b.setVisible(false));
+        Arrays.asList(NameField, PasswordField).forEach(b -> b.setDisable(false));
+        Arrays.asList(RegisterButton, LoginButton).forEach(b -> b.setVisible(true));
+
+        Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
+        updateTableTopPlayers();
     }
 }

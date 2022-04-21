@@ -137,9 +137,9 @@
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="WelcomeSign" accessibleText="TEXT" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="196.0" text="Welcome to BlackJack" textAlignment="CENTER" textFill="WHITE" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <Label fx:id="WelcomeSign" accessibleText="TEXT" alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="250.0" text="Welcome to BlackJack" textAlignment="CENTER" textFill="WHITE" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
-                  <Font name="Times New Roman" size="18.0" />
+                  <Font name="Times New Roman Bold" size="20.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="2.0" />
@@ -286,7 +286,7 @@
             </Label>
             <Pane prefHeight="459.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="90.0" left="10.0" right="10.0" top="210.0" />
+                  <Insets bottom="60.0" left="10.0" right="10.0" top="240.0" />
                </GridPane.margin>
                <children>
                   <ListView fx:id="TopPlayersListView" layoutX="26.0" prefHeight="300.0" prefWidth="136.0" />
@@ -296,7 +296,7 @@
             </Pane>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="85.0" />
+                  <Insets left="10.0" top="115.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
@@ -304,15 +304,15 @@
             </Text>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Bet:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="115.0" />
+                  <Insets left="10.0" top="145.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Players" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets top="180.0" />
+                  <Insets bottom="150.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="20.0" />
@@ -320,7 +320,7 @@
             </Text>
             <Label fx:id="ShowCurrentBet" text="Bet" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="20.0" top="85.0" />
+                  <Insets right="20.0" top="115.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
@@ -328,7 +328,7 @@
             </Label>
             <Label fx:id="ShowStandardBet" text="Bet" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="20.0" top="115.0" />
+                  <Insets right="20.0" top="145.0" />
                </GridPane.margin>
                <font>
                   <Font name="Times New Roman" size="18.0" />
@@ -345,6 +345,27 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </Rectangle>
+            <Button fx:id="LogOutButton" mnemonicParsing="false" onAction="#handleLogOut" prefHeight="96.0" prefWidth="246.0" text="Log out" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Button>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="This Session:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" top="85.0" />
+               </GridPane.margin>
+            </Text>
+            <Label fx:id="ShowSessionMoney" text="Ses" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="20.0" top="85.0" />
+               </GridPane.margin>
+            </Label>
          </children>
          <rotationAxis>
             <Point3D />

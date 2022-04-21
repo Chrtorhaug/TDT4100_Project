@@ -99,7 +99,7 @@ public class BlackjackPlayer implements PlayerInterface {
     public void findWinner(HandComparator comp, PlayerInterface dealer) {
         int numberOfHands = hands.size();
 
-        for (int i = 1; i < hands.size(); i++) {
+        for (int i = 1; i < hands.size(); i++) { //Checking how many playing hands the player has
             if (hands.get(i).size() == 0) {
                 numberOfHands = i;
                 break;
@@ -108,16 +108,17 @@ public class BlackjackPlayer implements PlayerInterface {
 
         for (int i = 0; i < numberOfHands; i++) {
             currentHandIndex = i;
-            if (hands.get(i).size() == 2 && getScore(i) == 21) {
+            if (hands.get(i).size() == 2 && getScore(i) == 21) { // Checking if Blackjack, pays 3 to 2
                 balance += bet * 1.5;
             }
-            else if (comp.compare(this, dealer) < 0){
+            else if (comp.compare(this, dealer) < 0) { //Check if player wins
                 balance += bet;
             }
-             else if (comp.compare(this, dealer) >0) {
+             else if (comp.compare(this, dealer) >0) { // Check if dealer wins
                 balance -= bet;
             }
         }
+
     }
 
     public String setBet(String betString) {
