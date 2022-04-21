@@ -1,6 +1,6 @@
 Jens,PokerPlayer123,90.0
 UserName,BlackJack123,85.3
-Christian,TexasTiger123,395.0
+Christian,TexasTiger123,399.0
 Kokos,Blackjack543,100.0
 James Bond,ShakenNotStirred,700.7
 Daniel Negreanu,TexasHoldem4040,438.0
