@@ -110,7 +110,7 @@ public class BlackjackController {
     }
 
     private void updateLabel(Label lb, PlayerInterface pl) {
-        if (pl.getClass().equals(BlackJackDealer.class) && player.checkPlaying()) { // Hvis runden ikke er ferdig skal Dealer bare vise scoren til første kort 
+        if (pl.getClass().equals(BlackJackDealer.class) && player.checkPlaying()) { // If the round isn't finished, Dealer should only show one card
             lb.setText(String.valueOf(pl.getCard(0, 0).getValue()));
         }
         else {
@@ -183,7 +183,7 @@ public class BlackjackController {
             updateLabel(DealerScore, dealer);
             player.findWinner(new HandComparator(), dealer);
             fileHandler.UpdateBalance(player.getName(), player.getBalance());
-            ShowBalance.setText(player.getBalance() + "$");
+            ShowBalance.setText(player.getBalance() + " $");
 
             if (player.getBalance() > sessionStartMoney) { // If a player is up this session show the earned money in green
                 ShowSessionMoney.setText("+ " + (player.getBalance() - sessionStartMoney) + " $");
@@ -301,6 +301,7 @@ public class BlackjackController {
             playerHands.stream().forEach(l -> l.forEach(i -> i.imageProperty().set(null)));
             playerScores.stream().forEach(s -> s.setVisible(false));
             Arrays.asList(ShowSessionMoney, ShowCurrentBet).forEach(s -> s.setText("0 $"));
+            ShowSessionMoney.setTextFill(Color.WHITE);
         }
         else {
             NameField.clear();
