@@ -201,6 +201,16 @@ public class BlackjackController {
 
             Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
             updateTableTopPlayers();
+            /*
+            List<String> players = fileHandler.updateTopPlayers();
+            int index = 0;
+            for (int i = 0; i < players.size(); i++) {
+                if (player.getName() == players.get(i)) {
+                    index = i;
+                    break;
+                }
+            } 
+            Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.setText.); */
 
             Arrays.asList(HoldButton, HitButton, SplitButton).forEach(b -> b.setDisable(true));
             Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
@@ -208,7 +218,7 @@ public class BlackjackController {
             if (player.getBalance() == 0) {
                 player.setBalance(100);
                 ShowBalance.setText(player.getBalance() + "$");
-            }
+            } 
         }
         else if (currentHand == 0 || currentHand == 1) {
             currentHand++;

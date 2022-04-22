@@ -210,7 +210,7 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public List<String> updateTopPlayers() {
-        List<String> topPlayers = new ArrayList<>(10);
+        List<String> topPlayers = new ArrayList<>(13);
 
         try {
             Map<String,String> NameBalance = getUserNamesFromFile("Balance");
