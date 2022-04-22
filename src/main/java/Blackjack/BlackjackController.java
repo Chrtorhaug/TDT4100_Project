@@ -1,6 +1,7 @@
 package Blackjack;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -174,7 +175,7 @@ public class BlackjackController {
     }
 
     @FXML
-    public void handleHold(ActionEvent holdEvent) {
+    public void handleHold(ActionEvent holdEvent) throws FileNotFoundException {
         if (currentHand == player.getHands().size() - 1 || player.getHand(currentHand + 1).size() == 0) {
             player.hold();
             currentHand = 0;
