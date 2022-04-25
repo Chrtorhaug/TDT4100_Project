@@ -247,16 +247,14 @@ public class BlackjackController {
         }
         else {
             if (BetField.getText().isEmpty()) {
-                System.out.println("hei");
                 player.setBet(String.valueOf(player.getStandardBet()));
             }
-            else {
-                player.setBet(BetField.getText());
-                ShowCurrentBet.setText(player.getBet() + " $");
-                BetField.setPromptText("Enter Bet Amount:");
-                NewGameButton.setDisable(false);
-                Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(true));
-            }
+            else player.setBet(BetField.getText());
+            
+            ShowCurrentBet.setText(player.getBet() + " $");
+            BetField.setPromptText("Enter Bet Amount:");
+            NewGameButton.setDisable(false);
+            Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(true));
         }
     }
 
