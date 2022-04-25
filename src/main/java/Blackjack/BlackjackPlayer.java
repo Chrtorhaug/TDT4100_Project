@@ -92,13 +92,7 @@ public class BlackjackPlayer implements PlayerInterface {
         if (getScore(handIndex) >= 21) {
             throw new IllegalArgumentException("Du har mer enn 21");
         }
-        hand.add(deck.getCard());
-
-        for (Card card : hand) {
-            if (card.setAceToOne(this, handIndex)) {
-                break;
-            }
-        }
+        hand.add(deck.getCard()); 
     }
 
     public boolean checkPlaying() {
@@ -107,6 +101,14 @@ public class BlackjackPlayer implements PlayerInterface {
     
     public void hold() {
         this.playing = false;
+    }
+
+    public void setAceToOne(List<Card> hand, int handIndex) {
+        for (Card card : hand) {
+            if (card.setAceToOne(this, handIndex)) {
+                return;
+            }
+        }
     }
 
     public void findWinner(HandComparator comp, PlayerInterface dealer) {

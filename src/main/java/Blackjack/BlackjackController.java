@@ -91,6 +91,7 @@ public class BlackjackController {
             } 
             if (event.getSource().equals(HitButton)) {
                 player.addCard(deck, handIndex);
+                player.setAceToOne(player.getHand(currentHand), handIndex); //Checking if you have an Ace and if it needs to be changed  
             } 
             if (event.getSource().equals(SplitButton)) {
                 hands.stream().limit(handIndex + 1).forEach(v -> v.get(1).imageProperty().set(null));
