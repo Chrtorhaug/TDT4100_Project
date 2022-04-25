@@ -197,9 +197,7 @@ public class BlackjackController {
                 ShowSessionMoney.setTextFill(Color.WHITE);
             }
 
-            //Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
             updateTableTopPlayers();
-
             Arrays.asList(HoldButton, HitButton, SplitButton).forEach(b -> b.setDisable(true));
             Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
 
@@ -248,7 +246,8 @@ public class BlackjackController {
             BetField.setPromptText("Not a Double");
         }
         else {
-            if (BetField.getText().isBlank()) {
+            if (BetField.getText().isEmpty()) {
+                System.out.println("hei");
                 player.setBet(String.valueOf(player.getStandardBet()));
             }
             else {
