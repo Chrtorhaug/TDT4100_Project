@@ -70,18 +70,13 @@ public class BlackjackPlayer implements PlayerInterface {
         return balance - (rebuys * 100 + sessionStartMoney);
     }
 
-    public int getRebuyMoney() {
-        if (rebuys > 0) {
-            return (rebuys - 1) * 100;
-        }
-        else return 0;
-    }
-
-    public void rebuy() {
+    public boolean rebuy() {
         if (balance == 0.0) {
             this.balance = 100;
             rebuys++;
+            return true;
         }
+        else return false;
     }
 
     public void newHand(CardDeck deck) {

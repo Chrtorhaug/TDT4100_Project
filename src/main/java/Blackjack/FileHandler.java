@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class FileHandler implements FileHandlerInterface {
 
     public void writeToFile(String filename, String write, boolean append) throws FileNotFoundException {
         try {
-            File file = Paths.get(filename).toFile();
+            File file = new File(filename);
             FileWriter f = new FileWriter(file, append);
             BufferedWriter b = new BufferedWriter(f);
             PrintWriter writer = new PrintWriter(b);
@@ -45,22 +44,10 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public Map<String,String> getUserNamesFromFile(String value) throws FileNotFoundException {
-        //File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
-        //File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
-        //Scanner scanner = new Scanner(filename);
         List<List<String>> file = readFile("src/main/resources/DataBlackjack.txt", ",");
         Map<String, String> UserNameMap = new HashMap<>();
 
         if (value.equals("Password")) {
-            /*
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] lineInfo = line.split(",");
-                String UserName = lineInfo[0];
-                String PassWord = lineInfo[1];
-
-                UserNameMap.put(UserName,PassWord);
-            } */
             for (List<String> list : file) {
                 String userName = list.get(0);
                 String passWord = list.get(1);
@@ -69,15 +56,6 @@ public class FileHandler implements FileHandlerInterface {
             }
         }
         if (value.equals("Balance")) {
-            /*
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] lineInfo = line.split(",");
-                String UserName = lineInfo[0];
-                String Balance = lineInfo[2];
-
-                UserNameMap.put(UserName,Balance);
-            } */
             for (List<String> list : file) {
                 String userName = list.get(0);
                 String balance = list.get(2);
@@ -85,25 +63,10 @@ public class FileHandler implements FileHandlerInterface {
                 UserNameMap.put(userName, balance);
             }
         }
-        //scanner.close();
         return UserNameMap;   
     }
 
     public void registerUserToFile(String userName, String password) throws FileNotFoundException {
-        //File filename1 = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
-        //File filename = new File(FileHandler.class.getResource("DataBlackjack").getFile() + "DataBlackjack.txt");
-        /*
-        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
-        try {
-            FileWriter f = new FileWriter(filename, true);
-            BufferedWriter b = new BufferedWriter(f);
-            PrintWriter writer = new PrintWriter(b);
-            writer.println(UserName+","+Password+",100.0");
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } */
         String registerUser = userName + "," + password + ",100.0"; 
         writeToFile("src/main/resources/DataBlackjack.txt", registerUser, true);
     }
@@ -162,38 +125,6 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public void UpdateBalance(String username, double balance) throws FileNotFoundException {
-        /*
-        try {
-            //File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
-            //File filename = new File(CardDeck.class.getResource("DataBlackjack").getFile() + "DataBlackjack.txt");
-            File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
-            List<String> fileList = new ArrayList<>();
-            //Scanner scanner = new Scanner(filename);
-            /*
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                
-                fileList.add(line);
-            }
-            scanner.close();  
-            String newFileString = "";
-            for (String line : fileList) {
-                if(line.contains(Username)) {
-                    String[] info = line.split(",");
-                    newFileString += info[0] + "," + info[1] + "," + Balance + "\n";
-                }
-                else newFileString += line + "\n";
-            }
-            FileWriter f = new FileWriter(filename, false);
-            
-            f.write(newFileString);
-            f.flush();
-            f.close();  
-
-        } catch (Exception e) {
-            return;     
-        } */
-
         List<List<String>> file = readFile("src/main/resources/DataBlackjack.txt", ",");
         writeToFile("src/main/resources/DataBlackjack.txt", "", false);
 
@@ -227,7 +158,6 @@ public class FileHandler implements FileHandlerInterface {
     }
     
     public void removePlayerJustForTestUse(String username) throws FileNotFoundException {
-        //File filename = new File("src\\main\\resources\\DataBlackjack.txt").getAbsoluteFile();
         List<List<String>> file = readFile("src/main/resources/DataBlackjack.txt", ",");
         writeToFile("src/main/resources/DataBlackjack.txt", "", false);
 
@@ -240,33 +170,7 @@ public class FileHandler implements FileHandlerInterface {
                 }
                 else writeToFile("src/main/resources/DataBlackjack.txt", newFileString, true);
             }
-        }
-        /*
-        File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
-        List<String> players = new ArrayList<>();
-        try {
-            Scanner scanner = new Scanner(filename);
-            while (scanner.hasNextLine()) {
-                String info = scanner.nextLine();
-                if (!info.contains(Username)){
-                    players.add(info);
-                }
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            return;
-        }
-            try {
-                FileWriter f = new FileWriter(filename, false);
-                for (String string : players) {
-                    f.write(string + "\n");
-                }
-                f.flush();
-                f.close();
-            } catch (IOException e) {
-                return;
-            }
-        */        
+        }        
     }
 
     public static void main(String[] args) throws FileNotFoundException {
