@@ -292,7 +292,7 @@ public class BlackjackController {
             Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
             Arrays.asList(PlayerHandFrame1, PlayerHandFrame2, PlayerHandFrame3, PlayerScoreText1, PlayerScoreText2, PlayerScoreText3, DealerScore, DealerScoreText, LoginButton, RegisterButton).forEach(f -> f.setVisible(false));
 
-            dealerHandImageViews.stream().forEach(i -> i.imageProperty().set(null));
+            dealerHandImageViews.forEach(i -> i.imageProperty().set(null));
             playerHands.stream().forEach(l -> l.forEach(i -> i.imageProperty().set(null)));
             playerScores.stream().forEach(s -> s.setVisible(false));
             Arrays.asList(ShowSessionMoney, ShowCurrentBet).forEach(s -> s.setText("0 $"));
@@ -315,8 +315,6 @@ public class BlackjackController {
         Arrays.asList(LogOutButton, WelcomeSign).forEach(b -> b.setVisible(false));
         Arrays.asList(NameField, PasswordField).forEach(b -> b.setDisable(false));
         Arrays.asList(RegisterButton, LoginButton).forEach(b -> b.setVisible(true));
-
-        //Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
         updateTableTopPlayers();
     }
 
