@@ -65,7 +65,10 @@ public class BlackjackPlayerTest {
                 break;
             }
         } 
-        assertEquals(1, comp.compare(player, dealer));
+        if (player.getScore(0) == 21) {
+            assertEquals(0, comp.compare(player, dealer));
+        }
+        else assertEquals(1, comp.compare(player, dealer));
     }
 
     @Test

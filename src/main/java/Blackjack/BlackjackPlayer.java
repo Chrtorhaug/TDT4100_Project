@@ -10,6 +10,8 @@ public class BlackjackPlayer implements PlayerInterface {
     private double balance;
     private double bet;
     private double standardBet;
+    private int rebuys = 0;
+    private double sessionStartMoney;
     private boolean playing;
     private int currentHandIndex;
     
@@ -18,6 +20,7 @@ public class BlackjackPlayer implements PlayerInterface {
             throw new IllegalArgumentException("Name can not be Dealer.");
         }
         this.balance = balance;
+        this.sessionStartMoney = balance;
         this.name = name;
         this.standardBet = 5.0;
     }
@@ -61,6 +64,24 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public void setBalance(double bal) {
         this.balance = bal;
+    }
+
+    public double getMoneyChange() {
+        return balance - (rebuys * 100 + sessionStartMoney);
+    }
+
+    public int getRebuyMoney() {
+        if (rebuys > 0) {
+            return (rebuys - 1) * 100;
+        }
+        else return 0;
+    }
+
+    public void rebuy() {
+        if (balance == 0.0) {
+            this.balance = 100;
+            rebuys++;
+        }
     }
 
     public void newHand(CardDeck deck) {

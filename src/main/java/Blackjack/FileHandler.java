@@ -17,7 +17,8 @@ public class FileHandler implements FileHandlerInterface {
 
     public List<List<String>> readFile(String filename, String splitter) throws FileNotFoundException {
         List<List<String>> lines = new ArrayList<List<String>>();
-        File file = Paths.get(filename).toFile();
+        //File file = Paths.get(filename).toFile();
+        File file = new File(filename);
         Scanner scanner = new Scanner(file);
 
         while (scanner.hasNextLine()) {
@@ -30,8 +31,8 @@ public class FileHandler implements FileHandlerInterface {
     }
 
     public void writeToFile(String filename, String write, boolean append) throws FileNotFoundException {
-        File file = Paths.get(filename).toFile();
         try {
+            File file = Paths.get(filename).toFile();
             FileWriter f = new FileWriter(file, append);
             BufferedWriter b = new BufferedWriter(f);
             PrintWriter writer = new PrintWriter(b);

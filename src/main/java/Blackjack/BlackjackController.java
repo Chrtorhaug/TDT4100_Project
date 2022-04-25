@@ -24,7 +24,6 @@ public class BlackjackController {
     private CardDeck deck;
     private BlackJackDealer dealer;
     private int currentHand;
-    private double sessionStartMoney = 0;
     private FileHandler fileHandler = new FileHandler();
     private List<ImageView> firstHandImageViews, secondHandImageViews, thirdHandImageViews, dealerHandImageViews = new ArrayList<>();
     private List<Label> playerScores;
@@ -186,16 +185,16 @@ public class BlackjackController {
             fileHandler.UpdateBalance(player.getName(), player.getBalance());
             ShowBalance.setText(player.getBalance() + " $");
 
-            if (player.getBalance() > sessionStartMoney) { // If a player is up this session show the earned money in green
-                ShowSessionMoney.setText("+ " + (player.getBalance() - sessionStartMoney) + " $");
+            if (player.getMoneyChange() > 0) { // If a player is up this session show the earned money in green
+                ShowSessionMoney.setText("+ " + (player.getMoneyChange() + " $"));
                 ShowSessionMoney.setTextFill(Color.GREEN);
             }
-            else if (player.getBalance() < sessionStartMoney) { // If a player is down this session show the lost money in red
-                ShowSessionMoney.setText("- " + (sessionStartMoney - player.getBalance() + " $"));
+            else if (player.getMoneyChange() < 0) { // If a player is down this session show the lost money in red
+                ShowSessionMoney.setText("- " + (Math.abs(player.getMoneyChange()) + " $"));
                 ShowSessionMoney.setTextFill(Color.RED);
             }
             else { // If the player is even show 0 in white 
-                ShowSessionMoney.setText("0 $"); 
+                //ShowSessionMoney.setText("0 $"); 
                 ShowSessionMoney.setTextFill(Color.WHITE);
             }
 
@@ -215,10 +214,12 @@ public class BlackjackController {
             Arrays.asList(HoldButton, HitButton, SplitButton).forEach(b -> b.setDisable(true));
             Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
 
-            if (player.getBalance() == 0) {
-                player.setBalance(100);
-                ShowBalance.setText(player.getBalance() + "$");
-            } 
+            //if (player.getBalance() == 0) {
+            //    player.setBalance(100);
+            //    ShowBalance.setText(player.getBalance() + "$");
+            //} 
+            player.rebuy(); //Checks if a player is broke and rebuys money if necessary 
+            ShowBalance.setText(player.getBalance() + "$");
         }
         else if (currentHand == 0 || currentHand == 1) {
             currentHand++;
@@ -290,18 +291,16 @@ public class BlackjackController {
         playerHands = Arrays.asList(firstHandImageViews, secondHandImageViews, thirdHandImageViews);
         playerScores = Arrays.asList(PlayerScore1, PlayerScore2, PlayerScore3);
         
-        if (fileHandler.CheckRegisterOrLogin(start, NameField.getText(), PasswordField.getText())){
+        if (fileHandler.CheckRegisterOrLogin(start, NameField.getText(), PasswordField.getText())) {
             if (start == "Login") {
                 this.player = new BlackjackPlayer(Double.parseDouble(fileHandler.getBalance(NameField.getText())), NameField.getText(), deck);
             }
             else this.player = new BlackjackPlayer(100, NameField.getText(), deck);
 
-            NameField.clear();
-            PasswordField.clear();
+            Arrays.asList(NameField, PasswordField).forEach(f -> f.clear());
             WelcomeSign.setText("Welcome " + player.getName());
             ShowBalance.setText(player.getBalance() + "$");
             ShowStandardBet.setText(player.getStandardBet() + "$");
-            this.sessionStartMoney = player.getBalance();
             
             Arrays.asList(WelcomeSign, LogOutButton).forEach(b -> b.setVisible(true));
             Arrays.asList(NameField, PasswordField).forEach(b -> b.setDisable(true));
@@ -325,16 +324,6 @@ public class BlackjackController {
         }
     }
 
-    private void updateTableTopPlayers() {
-        List<String> topPlayers = fileHandler.updateTopPlayers();
-        for (String string : topPlayers) {
-            String[] info = string.split(",");
-            RankListView.getItems().add(topPlayers.indexOf(string) + 1 + "");
-            TopPlayersListView.getItems().add(info[0]);
-            TopPlayersBalanceListView.getItems().add(info[1] + " $");
-        }
-    }
-
     @FXML
     private void handleLogOut() {
         initialize();
@@ -344,5 +333,15 @@ public class BlackjackController {
 
         Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
         updateTableTopPlayers();
+    }
+
+    private void updateTableTopPlayers() {
+        List<String> topPlayers = fileHandler.updateTopPlayers();
+        for (String string : topPlayers) {
+            String[] info = string.split(",");
+            RankListView.getItems().add(topPlayers.indexOf(string) + 1 + "");
+            TopPlayersListView.getItems().add(info[0]);
+            TopPlayersBalanceListView.getItems().add(info[1] + " $");
+        }
     }
 }

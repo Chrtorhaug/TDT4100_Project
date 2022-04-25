@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +14,8 @@ public class FileHandlerTest {
 
     private FileHandler handler;
 
-
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws FileNotFoundException {
         handler = new FileHandler();
         handler.UpdateBalance("UserName",85.3);
         handler.UpdateBalance("Kokos",100.0);
@@ -29,7 +29,7 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testUpdateBalance() {
+    public void testUpdateBalance() throws FileNotFoundException {
         handler.UpdateBalance("UserName",116.5);
         assertEquals("116.5",handler.getBalance("UserName"));
         handler.UpdateBalance("Kokos",60.6);
@@ -51,11 +51,11 @@ public class FileHandlerTest {
     public void updateTopPlayers() {
         List<String> topPlayers = handler.updateTopPlayers();
         assertEquals("James Bond,700.7",topPlayers.get(0));
-        assertEquals("UserName,85.3",topPlayers.get(topPlayers.size() -1));
+        assertEquals("UserName,85.3",topPlayers.get(topPlayers.size() - 2));
     }
 
     @Test
-    public void testValidateUserAtRegister() {
+    public void testValidateUserAtRegister() throws FileNotFoundException {
         assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","Password"));
         assertFalse(handler.CheckRegisterOrLogin("Register","JamesBond","MonteCarlo"));
         assertFalse(handler.CheckRegisterOrLogin("Register","MoneyMaker","PlatoOPLomo"));
