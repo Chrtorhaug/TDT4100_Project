@@ -9,7 +9,7 @@ public class BlackjackPlayer implements PlayerInterface {
     private String name;
     private double balance;
     private double bet;
-    private double standardBet;
+    private final double standardBet = 5.0;
     private int rebuys = 0;
     private double sessionStartMoney;
     private boolean playing;
@@ -22,7 +22,6 @@ public class BlackjackPlayer implements PlayerInterface {
         this.balance = balance;
         this.sessionStartMoney = balance;
         this.name = name;
-        this.standardBet = 5.0;
     }
 
     @Override
@@ -139,13 +138,13 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public String setBet(String betString) {
         try {
-            if (betString.isBlank()) {
+            if (betString.isEmpty()) {
                 this.bet = standardBet;
                 return " ";
             }
             double betNum = Double.parseDouble(betString);
 
-            if (betNum <= balance && betNum > 0){
+            if (betNum <= balance && betNum > 0) {
                 this.bet = betNum;
                 return " ";
             }
