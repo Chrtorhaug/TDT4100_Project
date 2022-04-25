@@ -107,7 +107,7 @@ public class BlackjackController {
     }
 
     private Image getCardPicture(Card card) {
-        return new Image(new File("src/main/resources/Carddeck/" + card.getSuit() + card.getFace() + ".png").toURI().toString());
+        return new Image(new File("src/main/resources/Carddeck/" + card.toString() + ".png").toURI().toString());
     }
 
     private void updateLabel(Label lb, PlayerInterface pl) {

@@ -150,7 +150,6 @@ public class FileHandler implements FileHandlerInterface {
                 topPlayers.add(entry.getKey() + "," + entry.getValue());  
             }
             topPlayers.sort((o1, o2)-> ((Integer.parseInt(o2.split("[,.]")[1])) - (Integer.parseInt(o1.split("[,.]")[1]))));
-            
             return topPlayers;
         } catch (FileNotFoundException e) {
             return topPlayers;
@@ -171,16 +170,5 @@ public class FileHandler implements FileHandlerInterface {
                 else writeToFile("src/main/resources/DataBlackjack.txt", newFileString, true);
             }
         }        
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        FileHandler handler = new FileHandler();
-        handler.UpdateBalance("Christian", 402.0);
-        //System.out.println(handler.readFile("src/main/resources/DataBlackjack.txt"));
-        //handler.registerUserToFile("MoneyMaker", "heipodeg234");
-        //handler.removePlayerJustForTestUse("MøneyMaker");
-        //System.out.println(FileHandler.class.getResource("DataBlackjack").getFile());
-        //System.out.println(Path.of(FileHandler.class.getResource("CardDeck/").getFile() + "DataBlackjack.txt"));
-        //File filename = Paths.get("src/main/resources/DataBlackjack.txt").toFile();
     }
 }

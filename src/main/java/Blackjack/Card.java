@@ -65,6 +65,6 @@ public class Card {
 
     @Override
     public String toString() {
-        return "" + suit + " " + face;
+        return "" + suit + face;
     }
 }
