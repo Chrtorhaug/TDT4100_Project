@@ -16,9 +16,7 @@ public class BlackjackPlayer implements PlayerInterface {
     private int currentHandIndex;
     
     public BlackjackPlayer(double balance, String name, CardDeck deck) {
-        if (name.equals("Dealer")) {
-            throw new IllegalArgumentException("Name can not be Dealer.");
-        }
+        
         this.balance = balance;
         this.sessionStartMoney = balance;
         this.name = name;
