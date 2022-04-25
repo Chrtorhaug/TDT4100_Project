@@ -50,8 +50,11 @@ public class FileHandlerTest {
     @Test
     public void updateTopPlayers() {
         List<String> topPlayers = handler.updateTopPlayers();
-        assertEquals("James Bond,700.7",topPlayers.get(0));
-        assertEquals("UserName,85.3",topPlayers.get(topPlayers.size() - 2));
+        for (int i = 0; i < topPlayers.size() - 1; i++) {
+            String[] line = topPlayers.get(i).split(",");
+            String[] nextLine = topPlayers.get(i+1).split(",");
+            assertTrue(Double.parseDouble(line[1]) >= Double.parseDouble(nextLine[1]));
+        }
     }
 
     @Test
