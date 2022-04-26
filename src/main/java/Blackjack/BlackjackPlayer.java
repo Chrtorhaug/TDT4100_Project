@@ -15,8 +15,7 @@ public class BlackjackPlayer implements PlayerInterface {
     private boolean playing;
     private int currentHandIndex;
     
-    public BlackjackPlayer(double balance, String name, CardDeck deck) {
-        
+    public BlackjackPlayer(double balance, String name, CardDeck deck) { 
         this.balance = balance;
         this.sessionStartMoney = balance;
         this.name = name;
@@ -97,7 +96,6 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public boolean checkPlaying() {
-        //return !(getScore(0) >= 21 || !playing);
         return playing;
     }
     
@@ -106,7 +104,6 @@ public class BlackjackPlayer implements PlayerInterface {
             currentHandIndex++;
         }
         else {
-            //currentHandIndex = 0;
             this.playing = false;
         }
     }
