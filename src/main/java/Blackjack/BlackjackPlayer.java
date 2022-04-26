@@ -85,7 +85,6 @@ public class BlackjackPlayer implements PlayerInterface {
         }
         addCard(deck, 0);
         addCard(deck, 0);
-        //setAceToOne(, 0);
 
         currentHandIndex = 0;
         this.playing = true;
