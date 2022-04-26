@@ -2,7 +2,7 @@ Jens,PokerPlayer123,90.0
 UserName,BlackJack123,85.3
 Christian,TexasTiger123,376.0
 Kokos,Blackjack543,100.0
-James Bond,ShakenNotStirred,700.7
+James Bond,ShakenNotSt1rred,700.7
 Daniel Negreanu,TexasHoldem4040,438.0 
 Phil Ivey,IveyLeague1,99.0
 oskar,Christianerok123,50.0
