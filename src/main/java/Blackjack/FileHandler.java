@@ -96,9 +96,10 @@ public class FileHandler implements FileHandlerInterface {
         try {
             Map<String,String> UserNameMap = getUserNamesFromFile("Password");
             if(!UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",") && !UserName.contains(".")){
-                registerUserToFile(UserName,Password);       
+                registerUserToFile(UserName,Password);  
+                return true;     
             } 
-            return !UserNameMap.containsKey(UserName) && validatePassword(UserName, Password) && !UserName.contains(",") && !UserName.contains(".");  
+            return false;  
 
         } catch (Exception e) {
             return false;
