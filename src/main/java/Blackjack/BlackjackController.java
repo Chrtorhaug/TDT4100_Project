@@ -178,7 +178,7 @@ public class BlackjackController {
     @FXML
     public void handleHold(ActionEvent holdEvent) throws FileNotFoundException {
         player.hold();
-        if (! player.checkPlaying()) { //currentHand == player.getHands().size() - 1 || player.getHand(currentHand + 1).size() == 0
+        if (!player.checkPlaying()) { //If player is finished playing his hand(s)
 
             updateCardHandPictures(dealerHandImageViews, holdEvent);
             updateLabel(DealerScore, dealer);
