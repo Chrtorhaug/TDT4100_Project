@@ -83,6 +83,7 @@ public class BlackjackPlayer implements PlayerInterface {
         addCard(deck, 0);
         addCard(deck, 0);
 
+        currentHandIndex = 0;
         this.playing = true;
     }
 
@@ -96,11 +97,18 @@ public class BlackjackPlayer implements PlayerInterface {
     }
 
     public boolean checkPlaying() {
-        return !(getScore(0) >= 21 || !playing);
+        //return !(getScore(0) >= 21 || !playing);
+        return playing;
     }
     
     public void hold() {
-        this.playing = false;
+        if (currentHandIndex < (hands.size() - 1) && hands.get(currentHandIndex + 1).size() != 0) {
+            currentHandIndex++;
+        }
+        else {
+            //currentHandIndex = 0;
+            this.playing = false;
+        }
     }
 
     public void setAceToOne(List<Card> hand, int handIndex) {

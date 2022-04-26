@@ -23,8 +23,7 @@ public class BlackjackController {
     private BlackjackPlayer player;
     private CardDeck deck;
     private BlackJackDealer dealer;
-    private int currentHand;
-    private FileHandler fileHandler = new FileHandler();
+    private FileHandler fileHandler;
     private List<ImageView> firstHandImageViews, secondHandImageViews, thirdHandImageViews, dealerHandImageViews = new ArrayList<>();
     private List<Label> playerScores;
     private List<List<ImageView>> playerHands;
@@ -57,6 +56,7 @@ public class BlackjackController {
     public void initialize() {
         this.deck = new CardDeck(5);
         this.dealer = new BlackJackDealer(deck);
+        this.fileHandler = new FileHandler();
         BlackjackBoard.setImage(new Image(new File("src/main/resources/BlackjackTable.jpg").toURI().toString()));
         updateTableTopPlayers();
     }
@@ -91,7 +91,7 @@ public class BlackjackController {
             } 
             if (event.getSource().equals(HitButton)) {
                 player.addCard(deck, handIndex);
-                player.setAceToOne(player.getHand(currentHand), handIndex); //Checking if you have an Ace and if it needs to be changed  
+                player.setAceToOne(player.getHand(player.getCurrentHandIndex()), handIndex); //Checking if you have an Ace and if it needs to be changed  
             } 
             if (event.getSource().equals(SplitButton)) {
                 hands.stream().limit(handIndex + 1).forEach(v -> v.get(1).imageProperty().set(null));
@@ -130,7 +130,7 @@ public class BlackjackController {
     private void showPlayingFrame() {
         List<Rectangle> frames = Arrays.asList(PlayerHandFrame1, PlayerHandFrame2, PlayerHandFrame3);
         frames.forEach(frame -> frame.setVisible(false));
-        frames.get(currentHand).setVisible(true);
+        frames.get(player.getCurrentHandIndex()).setVisible(true);
     }
 
     @FXML
@@ -162,6 +162,7 @@ public class BlackjackController {
 
     @FXML
     public void handleHit(ActionEvent hitEvent) {
+        int currentHand = player.getCurrentHandIndex();
         updateCardHandPictures(playerHands.get(currentHand), hitEvent);
         updateLabel(playerScores.get(currentHand), player);
 
@@ -176,9 +177,8 @@ public class BlackjackController {
 
     @FXML
     public void handleHold(ActionEvent holdEvent) throws FileNotFoundException {
-        if (currentHand == player.getHands().size() - 1 || player.getHand(currentHand + 1).size() == 0) {
-            player.hold();
-            currentHand = 0;
+        player.hold();
+        if (! player.checkPlaying()) { //currentHand == player.getHands().size() - 1 || player.getHand(currentHand + 1).size() == 0
 
             updateCardHandPictures(dealerHandImageViews, holdEvent);
             updateLabel(DealerScore, dealer);
@@ -198,21 +198,19 @@ public class BlackjackController {
                 ShowSessionMoney.setTextFill(Color.WHITE);
             }
 
-            updateTableTopPlayers();
             Arrays.asList(HoldButton, HitButton, SplitButton).forEach(b -> b.setDisable(true));
             Arrays.asList(BetButton, BetField).forEach(b -> b.setDisable(false));
 
             if (player.rebuy()) { //Checks if a player is broke and rebuys money if necessary 
                 fileHandler.UpdateBalance(player.getName(), 100);
-                updateTableTopPlayers();
             }
+            updateTableTopPlayers();
             ShowBalance.setText(player.getBalance() + " $");
         }
-        else if (currentHand == 0 || currentHand == 1) {
-            currentHand++;
+        else {
             showPlayingFrame();
 
-            if (player.canSplit(player.getHand(currentHand))) {
+            if (player.canSplit(player.getHand(player.getCurrentHandIndex()))) {
                 SplitButton.setDisable(false);
             }
         }
@@ -220,6 +218,7 @@ public class BlackjackController {
 
     @FXML
     public void handleSplit(ActionEvent splitEvent) {
+        int currentHand = player.getCurrentHandIndex();
         if (player.getHand(currentHand + 1).size() == 0) {
             player.split(player.getHand(currentHand));
             updateCardHandPictures(playerHands.get(currentHand), splitEvent);
@@ -321,8 +320,8 @@ public class BlackjackController {
 
     private void updateTableTopPlayers() {
         List<String> topPlayers = fileHandler.updateTopPlayers();
-
         Arrays.asList(RankListView, TopPlayersListView, TopPlayersBalanceListView).forEach(l -> l.getItems().clear());
+
         for (String string : topPlayers) {
             String[] info = string.split(",");
             RankListView.getItems().add(topPlayers.indexOf(string) + 1 + "");
