@@ -23,7 +23,7 @@ public class CardTest {
     public void testConstructor() {
         assertEquals("5", c1.getFace());
         assertEquals('S', c1.getSuit());
-        assertEquals("S 5", c1.toString());
+        assertEquals("S5", c1.toString());
         
         assertThrows(IllegalArgumentException.class , () -> new Card('A', "3"));
         assertThrows(IllegalArgumentException.class , () -> new Card('D', "1"));
@@ -31,8 +31,8 @@ public class CardTest {
 
     @Test 
     public void testSetValue() {
-        assertEquals(5, c1.getValue());
-        assertEquals(10, c2.getValue());
-        assertEquals(11, c3.getValue());
+        assertEquals(5, c1.setValue(c1.getFace()));
+        assertEquals(10, c2.setValue(c2.getFace()));
+        assertEquals(11, c3.setValue(c3.getFace()));
     }
 }

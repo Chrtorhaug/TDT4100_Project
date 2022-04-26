@@ -15,10 +15,12 @@ public class BlackJackDealer implements PlayerInterface {
         cardHand.clear();
 
         while (getScore(0) < 17) {
-            cardHand.add(deck.getCard()); 
+            Card tempCard = deck.getCard();
+            tempCard.setPlayer(this);
+            cardHand.add(tempCard); 
 
             for (Card card : cardHand) {
-                if (card.setAceToOne(this, 0)) {
+                if (card.setAceToOne(0)) {
                     break;
                 }
             }

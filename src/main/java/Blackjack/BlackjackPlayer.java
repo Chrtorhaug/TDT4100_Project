@@ -66,6 +66,10 @@ public class BlackjackPlayer implements PlayerInterface {
         return balance - (rebuys * 100 + sessionStartMoney);
     }
 
+    public double getBet() {
+        return bet;
+    }
+
     public boolean rebuy() {
         if (balance == 0.0) {
             this.balance = 100;
@@ -92,7 +96,9 @@ public class BlackjackPlayer implements PlayerInterface {
         if (getScore(handIndex) >= 21) {
             throw new IllegalArgumentException("Du har mer enn 21");
         }
-        hand.add(deck.getCard()); 
+        Card card = deck.getCard();
+        card.setPlayer(this);
+        hand.add(card); 
     }
 
     public boolean checkPlaying() {
@@ -110,7 +116,7 @@ public class BlackjackPlayer implements PlayerInterface {
 
     public void setAceToOne(List<Card> hand, int handIndex) {
         for (Card card : hand) {
-            if (card.setAceToOne(this, handIndex)) {
+            if (card.setAceToOne(handIndex)) {
                 return;
             }
         }
@@ -181,9 +187,5 @@ public class BlackjackPlayer implements PlayerInterface {
             }
         }
         return false;
-    }
-
-    public double getBet() {
-        return bet;
     }
 }

@@ -7,6 +7,7 @@ public class Card {
     private int value;
     private Character suit;
     private String face;
+    private PlayerInterface player;
     private final List<String> validFaceList = Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K");
     private final List<Character> validSuitList = Arrays.asList('S', 'H', 'C', 'D');
 
@@ -37,8 +38,8 @@ public class Card {
         else return validFaceList.indexOf(face) + 1;
     }
 
-    public boolean setAceToOne(PlayerInterface pl, int handIndex) {
-        if (getFace().equals("A") && getValue() == 11 && pl.getScore(handIndex) > 21) {
+    public boolean setAceToOne(int handIndex) {
+        if (getFace().equals("A") && getValue() == 11 && player.getScore(handIndex) > 21) {
             this.value = 1;
             return true;
         }
@@ -61,6 +62,10 @@ public class Card {
 
     public String getFace() {
         return face;
+    }
+
+    public void setPlayer(PlayerInterface player) {
+        this.player = player;
     }
 
     @Override

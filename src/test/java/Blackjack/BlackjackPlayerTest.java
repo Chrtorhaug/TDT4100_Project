@@ -22,8 +22,6 @@ public class BlackjackPlayerTest {
 
     @Test
     public void testConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new BlackjackPlayer(100, "Dealer", deck));
-
         assertEquals("Tester", player.getName());
         assertEquals(100.0, player.getBalance()); 
     }
@@ -54,6 +52,31 @@ public class BlackjackPlayerTest {
     }
 
     @Test
+    public void testHold() {
+        //Checking hold when only one hand is used
+        player.newHand(deck);
+        player.hold();
+        assertFalse(player.checkPlaying());
+
+        //Checking hold when mulitple hands is used
+        player.newHand(deck);
+        player.addCard(deck, 1);
+        
+        player.hold();
+        assertTrue(player.checkPlaying());
+        assertEquals(1, player.getCurrentHandIndex());
+
+        player.addCard(deck, 2);
+        player.hold();
+        assertTrue(player.checkPlaying());
+        assertEquals(2, player.getCurrentHandIndex());
+
+        player.hold();
+        assertFalse(player.checkPlaying());
+        assertEquals(2, player.getCurrentHandIndex());
+    }
+
+    @Test
     public void testFindWinner() {
         HandComparator comp = new HandComparator();
         BlackJackDealer dealer = new BlackJackDealer(deck);
@@ -73,15 +96,18 @@ public class BlackjackPlayerTest {
 
     @Test
     public void testSetBet() {
-        assertEquals(" ", player.setBet(" "));
+        assertEquals(" ", player.setBet(""));
         assertEquals("double", player.setBet("All in"), "Set bet only takes in a double");
-        assertEquals("money", player.setBet("9999"), "Set bet only takes in a double");
+        assertEquals("money", player.setBet("999999"), "Set bet only takes in a double");
 
         player.setBet(" ");
-        assertEquals(player.getStandardBet(), player.getBet());
+        assertEquals(player.getStandardBet(), player.getBet(), "Doesn't set Standardbet to bet if no bet is set");
 
         player.setBet("15");
         assertEquals(15.0, player.getBet());
+
+        assertEquals("money", player.setBet("-5"), "Can't bet a negative amount of money");
+        assertEquals("money", player.setBet(player.getBalance() + 5 + ""), "Can't bet more money than you have");
     }
 
     @Test
